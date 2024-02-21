@@ -2,6 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
+const userControllers = require("./controllers/userControllers");
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
@@ -23,5 +24,8 @@ router.post("/items", itemControllers.add);
 *************************************************************************** */
 
 // Route to get a list of users
+router.get("/users", userControllers.read);
+// Route to create a user
+router.post("/users", userControllers.create);
 
 module.exports = router;

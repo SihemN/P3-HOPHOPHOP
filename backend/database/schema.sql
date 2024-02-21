@@ -9,7 +9,7 @@ CREATE TABLE user (
   u_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   u_name VARCHAR(20) NOT NULL,
   u_email VARCHAR(50) NOT NULL,
-  u_password VARCHAR(20) NOT NULL,
+  u_hashedPassword VARCHAR(255) NOT NULL,
   u_avatar VARCHAR(50) NULL,
   u_admin BOOLEAN NOT NULL  
 );
