@@ -18,6 +18,10 @@ router.get("/items/:id", itemControllers.read);
 // Route to add a new item
 router.post("/items", itemControllers.add);
 
-/* ************************************************************************* */
+/* *************************************************************************
+   USER ENTITY
+*************************************************************************** */
+
+// Route to get a list of users
 
 module.exports = router;
