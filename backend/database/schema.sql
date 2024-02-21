@@ -10,6 +10,7 @@ CREATE TABLE user (
   u_name VARCHAR(20) NOT NULL,
   u_email VARCHAR(50) NOT NULL,
   u_password VARCHAR(20) NOT NULL,
+  u_avatar VARCHAR(50) NULL,
   u_admin BOOLEAN NOT NULL  
 );
 
