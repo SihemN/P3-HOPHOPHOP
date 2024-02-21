@@ -58,6 +58,7 @@ CREATE TABLE category_document (
     cd_private BOOLEAN NOT NULL
 );
 
+-- ajouter un timestamp si on veut trier les docs par date de création
 CREATE TABLE document (
   d_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   d_name VARCHAR(50) NOT NULL,
@@ -68,7 +69,7 @@ CREATE TABLE document (
   CONSTRAINT fk_document_category
     FOREIGN KEY (d_category_document_id)
     REFERENCES category_document(cd_id),
-    CONSTRAINT fk_user
+  CONSTRAINT fk_document_user
     FOREIGN KEY (d_user_id)
     REFERENCES user(u_id),
   CONSTRAINT fk_document_group
