@@ -9,6 +9,7 @@ const userControllers = require("./controllers/userControllers");
 
 // Import itemControllers module for handling item-related operations
 const itemControllers = require("./controllers/itemControllers");
+const hashPassword = require("./services/hashedPassword");
 
 // Route to get a list of items
 router.get("/items", itemControllers.browse);
@@ -26,6 +27,6 @@ router.post("/items", itemControllers.add);
 // Route to get a list of users
 router.get("/users", userControllers.read);
 // Route to create a user
-router.post("/users", userControllers.create);
+router.post("/users", hashPassword, userControllers.create);
 
 module.exports = router;

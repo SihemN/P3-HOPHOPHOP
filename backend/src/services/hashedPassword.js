@@ -18,24 +18,19 @@ const hashPassword = async (req, res, next) => {
     parallelism: 1,
   };
   try {
-    // on récupère le password rentré par l'user dans le corps de la requête
-    const { password } = req.body;
-
-    // si le user a bien rentré un password
-    if (password) {
+    // si le user a bien rentré un password (on vérifie dans le corps de la requête)
+    if (req.body.password) {
       // on hashe le password
-      const hashedPassword = await argon2.hash(password, hashOptions);
+      const hashedPassword = await argon2.hash(req.body.password, hashOptions);
       // on supprime le password rentré par le user (on ne garde pas le password en clair)
-      // ATTENTION A CORRIGER
-      delete password.value;
-
+      delete req.body.password;
       // on met à jour la valeur de la propriété hashedPassword avec ce password hashé
       req.body.hashedPassword = hashedPassword;
 
       next();
     } else {
       fs.unlinkSync(req.file.path);
-      res.status(401).send("verifier vos données");
+      res.status(401).send("vérifier vos données");
     }
   } catch (error) {
     fs.unlinkSync(req.file.path);
