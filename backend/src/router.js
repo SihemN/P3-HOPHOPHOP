@@ -10,7 +10,7 @@ const userControllers = require("./controllers/userControllers");
 // Import itemControllers module for handling item-related operations
 const itemControllers = require("./controllers/itemControllers");
 const hashPassword = require("./services/hashedPassword");
-
+const verifyToken = require("./services/verifyToken");
 // Route to get a list of items
 router.get("/items", itemControllers.browse);
 
@@ -25,8 +25,15 @@ router.post("/items", itemControllers.add);
 *************************************************************************** */
 
 // Route to get a list of users
-router.get("/users", userControllers.read);
+router.get("/users", verifyToken, userControllers.read);
 // Route to create a user
 router.post("/users", hashPassword, userControllers.create);
-
+// Authentification
+router.post("/login", userControllers.readByEmail);
+// logout
+router.post("/logout", userControllers.logout);
+// read user by id
+router.get("/users/:id", verifyToken, userControllers.readById);
+// update user whitout password
+router.patch("/users", verifyToken, userControllers.update);
 module.exports = router;

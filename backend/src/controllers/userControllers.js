@@ -1,8 +1,12 @@
 // Import access to database tables
+
+const argon2 = require("argon2");
+
+const jwt = require("jsonwebtoken");
+
 const tables = require("../tables");
 
-// const argon2 = require("argon2");
-// const jsonwebtoken = require("jsonwebtoken");
+require("dotenv").config();
 // const fs = require("fs");
 
 const read = async (req, res) => {
@@ -17,6 +21,43 @@ const read = async (req, res) => {
       res.status(200).json({
         message: "pas de users",
       });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const readByEmail = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      res.status(401).json({ message: "remplir vos champs !" });
+    } else {
+      const [user] = await tables.user.getUserByEmail(email);
+      if (user.length) {
+        // check password
+        const isVerify = await argon2.verify(
+          user[0].u_hashedPassword,
+          password
+        );
+
+        if (typeof isVerify === "boolean" && isVerify) {
+          const token = jwt.sign(
+            { payload: user[0].u_id },
+            process.env.SECRET_KEY_JWT,
+            {
+              expiresIn: "24h",
+            }
+          );
+
+          res.status(200).send(token);
+        } else {
+          res.status(401).send("verifier vos données");
+        }
+      } else {
+        res.status(401).send("addresse mail n'existe pas");
+      }
     }
   } catch (error) {
     res.status(500).send(error);
@@ -43,4 +84,57 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { read, create };
+const logout = async (req, res) => {
+  try {
+    const id = req.payload;
+    const token = jwt.sign({ payload: id }, process.env.SECRET_KEY_JWT, {
+      expiresIn: "0h",
+    });
+    res.status(200).json({
+      message: "Déconnecté",
+      token,
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const readById = async (req, res) => {
+  try {
+    const id = req.payload;
+    const [user] = await tables.user.getUserById(id);
+    if (user.length) {
+      res.status(200).json({ message: "Connecté", user: user[0] });
+    } else {
+      res.status(401).send("Vérifiez vos données");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    const id = req.payload;
+    const [result] = await tables.user.updateUserWithOutPassword(id, req.body);
+    console.info(req.body);
+    if (result.affectedRows) {
+      res
+        .status(200)
+        .json({ message: "votre compte a été mis à jour avec succès" });
+    } else {
+      res.status(401).send("problème");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// const updtatePassw0rd = async (req, res) => {
+
+// }
+
+// const deleteUser = async (req, res) => {
+
+// }
+module.exports = { read, create, readByEmail, logout, readById, update };
