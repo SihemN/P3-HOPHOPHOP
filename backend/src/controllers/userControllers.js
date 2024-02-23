@@ -129,11 +129,34 @@ const update = async (req, res) => {
   }
 };
 
-// const updtatePassw0rd = async (req, res) => {
-
-// }
+const updatePassword = async (req, res) => {
+  try {
+    const { hashedPassword } = req.body;
+    const id = req.payload;
+    const [result] = await tables.user.updateUserOnlyPassword(
+      id,
+      hashedPassword
+    );
+    if (result.affectedRows) {
+      res.status(200).json({ message: "votre demande a été prise en compte" });
+    } else {
+      res.status(401).send("problème");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 // const deleteUser = async (req, res) => {
 
 // }
-module.exports = { read, create, readByEmail, logout, readById, update };
+
+module.exports = {
+  read,
+  create,
+  readByEmail,
+  logout,
+  readById,
+  update,
+  updatePassword,
+};

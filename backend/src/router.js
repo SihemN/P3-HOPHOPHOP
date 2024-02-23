@@ -34,6 +34,13 @@ router.post("/login", userControllers.readByEmail);
 router.post("/logout", userControllers.logout);
 // read user by id
 router.get("/users/:id", verifyToken, userControllers.readById);
-// update user whitout password
+// update user without password
 router.patch("/users", verifyToken, userControllers.update);
+// update user password
+router.patch(
+  "/users/update-password",
+  verifyToken,
+  hashPassword,
+  userControllers.updatePassword
+);
 module.exports = router;
