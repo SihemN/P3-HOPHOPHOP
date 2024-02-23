@@ -116,8 +116,7 @@ const readById = async (req, res) => {
 const update = async (req, res) => {
   try {
     const id = req.payload;
-    const [result] = await tables.user.updateUserWithOutPassword(id, req.body);
-    console.info(req.body);
+    const [result] = await tables.user.updateUserWithoutPassword(id, req.body);
     if (result.affectedRows) {
       res
         .status(200)
