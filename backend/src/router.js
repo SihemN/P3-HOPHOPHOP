@@ -45,4 +45,7 @@ router.patch(
   hashPasswordWithoutUpload,
   userControllers.updatePassword
 );
+// delete user
+router.delete("/users", verifyToken, userControllers.deleteUser);
+
 module.exports = router;

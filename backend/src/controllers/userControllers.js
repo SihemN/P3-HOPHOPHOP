@@ -147,9 +147,21 @@ const updatePassword = async (req, res) => {
   }
 };
 
-// const deleteUser = async (req, res) => {
-
-// }
+const deleteUser = async (req, res) => {
+  try {
+    const id = req.payload;
+    const [result] = await tables.user.deleteUser(id);
+    if (result.affectedRows) {
+      res.status(200).json({
+        message: " La suppression du compte à été prise en compte",
+      });
+    } else {
+      res.status(401).send("problème");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 module.exports = {
   read,
@@ -159,4 +171,5 @@ module.exports = {
   readById,
   update,
   updatePassword,
+  deleteUser,
 };
