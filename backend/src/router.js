@@ -12,6 +12,7 @@ const itemControllers = require("./controllers/itemControllers");
 const hashPassword = require("./services/hashedPassword");
 const verifyToken = require("./services/verifyToken");
 const hashPasswordWithoutUpload = require("./services/hashedPasswordWithoutUpload");
+const upload = require("./services/upload");
 
 // Route to get a list of items
 router.get("/items", itemControllers.browse);
@@ -29,7 +30,7 @@ router.post("/items", itemControllers.add);
 // Route to get a list of users
 router.get("/users", verifyToken, userControllers.read);
 // Route to create a user
-router.post("/users", hashPassword, userControllers.create);
+router.post("/users", upload, hashPassword, userControllers.create);
 // Authentification
 router.post("/login", userControllers.readByEmail);
 // logout
@@ -37,7 +38,7 @@ router.post("/logout", userControllers.logout);
 // read user by id
 router.get("/users/:id", verifyToken, userControllers.readById);
 // update user without password
-router.patch("/users", verifyToken, userControllers.update);
+router.patch("/users", verifyToken, upload, userControllers.update);
 // update user password
 router.patch(
   "/users/update-password",

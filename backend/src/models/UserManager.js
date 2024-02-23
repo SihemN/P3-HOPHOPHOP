@@ -38,15 +38,21 @@ class UserManager extends AbstractManager {
     const columns = Object.keys(userWithoutPassword);
     // idem mais on récupère uniquement les valeurs (ex : "Toto")
     const valuesColumns = Object.values(userWithoutPassword);
-    // on met à jour les noms des propriétés pour qu'ils correspondent à notre base de données. Ex : name -> u_name
-    const newColumns = columns.map((column) => `u_${column}`);
     // on crée une string avec les propriétés pour l'injecter dans la requête SQL
     // join transforme un array en string
-    const values = newColumns.map((column) => `${column} = ?`).join(", ");
-
+    const values = columns.map((column) => `u_${column} = ?`).join(", ");
     return this.database.query(
       `update ${this.table} set ${values} where u_id = ?`,
       [...valuesColumns, id]
+    );
+  }
+
+  updateUserUpload(id, avatar) {
+    const column = Object.keys(avatar);
+    const valueColumn = Object.values(avatar);
+    return this.database.query(
+      `update ${this.table} set u_${column} = ? where u_id = ?`,
+      [...valueColumn, id]
     );
   }
 
