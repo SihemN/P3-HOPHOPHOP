@@ -11,6 +11,8 @@ const userControllers = require("./controllers/userControllers");
 const itemControllers = require("./controllers/itemControllers");
 const hashPassword = require("./services/hashedPassword");
 const verifyToken = require("./services/verifyToken");
+const hashPasswordWithoutUpload = require("./services/hashedPasswordWithoutUpload");
+
 // Route to get a list of items
 router.get("/items", itemControllers.browse);
 
@@ -40,7 +42,7 @@ router.patch("/users", verifyToken, userControllers.update);
 router.patch(
   "/users/update-password",
   verifyToken,
-  hashPassword,
+  hashPasswordWithoutUpload,
   userControllers.updatePassword
 );
 module.exports = router;
