@@ -115,7 +115,27 @@ const readById = async (req, res) => {
   }
 };
 
-const update = async (req, res) => {
+const updateUserWithoutUpload = async (req, res) => {
+  try {
+    const id = req.payload; // Assumant que req.payload contient l'ID de l'utilisateur
+
+    // Appeler la méthode updateUserWithoutPassword avec les données mises à jour
+    const [results] = await tables.user.updateUserWithoutPassword(id, req.body);
+
+    // Vérifier le résultat de la mise à jour et envoyer la réponse appropriée
+    if (results.affectedRows) {
+      res
+        .status(200)
+        .json({ message: "Votre compte a été mis à jour avec succès" });
+    } else {
+      res.status(401).send("Problème lors de la mise à jour de votre compte");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const updateUserAvatar = async (req, res) => {
   try {
     const id = req.payload; // Assumant que req.payload contient l'ID de l'utilisateur
 
@@ -137,49 +157,10 @@ const update = async (req, res) => {
         res.status(401).send("Problème lors de la mise à jour de votre compte");
       }
     }
-
-    // Appeler la méthode updateUserWithoutPassword avec les données mises à jour
-    const [results] = await tables.user.updateUserWithoutPassword(id, req.body);
-
-    // Vérifier le résultat de la mise à jour et envoyer la réponse appropriée
-    if (results.affectedRows) {
-      res
-        .status(200)
-        .json({ message: "Votre compte a été mis à jour avec succès" });
-    } else {
-      res.status(401).send("Problème lors de la mise à jour de votre compte");
-    }
   } catch (error) {
     res.status(500).send(error);
   }
 };
-//   try {
-//     const id = req.payload;
-//     if (req.file) {
-//       // Si oui, récupère le chemin de l'avatar téléchargé
-//       const avatarPath = req.file.path;
-
-//       // console.log('id', id)
-//       // console.log("req.body", req.body);
-//       // console.log("avatar", avatar);
-//       const [result] = await tables.user.updateUserWithoutPassword(
-//         id,
-//         req.body,
-//         avatarPath
-//       );
-//       console.log("result", result);
-
-//       if (result.affectedRows) {
-//         res
-//           .status(200)
-//           .json({ message: "votre compte a été mis à jour avec succès" });
-//       } else {
-//         res.status(401).send("problème");
-//       }
-//     }  } catch (error) {
-//     res.status(500).send(error);
-//   }
-// };
 
 const updatePassword = async (req, res) => {
   try {
@@ -221,7 +202,8 @@ module.exports = {
   readByEmail,
   logout,
   readById,
-  update,
+  updateUserWithoutUpload,
   updatePassword,
   deleteUser,
+  updateUserAvatar,
 };

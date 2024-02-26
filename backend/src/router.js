@@ -37,8 +37,19 @@ router.post("/login", userControllers.readByEmail);
 router.post("/logout", userControllers.logout);
 // read user by id
 router.get("/users/:id", verifyToken, userControllers.readById);
-// update user without password
-router.patch("/users", verifyToken, upload, userControllers.update);
+// update user without password with upload
+router.patch(
+  "/users/update-upload",
+  verifyToken,
+  upload,
+  userControllers.updateUserAvatar
+);
+// update user without password and without upload
+router.patch(
+  "/users/update",
+  verifyToken,
+  userControllers.updateUserWithoutUpload
+);
 // update user password
 router.patch(
   "/users/update-password",
