@@ -1,4 +1,4 @@
-# Les routes de `QUIZ THE WILD`
+# Les routes `Backend :c :c :( :( :( )))`
 
 | route                  | Verbe                    | Front | Back | Description                                                 | status |
 | --------------------- | ------------------------ | ----- | ---- | ----------------------------------------------------------- | ------ |
@@ -73,11 +73,36 @@
 | /contacts-categories/:id| DELETE | NO | yes | Supprimer une catégorie de contact | NOT OK |
 
 
+# Les routes `Frontend :D :D :D`
+
+# Routes publiques
+| route                  | Verbe                    | Front | Back | Description                                                 | status |
+| --------------------- | ------------------------ | ----- | ---- | ----------------------------------------------------------- | ------ |
+| /index |  | YES | NO | Page d'accueil (landing page) | not ok |
+| /404 |  | YES | NO | Page d'erreur 404 | not ok |
+| /signup |  | YES | NO | Page d'inscription | not ok |
+| /login |  | YES | NO | Page de connexion | not ok |
+| /signup |  | YES | NO | Page d'inscription | not ok |
+| /lost-password |  | YES | NO | Page de récupération de mot de passe | not ok |
+
+# Routes protégées
+| route                  | Verbe                    | Front | Back | Description                                                 | status |
+| --------------------- | ------------------------ | ----- | ---- | ----------------------------------------------------------- | ------ |
+| /home |  | YES | NO | Page d'accueil (une fois connecté) | not ok |
+| ????? /logout |  | YES | NO | Page d'accueil (landing page) | not ok ??????|
+| /calendar |  | YES | NO | Page du calendrier| not ok |
+| /budget |  | YES | NO | Page du budget| not ok |
+| /todolist |  | YES | NO | Page de la todolist| not ok |
+| /recipes |  | YES | NO | Page de recettes| not ok |
+| /contacts |  | YES | NO | Page de contacts| not ok |
+| /documents |  | YES | NO | Page de documents| not ok |
+| /chat |  | YES | NO | Page du chat| not ok |
+| /settings |  | YES | NO | Page de paramètres| not ok |
+| /settings |  | YES | NO | Page de paramètres| not ok |
 
 
 
-
-
+# Est ce qu'une page de paramètre (par ex pour les recettes) est une route ?
 
 
 
