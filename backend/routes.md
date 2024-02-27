@@ -49,7 +49,34 @@
 | /documents-categories| POST | NO | yes | Créer une catégorie de documents  | NOT OK |
 | /documents-categories| GET | NO | yes | Réupérer toutes les catégories de documents  | NOT OK |
 | /documents-categories/:id| PATCH | NO | yes | Modifier une catégorie de documents  | NOT OK |
-| /documents-categories/:id| DELETE | NO | yes | Créer une catégorie de documents  | NOT OK |
+| /documents-categories/:id| DELETE | NO | yes | Supprimer une catégorie de documents  | NOT OK |
+| /recipes| POST | NO | yes | Créer une recette | NOT OK |
+| /recipes| GET | NO | yes | Récupérer toutes les recettes | NOT OK |
+| /recipes/:id| PATCH | NO | yes | Modifier une recette | NOT OK |
+| /recipes/:id| GET | NO | yes | Récupérer une recette | NOT OK |
+| /recipes/:id| DELETE | NO | yes | Supprimer une recette | NOT OK |
+| /positions| POST | NO | yes | Ajouter une position | NOT OK |
+| /positions/:id| DELETE | NO | yes | Supprimer une position | NOT OK |
+| /positions/:id| GET | NO | yes | Récupérer une position par son ID | NOT OK |
+| ????????/positions| GET | NO | yes | Récupérer toutes les positions | NOT OK ????????| 
+| /messages| POST | NO | yes | Créer un message | NOT OK |
+| /messages/:id| DELETE | NO | yes | Supprimer un message | NOT OK |
+| /messages| GET | NO | yes | Récupérer tous les messages | NOT OK |
+| /contacts| POST | NO | yes | Créer un contact | NOT OK |
+| /contacts/:id| GET | NO | yes | Récupérer un contact | NOT OK |
+| /contacts| GET | NO | yes | Récupérer tous les contacts | NOT OK |
+| /contacts/:id| PATCH | NO | yes | Modifier un contact | NOT OK |
+| /contacts/:id| DELETE | NO | yes | Supprimer un contact | NOT OK |
+| /contacts-categories/| POST | NO | yes | Créer une catégorie de contact | NOT OK |
+| /contacts-categories/:id| PATCH | NO | yes | Modifier une catégorie de contact | NOT OK |
+| /contacts-categories/| GET | NO | yes | Récupérer toutes les catégories de contact | NOT OK |
+| /contacts-categories/:id| DELETE | NO | yes | Supprimer une catégorie de contact | NOT OK |
+
+
+
+
+
+
 
 
 
