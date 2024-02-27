@@ -3,6 +3,9 @@ const express = require("express");
 const router = express.Router();
 
 const userControllers = require("./controllers/userControllers");
+
+const groupControllers = require("./controllers/groupControllers");
+
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
@@ -42,14 +45,10 @@ router.patch(
   "/users/update-upload",
   verifyToken,
   upload,
-  userControllers.updateUserAvatar
+  userControllers.updateAvatar
 );
 // update user without password and without upload
-router.patch(
-  "/users/update",
-  verifyToken,
-  userControllers.updateUserWithoutUpload
-);
+router.patch("/users/update", verifyToken, userControllers.updateWithoutUpload);
 // update user password
 router.patch(
   "/users/update-password",
@@ -59,5 +58,10 @@ router.patch(
 );
 // delete user
 router.delete("/users", verifyToken, userControllers.deleteUser);
+
+/* *************************************************************************
+   GROUP ENTITY
+*************************************************************************** */
+router.post("/groups/create", verifyToken, groupControllers.create);
 
 module.exports = router;

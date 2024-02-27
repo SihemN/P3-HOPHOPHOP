@@ -25,6 +25,7 @@ const read = async (req, res) => {
   }
 };
 
+// login user
 const readByEmail = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -64,9 +65,19 @@ const readByEmail = async (req, res) => {
 
 const create = async (req, res) => {
   try {
+    // on initialise la variable avatar
+    let avatar;
+    // si l'upload d'un avatar est null, undefined...
+    // on la déclare à null (valeur acceptée dans notre BDD)
+    if (!req.file) {
+      avatar = null;
+    } else {
+      // si req.file.path existe, on l'assigne en avatar
+      avatar = req.file.path;
+    }
+
     const { name, email, hashedPassword, admin } = req.body;
-    console.info("req.file", req.file);
-    const avatar = req.file.path;
+
     const [results] = await tables.user.addUser(
       name,
       email,
@@ -74,14 +85,20 @@ const create = async (req, res) => {
       avatar,
       Boolean(admin)
     );
+    console.info("result", results);
     if (results.affectedRows) {
       res.status(201).send("Created");
-    } else {
+    } else if (req.file) {
       fs.unlinkSync(req.file.path);
+
+      res.status(401).send("Error during the creation");
+    } else {
       res.status(401).send("Error during the creation");
     }
   } catch (error) {
-    fs.unlinkSync(req.file.path);
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
     res.status(500).send(error);
   }
 };
@@ -115,12 +132,12 @@ const readById = async (req, res) => {
   }
 };
 
-const updateUserWithoutUpload = async (req, res) => {
+const updateWithoutUpload = async (req, res) => {
   try {
     const id = req.payload; // Assumant que req.payload contient l'ID de l'utilisateur
 
     // Appeler la méthode updateUserWithoutPassword avec les données mises à jour
-    const [results] = await tables.user.updateUserWithoutPassword(id, req.body);
+    const [results] = await tables.user.updateWithoutPassword(id, req.body);
 
     // Vérifier le résultat de la mise à jour et envoyer la réponse appropriée
     if (results.affectedRows) {
@@ -135,7 +152,7 @@ const updateUserWithoutUpload = async (req, res) => {
   }
 };
 
-const updateUserAvatar = async (req, res) => {
+const updateAvatar = async (req, res) => {
   try {
     const id = req.payload; // Assumant que req.payload contient l'ID de l'utilisateur
 
@@ -202,8 +219,8 @@ module.exports = {
   readByEmail,
   logout,
   readById,
-  updateUserWithoutUpload,
+  updateWithoutUpload,
   updatePassword,
   deleteUser,
-  updateUserAvatar,
+  updateAvatar,
 };
