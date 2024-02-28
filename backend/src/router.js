@@ -62,6 +62,8 @@ router.delete("/users", verifyToken, userControllers.deleteUser);
 /* *************************************************************************
    GROUP ENTITY
 *************************************************************************** */
-router.post("/groups/create", verifyToken, groupControllers.create);
-
+// créer un groupe
+router.post("/groups", verifyToken, groupControllers.create);
+// récupérer les groupes du user
+router.get("/groups/users/:id", verifyToken, groupControllers.read);
 module.exports = router;

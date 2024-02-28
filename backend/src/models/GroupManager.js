@@ -6,38 +6,27 @@ class GroupManager extends AbstractManager {
   }
 
   createGroup(idUser, nameGroup) {
-    console.info("idUser", idUser);
-    console.info("nameGroup", nameGroup);
-    return this.database.query(
-      `
-INSERT INTO ${this.table} (g_name)
-VALUES (?)
-SET @group_created_id = LAST_INSERT_ID()
-INSERT INTO user_group (ug_user_id, ug_group_id)
-VALUES (?, @group_created_id);
-`,
+    // Première étape de la requête : on crée un nouveau group avec le nom choisi par le user
+    // Deuxième étape : on ajoute dans la table d'association user_group l'id du user et l'id du nouveau group
+    const result = this.database.query(
+      `INSERT INTO ${this.table} (g_name) VALUES (?);
+     INSERT INTO user_group (ug_user_id, ug_group_id)
+     SELECT ?, LAST_INSERT_ID() AS group_id`,
       [nameGroup, idUser]
+    );
+    return result;
+  }
+
+  getGroupsOfUser(userId) {
+    return this.database.query(
+      `SELECT group_table.g_name, user_group.ug_user_id, user_group.ug_group_id   
+      FROM user_group     
+    JOIN user ON user_group.ug_user_id = user.u_id
+    JOIN group_table ON user_group.ug_group_id = group_table.g_id
+    WHERE user.u_id = ?`,
+      [userId]
     );
   }
 }
-
-// createGroup(idUser, nameGroup) {
-//     // console.info("idUser", idUser);
-//     // console.info("nameGroup", nameGroup);
-
-//     // Première query
-//     // On crée un groupe dans groupe_table
-//     return this.database.query(
-//       `
-// INSERT INTO ${this.table} (g_name) VALUES (?)`,
-// [nameGroup] );
-
-// On récupère l'id du dernier groupe créé
-
-// Deuxième query
-// On injecte dans user_group l'id du nouveau groupe
-// avec l'id du user qui l'a créé
-
-// }
 
 module.exports = GroupManager;
