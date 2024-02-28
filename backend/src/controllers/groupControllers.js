@@ -44,7 +44,23 @@ const read = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  try {
+    const { groupId, name } = req.body;
+    const [results] = await tables.group_table.updateGroup(groupId, name);
+
+    if (results.affectedRows) {
+      res.status(201).send("Le nom a été modifié");
+    } else {
+      res.status(401).send("Erreur modification!");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
   create,
   read,
+  update,
 };

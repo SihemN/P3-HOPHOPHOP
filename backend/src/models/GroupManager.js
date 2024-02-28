@@ -27,6 +27,13 @@ class GroupManager extends AbstractManager {
       [userId]
     );
   }
+
+  updateGroup(groupId, groupName) {
+    return this.database.query(
+      `UPDATE ${this.table} SET g_name = ? WHERE g_id = ?`,
+      [groupName, groupId]
+    );
+  }
 }
 
 module.exports = GroupManager;
