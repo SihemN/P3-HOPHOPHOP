@@ -22,6 +22,7 @@ CREATE TABLE group_table (
 CREATE TABLE user_group (
 ug_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 ug_user_id INT NOT NULL,
+ug_user_role ENUM ('admin', 'membre') NOT NULL,
 ug_group_id INT NOT NULL,
 ug_message TEXT NULL,
 

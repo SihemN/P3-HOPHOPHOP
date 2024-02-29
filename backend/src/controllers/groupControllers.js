@@ -9,9 +9,9 @@ const create = async (req, res) => {
     const id = req.payload;
     // on récupère le nom choisi par le user pour le nouveau groupe
     const { name } = req.body;
-
+    const role = "admin";
     // on stock la réponse du manager
-    const [results] = await tables.group_table.createGroup(id, name);
+    const [results] = await tables.group_table.createGroup(id, name, role);
     // la réponse nous renvoie un tableau avec 2 objets, un objet concernant la création du nouveau group et un objet concernant les ajouts dans user_group
     // on vérifie donc la mise à jour dans les 2 objets
     if (results[0].affectedRows && results[1].affectedRows) {
@@ -44,6 +44,24 @@ const read = async (req, res) => {
   }
 };
 
+// get les users d'un group
+// const readUsers = async (req, res) => {
+//   try {
+//     const { groupId } = req.body;
+//     const [results] = await tables.group_table.updateGroup(groupId);
+//     if (results.length) {
+//       res.status(201).json({
+//         message: "Liste des utilisateurs du groupe récupérée",
+//         results,
+//       });
+//     } else {
+//       res.status(401).send("Erreur pour récupérer les données");
+//     }
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// };
+
 const update = async (req, res) => {
   try {
     const { groupId, name } = req.body;
@@ -59,8 +77,15 @@ const update = async (req, res) => {
   }
 };
 
+// const deleteGroup = async (req, res) => {
+//   try {
+//   } catch (error) {}
+// };
+
 module.exports = {
   create,
   read,
   update,
+  // readUsers,
+  // deleteGroup,
 };

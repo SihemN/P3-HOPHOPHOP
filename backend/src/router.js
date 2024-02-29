@@ -66,8 +66,11 @@ router.delete("/users", verifyToken, userControllers.deleteUser);
 router.post("/groups", verifyToken, groupControllers.create);
 // récupérer les groupes du user
 router.get("/groups/users/:id", verifyToken, groupControllers.read);
-
+// récupérer les users d'un groupe
+// router.get("/groups/:id/users", verifyToken, groupControllers.readUsers);
 // modifier le nom du groupe
 router.patch("/groups/update", verifyToken, groupControllers.update);
+// suppprimer un groupe
+// router.delete("/groups", verifyToken, groupControllers.deleteGroup);
 
 module.exports = router;

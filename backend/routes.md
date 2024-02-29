@@ -13,9 +13,9 @@
 | /users                                        | DELETE | NO    | yes  | delete user                                  | ok              |
 | /groups                                       | POST   | NO    | yes  | Créer un groupe                              | ok              |
 | /groups/users/:id                             | GET    | NO    | yes  | Récupérer les groupes du user                | ok              |
-| /groups/update                                | PATCH  | NO    | yes  | Modifier le nom du groupe                    | nok             |
+| /groups/:id/users                             | GET    | NO    | yes  | Récupérer les users du groupe                | ok              |
+| /groups/update                                | PATCH  | NO    | yes  | Modifier le nom du groupe                    | ok              |
 | /groups                                       | DELETE | NO    | yes  | Supprimer un groupe                          | nok             |
-| /groups/update                                | PATCH  | NO    | yes  | Modifier le nom du groupe                    | nok             |
 | AJOUTER ET SUPPRIMER UN UTILISATEUR DU GROUPE |
 | /events                                       | POST   | NO    | yes  | Créer un évènement                           | nok             |
 | /events                                       | GET    | NO    | yes  | Récupérer tous les évènements d'un groupe    | nok             |
