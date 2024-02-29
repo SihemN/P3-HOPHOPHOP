@@ -28,10 +28,12 @@ ug_message TEXT NULL,
 
 CONSTRAINT fk_user_group_user
     FOREIGN KEY (ug_user_id)
-    REFERENCES user(u_id),
+    REFERENCES user(u_id)
+    ON DELETE CASCADE,
 CONSTRAINT fk_user_group_group
   FOREIGN KEY (ug_group_id)
-  REFERENCES group_table(g_id)    
+  REFERENCES group_table(g_id)
+  ON DELETE CASCADE    
 );
 
 CREATE TABLE category_document (
@@ -49,13 +51,15 @@ CREATE TABLE document (
   d_group_id INT NOT NULL,
   CONSTRAINT fk_document_category
     FOREIGN KEY (d_category_document_id)
-    REFERENCES category_document(cd_id),
+    REFERENCES category_document(cd_id)
+    ON DELETE CASCADE,
   CONSTRAINT fk_document_user
     FOREIGN KEY (d_user_id)
     REFERENCES user(u_id),
   CONSTRAINT fk_document_group
     FOREIGN KEY (d_group_id)
     REFERENCES group_table(g_id)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE category_transaction (

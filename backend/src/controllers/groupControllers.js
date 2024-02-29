@@ -77,15 +77,25 @@ const update = async (req, res) => {
   }
 };
 
-// const deleteGroup = async (req, res) => {
-//   try {
-//   } catch (error) {}
-// };
+const deleteGroup = async (req, res) => {
+  try {
+    const { groupId } = req.body;
+    const [result] = await tables.group_table.deleteGroup(groupId);
+
+    if (result.affectedRows) {
+      res.status(201).send("Le groupe a été supprimé");
+    } else {
+      res.status(401).send("Erreur, le groupe n'a pas été supprimé");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 module.exports = {
   create,
   read,
   update,
+  deleteGroup,
   // readUsers,
-  // deleteGroup,
 };

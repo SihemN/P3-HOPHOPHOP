@@ -16,6 +16,7 @@ const hashPassword = require("./services/hashedPassword");
 const verifyToken = require("./services/verifyToken");
 const hashPasswordWithoutUpload = require("./services/hashedPasswordWithoutUpload");
 const upload = require("./services/upload");
+const isAdmin = require("./services/isAdmin");
 
 // Route to get a list of items
 router.get("/items", itemControllers.browse);
@@ -71,6 +72,6 @@ router.get("/groups/users/:id", verifyToken, groupControllers.read);
 // modifier le nom du groupe
 router.patch("/groups/update", verifyToken, groupControllers.update);
 // suppprimer un groupe
-// router.delete("/groups", verifyToken, groupControllers.deleteGroup);
+router.delete("/groups", verifyToken, isAdmin, groupControllers.deleteGroup);
 
 module.exports = router;

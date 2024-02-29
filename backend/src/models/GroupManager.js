@@ -28,9 +28,16 @@ class GroupManager extends AbstractManager {
     );
   }
 
-  // getUsersofGroup(groupId) {
-  //   return this.database.query(`SELECT user.u_name, `);
-  // }
+  getUsersofGroup(groupId) {
+    return this.database.query(
+      `SELECT user.u_name, user_group.ug_user_id, user_group.ug_user_role, user_group.ug_group_id, group_table.g_name
+    FROM user_group
+    JOIN user ON user_group.ug_user_id = user.u_id
+    JOIN group_table ON user_group.ug_group_id = group_table.g_id
+    WHERE ug_group_id = ? `,
+      [groupId]
+    );
+  }
 
   updateGroup(groupId, groupName) {
     return this.database.query(
@@ -38,7 +45,14 @@ class GroupManager extends AbstractManager {
       [groupName, groupId]
     );
   }
-  // deleteGroup() {}
+
+  deleteGroup(groupId) {
+    return this.database.query(
+      `DELETE FROM ${this.table} 
+       WHERE g_id = ?`,
+      [groupId]
+    );
+  }
 }
 
 module.exports = GroupManager;
