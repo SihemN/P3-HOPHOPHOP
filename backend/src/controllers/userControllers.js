@@ -35,27 +35,32 @@ const readByEmail = async (req, res) => {
     } else {
       const [user] = await tables.user.getUserByEmail(email);
       if (user.length) {
-        // check password
-        const isVerify = await argon2.verify(
-          user[0].u_hashedPassword,
-          password
-        );
-
-        if (typeof isVerify === "boolean" && isVerify) {
-          const token = jwt.sign(
-            { payload: user[0].u_id },
-            process.env.SECRET_KEY_JWT,
-            {
-              expiresIn: "24h",
-            }
+        // on vérifie si le user a un compte actif
+        if (user[0].u_active) {
+          // on vérifie le mot de passe rentré par le user avec le mot de passe haché de la BDD
+          const isVerify = await argon2.verify(
+            user[0].u_hashedPassword,
+            password
           );
-
-          res.status(200).send(token);
+          // si c'est ok, on crée un token avec une expiration définie
+          if (typeof isVerify === "boolean" && isVerify) {
+            const token = jwt.sign(
+              { payload: user[0].u_id },
+              process.env.SECRET_KEY_JWT,
+              {
+                expiresIn: "24h",
+              }
+            );
+            // on envoie le token
+            res.status(200).send(token);
+          } else {
+            res.status(401).send("vérifier vos données");
+          }
         } else {
-          res.status(401).send("verifier vos données");
+          res.status(401).send("votre compte est désactivé");
         }
       } else {
-        res.status(401).send("addresse mail n'existe pas");
+        res.status(401).send("adresse mail n'existe pas");
       }
     }
   } catch (error) {
@@ -76,14 +81,13 @@ const create = async (req, res) => {
       avatar = req.file.path;
     }
 
-    const { name, email, hashedPassword, admin } = req.body;
+    const { name, email, hashedPassword } = req.body;
 
     const [results] = await tables.user.addUser(
       name,
       email,
       hashedPassword,
-      avatar,
-      Boolean(admin)
+      avatar
     );
     console.info("result", results);
     if (results.affectedRows) {
@@ -137,8 +141,8 @@ const updateWithoutUpload = async (req, res) => {
     const id = req.payload; // Assumant que req.payload contient l'ID de l'utilisateur
 
     // Appeler la méthode updateUserWithoutPassword avec les données mises à jour
-    const [results] = await tables.user.updateWithoutPassword(id, req.body);
-
+    const [results] = await tables.user.updateUserWithoutPassword(id, req.body);
+    console.info("results", results);
     // Vérifier le résultat de la mise à jour et envoyer la réponse appropriée
     if (results.affectedRows) {
       res

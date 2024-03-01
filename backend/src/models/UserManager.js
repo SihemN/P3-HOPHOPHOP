@@ -9,11 +9,11 @@ class UserManager extends AbstractManager {
     return this.database.query(`select * from ${this.table}`);
   }
 
-  addUser(name, email, hashedPassword, avatar, admin) {
+  addUser(name, email, hashedPassword, avatar) {
     return this.database.query(
-      `INSERT INTO ${this.table} (u_name, u_email, u_hashedPassword, u_avatar, u_admin)
-      VALUES (?, ?, ?, ?, ?)`,
-      [name, email, hashedPassword, avatar, admin]
+      `INSERT INTO ${this.table} (u_name, u_email, u_hashedPassword, u_avatar)
+      VALUES (?, ?, ?, ?)`,
+      [name, email, hashedPassword, avatar]
     );
   }
 
@@ -26,7 +26,7 @@ class UserManager extends AbstractManager {
 
   getUserById(id) {
     return this.database.query(
-      `select u_name, u_email, u_hashedPassword, u_avatar, u_admin from ${this.table} where u_id = ?`,
+      `select u_name, u_email, u_avatar from ${this.table} where u_id = ?`,
       [id]
     );
   }

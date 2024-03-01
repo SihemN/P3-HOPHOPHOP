@@ -79,9 +79,12 @@ const update = async (req, res) => {
 
 const deleteGroup = async (req, res) => {
   try {
+    // on récupère l'id du group à supprimer dans le corps de la requête
     const { groupId } = req.body;
+    // on envoit au manager l'id du group et on stocke la réponse
     const [result] = await tables.group_table.deleteGroup(groupId);
 
+    // si la suppression a fonctionné, une ligne a été affectée
     if (result.affectedRows) {
       res.status(201).send("Le groupe a été supprimé");
     } else {
