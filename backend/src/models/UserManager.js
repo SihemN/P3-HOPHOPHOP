@@ -63,6 +63,13 @@ class UserManager extends AbstractManager {
     );
   }
 
+  desactivateUser(id, active) {
+    return this.database.query(
+      `UPDATE ${this.table} set u_active = ? where u_id =?`,
+      [active, id]
+    );
+  }
+
   deleteUser(id) {
     return this.database.query(`delete from ${this.table} where u_id = ?`, [
       id,

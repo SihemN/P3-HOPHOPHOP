@@ -57,6 +57,14 @@ router.patch(
   hashPasswordWithoutUpload,
   userControllers.updatePassword
 );
+
+// désactiver son compte
+router.patch(
+  "/users/desactivate",
+  verifyToken,
+  userControllers.desactivateUser
+);
+
 // delete user
 router.delete("/users", verifyToken, userControllers.deleteUser);
 
