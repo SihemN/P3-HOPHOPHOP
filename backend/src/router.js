@@ -6,6 +6,8 @@ const userControllers = require("./controllers/userControllers");
 
 const groupControllers = require("./controllers/groupControllers");
 
+const transactionControllers = require("./controllers/transactionControllers");
+
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
@@ -81,5 +83,10 @@ router.get("/groups/users/:id", verifyToken, groupControllers.read);
 router.patch("/groups/update", verifyToken, groupControllers.update);
 // suppprimer un groupe
 router.delete("/groups", verifyToken, isAdmin, groupControllers.deleteGroup);
+
+/* *************************************************************************
+   TRANSACTION ENTITY
+*************************************************************************** */
+router.post("/transactions", verifyToken, transactionControllers.create);
 
 module.exports = router;

@@ -11,11 +11,12 @@
 | /users/update                                 | PATCH  | NO    | yes  | Update un user sans password et sans avatar  | ok              |
 | /users/update-password                        | PATCH  | NO    | yes  | Update only le password                      | ok              |
 | /users                                        | DELETE | NO    | yes  | delete user                                  | ok              |
+| /users/desactivate                            | PATCH  | NO    | yes  | Desactivate user                             | ok              |
 | /groups                                       | POST   | NO    | yes  | Créer un groupe                              | ok              |
 | /groups/users/:id                             | GET    | NO    | yes  | Récupérer les groupes du user                | ok              |
 | /groups/:id/users                             | GET    | NO    | yes  | Récupérer les users du groupe                | ok              |
 | /groups/update                                | PATCH  | NO    | yes  | Modifier le nom du groupe                    | ok              |
-| /groups                                       | DELETE | NO    | yes  | Supprimer un groupe                          | nok             |
+| /groups                                       | DELETE | NO    | yes  | Supprimer un groupe                          | ok             |
 | AJOUTER ET SUPPRIMER UN UTILISATEUR DU GROUPE |
 | /events                                       | POST   | NO    | yes  | Créer un évènement                           | nok             |
 | /events                                       | GET    | NO    | yes  | Récupérer tous les évènements d'un groupe    | nok             |
