@@ -26,4 +26,26 @@ const create = async (req, res) => {
     res.status(500).send(error);
   }
 };
-module.exports = { create };
+
+const read = async (req, res) => {
+  try {
+    const idUser = req.payload;
+
+    const { groupId } = req.body;
+    const [transactions] = await tables.transaction.getTransactionsGroup(
+      idUser,
+      groupId
+    );
+    if (transactions.length) {
+      res.status(200).json({
+        message: "Liste des transactions du groupe récupérée",
+        transactions,
+      });
+    } else {
+      res.status(204).json({ message: "Pas de transaction" });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+module.exports = { create, read };

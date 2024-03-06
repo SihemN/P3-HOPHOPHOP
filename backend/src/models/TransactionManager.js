@@ -12,6 +12,13 @@ class TransactionManager extends AbstractManager {
       [name, sum, date, type, categoryId, groupId, idUser]
     );
   }
+
+  getTransactionsGroup(idUser, groupId) {
+    return this.database.query(
+      `SELECT * from ${this.table} INNER JOIN category_transaction ON transaction.tr_cat_transaction_id = category_transaction.ctra_id WHERE transaction.tr_group_id = ? AND transaction.tr_user_id = ?`,
+      [groupId, idUser]
+    );
+  }
 }
 
 module.exports = TransactionManager;

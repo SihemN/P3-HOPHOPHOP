@@ -87,6 +87,14 @@ router.delete("/groups", verifyToken, isAdmin, groupControllers.deleteGroup);
 /* *************************************************************************
    TRANSACTION ENTITY
 *************************************************************************** */
+// Créer une transaction dans un groupe
 router.post("/transactions", verifyToken, transactionControllers.create);
+
+// Récupérer toutes les transactions d'un groupe
+router.get(
+  "/transactions/groups/:id",
+  verifyToken,
+  transactionControllers.read
+);
 
 module.exports = router;

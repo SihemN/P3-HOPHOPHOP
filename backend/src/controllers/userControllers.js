@@ -16,7 +16,7 @@ const read = async (req, res) => {
         users,
       });
     } else {
-      res.status(200).json({
+      res.status(204).json({
         message: "pas de users",
       });
     }
