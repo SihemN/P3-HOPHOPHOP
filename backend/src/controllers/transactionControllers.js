@@ -27,6 +27,30 @@ const create = async (req, res) => {
   }
 };
 
+const createWithNewCategory = async (req, res) => {
+  try {
+    const idUser = req.payload;
+    const { id } = req.params;
+    const { name, sum, date, type, categoryName } = req.body;
+    const [results] = await tables.transaction.createTransactionWithNewCategory(
+      idUser,
+      name,
+      sum,
+      date,
+      type,
+      categoryName,
+      id
+    );
+    if (results[0].affectedRows && results[1].affectedRows) {
+      res.status(201).send("transation et catégorie created");
+    } else {
+      res.status(401).send("transaction not created");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const read = async (req, res) => {
   try {
     // const idUser = req.payload;
@@ -100,4 +124,11 @@ const deleteTransaction = async (req, res) => {
   }
 };
 
-module.exports = { create, read, readByUser, update, deleteTransaction };
+module.exports = {
+  create,
+  createWithNewCategory,
+  read,
+  readByUser,
+  update,
+  deleteTransaction,
+};

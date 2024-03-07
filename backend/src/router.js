@@ -90,6 +90,12 @@ router.delete("/groups", verifyToken, isAdmin, groupControllers.deleteGroup);
 // Créer une transaction dans un groupe
 router.post("/transactions", verifyToken, transactionControllers.create);
 
+// Créer une transaction avec une nouvelle catégorie dans un groupe
+router.post(
+  "/transactions/groups/:id/categories",
+  verifyToken,
+  transactionControllers.createWithNewCategory
+);
 // Récupérer toutes les transactions d'un groupe
 router.get(
   "/transactions/groups/:id",

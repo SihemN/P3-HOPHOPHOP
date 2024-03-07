@@ -1,0 +1,31 @@
+<mxfile host="65bd71144e">
+    <diagram id="ArI0i_s4XI7toJpTVri3" name="Page-1">
+        <mxGraphModel dx="984" dy="367" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="40" width="320" height="320" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="FRONT" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="40" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="100" width="210" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="createTransaction.jsx" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="130" y="100" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="130" y="280" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="INSERT INTO category_transaction (ctra_name) VALUES (&quot;supermarché&quot;)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="390" y="60" width="300" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="&lt;div style=&quot;background-color: rgb(30, 30, 30); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;&lt;p style=&quot;&quot;&gt;&lt;font color=&quot;#d4d4d4&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(206, 145, 120);&quot;&gt;`INSERT INTO &lt;/span&gt;&lt;font color=&quot;#569cd6&quot;&gt;transaction&lt;/font&gt;&lt;span style=&quot;color: rgb(206, 145, 120);&quot;&gt;&amp;nbsp;(tr_name, tr_sum, tr_date,&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;color: rgb(212, 212, 212);&quot;&gt;&lt;span style=&quot;color: #ce9178;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; tr_type,tr_cat_transaction_id,tr_group_id, tr_user_id) VALUES (?,?,?,?,?,?,?) `&lt;/span&gt;,&lt;/p&gt;&lt;p style=&quot;color: rgb(212, 212, 212);&quot;&gt;&lt;/p&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="400" y="130" width="380" height="110" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

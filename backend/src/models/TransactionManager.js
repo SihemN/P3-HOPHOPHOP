@@ -13,6 +13,28 @@ class TransactionManager extends AbstractManager {
     );
   }
 
+  createTransactionWithNewCategory(
+    idUser,
+    name,
+    sum,
+    date,
+    type,
+    categoryName,
+    groupId
+  ) {
+    return this.database.query(
+      `INSERT INTO category_transaction (ctra_name) VALUES(?);
+      INSERT INTO ${this.table} (tr_name, tr_sum, tr_date, tr_type, tr_cat_transaction_id, tr_group_id, tr_user_id)
+      SELECT ?, ?, ?, ?, LAST_INSERT_ID() AS tr_cat_transaction_id, ?, ?`,
+      [categoryName, name, sum, date, type, groupId, idUser]
+    );
+  }
+
+  // INSERT INTO category_transaction (ctra_name) VALUES(?);
+
+  // INSERT INTO transaction (tr_name, tr_sum, tr_date, tr_type, tr_cat_transaction_id, tr_group_id, tr_user_id)
+  // SELECT ?, ?, ?, ?, LAST_INSERT_ID() AS tr_cat_transaction_id, ?, ?;
+
   getTransactionsGroup(groupId) {
     return this.database.query(
       `SELECT * from ${this.table} INNER JOIN category_transaction ON transaction.tr_cat_transaction_id = category_transaction.ctra_id WHERE transaction.tr_group_id = ?`,
