@@ -38,7 +38,7 @@
 | /tasks-categories/:id                         | DELETE | NO    | yes  | Supprimer une to do list                      | NOT OK          |
 | /transactions                                 | POST   | NO    | yes  | Créer une transaction                         | OK              |
 | /transactions/groups/:id                      | GET    | NO    | yes  | Récupérer toutes les transactions d'un groupe | OK              |
-| /transactions/:id                             | PATCH  | NO    | yes  | Modifier une transaction                      | NOT OK          |
+| /transactions/:id                             | PATCH  | NO    | yes  | Modifier une transaction                      | OK              |
 | /transactions/:id                             | DELETE | NO    | yes  | Supprimer une transaction                     | NOT OK          |
 | /transactions-categories                      | POST   | NO    | yes  | Créer une catégorie de transaction            | NOT OK          |
 | /transactions-categories                      | GET    | NO    | yes  | Créer toutes les catégories de transaction    | NOT OK          |
