@@ -105,10 +105,6 @@ router.get(
 );
 
 // Modifier une transaction
-router.patch(
-  "/transactions/update",
-  verifyToken,
-  transactionControllers.update
-);
+router.patch("/transactions/:id", verifyToken, transactionControllers.update);
 
 module.exports = router;
