@@ -97,4 +97,18 @@ router.get(
   transactionControllers.read
 );
 
+// Récupérer les transactions d'un groupe par user
+router.get(
+  "/transactions/groups/:id/users/:id",
+  verifyToken,
+  transactionControllers.readByUser
+);
+
+// Modifier une transaction
+router.patch(
+  "/transactions/update",
+  verifyToken,
+  transactionControllers.update
+);
+
 module.exports = router;
