@@ -49,17 +49,11 @@ class TransactionManager extends AbstractManager {
     );
   }
 
-  updateTransaction(transactionUpdated) {
+  updateTransaction(transactionId, transactionUpdated) {
     // on récupère les champs renseignés dans req.body
-    const keysTransaction = Object.keys(transactionUpdated);
-    // on récupère les champs à mettre à jour
-    const keysToUpdate = keysTransaction.slice(1);
+    const keysToUpdate = Object.keys(transactionUpdated);
     // on récupère leurs valeurs
-    const valuesTransaction = Object.values(transactionUpdated);
-    // on récupère les valeurs à mettre à jour
-    const valuesToUpdate = valuesTransaction.slice(1);
-    // on récupère l'id de la transaction à l'index 0
-    const transactionId = valuesTransaction[0];
+    const valuesToUpdate = Object.values(transactionUpdated);
     // on compile ces champs dans une string en leur ajoutant le préfixe pour coller à notre BDD et à la syntaxe SQL
     const setKeys = keysToUpdate.map((column) => `tr_${column} = ?`).join(", ");
     return this.database.query(
@@ -72,6 +66,19 @@ class TransactionManager extends AbstractManager {
     return this.database.query(`DELETE FROM ${this.table} WHERE tr_id = ?`, [
       transactionId,
     ]);
+  }
+
+  // pour les Catégories de Transaction
+
+  getCatTransactionByGroup(groupId) {
+    const isActive = true;
+    return this.database.query(
+      `SELECT ctra.ctra_name, ctra.ctra_id from ${this.table} AS t INNER JOIN category_transaction AS ctra ON t.tr_cat_transaction_id = ctra.ctra_id
+    INNER JOIN group_table AS g ON g.g_id = t.tr_group_id
+    WHERE t.tr_group_id = ? AND ctra.ctra_active = ?
+    `,
+      [groupId, isActive]
+    );
   }
 }
 
