@@ -84,4 +84,20 @@ const update = async (req, res) => {
     res.status(500).send(error);
   }
 };
-module.exports = { create, read, readByUser, update };
+
+const deleteTransaction = async (req, res) => {
+  try {
+    const { transactionId } = req.body;
+    const [results] = await tables.transaction.deleteTransaction(transactionId);
+
+    if (results.affectedRows) {
+      res.status(200).send("Transaction supprimée");
+    } else {
+      res.status(401).send("Problème dans la suppression de la transaction");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = { create, read, readByUser, update, deleteTransaction };

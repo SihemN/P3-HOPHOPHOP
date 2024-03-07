@@ -107,4 +107,11 @@ router.get(
 // Modifier une transaction
 router.patch("/transactions/:id", verifyToken, transactionControllers.update);
 
+// Supprimer une transaction
+router.delete(
+  "/transactions/:id",
+  verifyToken,
+  transactionControllers.deleteTransaction
+);
+
 module.exports = router;

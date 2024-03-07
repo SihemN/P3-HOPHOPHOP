@@ -39,7 +39,7 @@
 | /transactions                                 | POST   | NO    | yes  | Créer une transaction                         | OK              |
 | /transactions/groups/:id                      | GET    | NO    | yes  | Récupérer toutes les transactions d'un groupe | OK              |
 | /transactions/:id                             | PATCH  | NO    | yes  | Modifier une transaction                      | OK              |
-| /transactions/:id                             | DELETE | NO    | yes  | Supprimer une transaction                     | NOT OK          |
+| /transactions/:id                             | DELETE | NO    | yes  | Supprimer une transaction                     | OK          |
 | /transactions-categories                      | POST   | NO    | yes  | Créer une catégorie de transaction            | NOT OK          |
 | /transactions-categories                      | GET    | NO    | yes  | Créer toutes les catégories de transaction    | NOT OK          |
 | /transactions-categories/:id                  | PATCH  | NO    | yes  | Modifier une catégorie de transaction         | NOT OK          |
