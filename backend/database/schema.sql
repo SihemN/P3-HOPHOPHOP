@@ -10,33 +10,36 @@ CREATE TABLE user (
   u_name VARCHAR(20) NOT NULL,
   u_email VARCHAR(50) UNIQUE,
   u_hashedPassword VARCHAR(255) NOT NULL,
-  u_avatar VARCHAR(50) NULL,
-  u_admin BOOLEAN NOT NULL  
+  u_avatar VARCHAR(500) NULL,
+  u_active BOOLEAN NOT NULL DEFAULT true 
 );
 
 CREATE TABLE group_table (
    g_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-   g_name VARCHAR(20) NOT NULL
+   g_name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE user_group (
 ug_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 ug_user_id INT NOT NULL,
+ug_user_role ENUM ('admin', 'membre') NOT NULL,
 ug_group_id INT NOT NULL,
-ug_message TEXT NOT NULL,
+ug_message TEXT NULL,
 
 CONSTRAINT fk_user_group_user
     FOREIGN KEY (ug_user_id)
-    REFERENCES user(u_id),
+    REFERENCES user(u_id)
+    ON DELETE CASCADE,
 CONSTRAINT fk_user_group_group
   FOREIGN KEY (ug_group_id)
-  REFERENCES group_table(g_id)    
+  REFERENCES group_table(g_id)
+  ON DELETE CASCADE    
 );
 
 CREATE TABLE category_document (
     cd_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     cd_name VARCHAR(50) NOT NULL,
-    cd_private BOOLEAN NOT NULL
+    cd_private BOOLEAN NOT NULL DEFAULT true
 );
 
 CREATE TABLE document (
@@ -48,18 +51,22 @@ CREATE TABLE document (
   d_group_id INT NOT NULL,
   CONSTRAINT fk_document_category
     FOREIGN KEY (d_category_document_id)
-    REFERENCES category_document(cd_id),
+    REFERENCES category_document(cd_id)
+    ON DELETE CASCADE,
   CONSTRAINT fk_document_user
     FOREIGN KEY (d_user_id)
-    REFERENCES user(u_id),
+    REFERENCES user(u_id)
+    ON DELETE CASCADE,
   CONSTRAINT fk_document_group
     FOREIGN KEY (d_group_id)
     REFERENCES group_table(g_id)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE category_transaction (
     ctra_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
-    ctra_name VARCHAR(50) NOT NULL
+    ctra_name VARCHAR(50) NOT NULL,
+    ctra_active BOOLEAN NOT NULL DEFAULT true 
 );
 
 CREATE TABLE transaction (
@@ -68,7 +75,7 @@ CREATE TABLE transaction (
     tr_sum DECIMAL NOT NULL,
     tr_date DATE NOT NULL,
     tr_type VARCHAR(50) NOT NULL,
-    tr_cat_transaction_id INT NOT NULL,
+    tr_cat_transaction_id INT NOT NULL DEFAULT 1,
     tr_group_id INT NOT NULL, 
     tr_user_id INT NOT NULL, 
         CONSTRAINT fk_transaction_category_trans
@@ -76,7 +83,8 @@ CREATE TABLE transaction (
             REFERENCES category_transaction(ctra_id),
         CONSTRAINT fk_transaction_group
             FOREIGN KEY (tr_group_id)
-            REFERENCES group_table(g_id),
+            REFERENCES group_table(g_id)
+            ON DELETE CASCADE,
         CONSTRAINT fk_transaction_user
             FOREIGN KEY (tr_user_id)
             REFERENCES user(u_id)
@@ -98,13 +106,15 @@ CREATE TABLE task (
     ta_group_id INT NOT NULL,
         CONSTRAINT fk_task_category_task
             FOREIGN KEY (ta_cat_task_id)
-            REFERENCES category_task(cta_id),
+            REFERENCES category_task(cta_id)
+            ON DELETE CASCADE,
         CONSTRAINT fk_task_user
             FOREIGN KEY (ta_user_id)
             REFERENCES user(u_id),
         CONSTRAINT fk_task_group
             FOREIGN KEY (ta_group_id)
             REFERENCES group_table(g_id)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE position_table (
@@ -140,7 +150,8 @@ CREATE TABLE recipe (
     r_user_id INT NOT NULL,
     CONSTRAINT fk_recipe_group
         FOREIGN KEY (r_group_id)
-        REFERENCES group_table(g_id),
+        REFERENCES group_table(g_id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_recipe_user
         FOREIGN KEY (r_user_id)
         REFERENCES user(u_id)
@@ -162,6 +173,7 @@ CREATE TABLE event (
         CONSTRAINT fk_event_group
             FOREIGN KEY (e_group_id)
             REFERENCES group_table(g_id)
+            ON DELETE CASCADE
 );
 
 
@@ -173,7 +185,8 @@ CREATE TABLE remind_event (
     re_user_id INT NOT NULL,
         CONSTRAINT fk_remind_event_event
             FOREIGN KEY (re_event_id)
-            REFERENCES event(e_id),
+            REFERENCES event(e_id)
+            ON DELETE CASCADE,
         CONSTRAINT fk_remind_event_user
             FOREIGN KEY (re_user_id)
             REFERENCES user(u_id)
@@ -197,12 +210,26 @@ CREATE TABLE contact (
   c_group_id INT NOT NULL,  
    CONSTRAINT fk_contact_cat_contact
         FOREIGN KEY (c_cat_contact_id)
-        REFERENCES category_contact(cc_id),
+        REFERENCES category_contact(cc_id)
+        ON DELETE CASCADE,
    CONSTRAINT fk_contact_user
         FOREIGN KEY (c_user_id)
         REFERENCES user(u_id),
    CONSTRAINT fk_contact_group
         FOREIGN KEY (c_group_id)
         REFERENCES group_table(g_id)
+        ON DELETE CASCADE
 );
+
+
+-- créer une catégorie de transaction nommée "sans catégorie"
+INSERT INTO category_transaction (ctra_name) VALUES ('Sans catégorie');
+
+-- créer une catégorie de documents "privé"
+INSERT INTO category_document (cd_name) VALUES ('Privé');
+-- créer des catégories de to do list 'courses', 'à faire' 
+INSERT INTO category_task (cta_name) VALUES ('Courses');
+INSERT INTO category_task (cta_name) VALUES ('A faire');
+
+
 
