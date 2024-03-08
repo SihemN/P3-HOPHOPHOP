@@ -25,7 +25,6 @@ ug_user_id INT NOT NULL,
 ug_user_role ENUM ('admin', 'membre') NOT NULL,
 ug_group_id INT NOT NULL,
 ug_message TEXT NULL,
-
 CONSTRAINT fk_user_group_user
     FOREIGN KEY (ug_user_id)
     REFERENCES user(u_id)
@@ -90,16 +89,26 @@ CREATE TABLE transaction (
             REFERENCES user(u_id)
 );
 
-
+-- category = une to do list
 CREATE TABLE category_task (
     cta_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    cta_name VARCHAR(50) NOT NULL
+    cta_name VARCHAR(50) NOT NULL,
+    cta_private BOOLEAN NOT NULL,
+    cta_user_id INT NOT NULL,
+    cta_group_id INT NOT NULL,
+        CONSTRAINT fk_cat_task_user
+            FOREIGN KEY (cta_user_id)
+            REFERENCES user(u_id),
+        CONSTRAINT fk_cat_task_group
+            FOREIGN KEY (cta_group_id)
+            REFERENCES group_table(g_id)
+            ON DELETE CASCADE
+  
 );
 
 CREATE TABLE task (
     ta_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     ta_name VARCHAR(50) NOT NULL,
-    ta_private BOOLEAN NOT NULL,
     ta_done BOOLEAN NOT NULL,
     ta_cat_task_id INT NOT NULL,
     ta_user_id INT NOT NULL,
@@ -117,6 +126,7 @@ CREATE TABLE task (
             ON DELETE CASCADE
 );
 
+-- si on a le temps - fonctionnalité bonus
 CREATE TABLE position_table (
     pos_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     pos_longitude DECIMAL(10, 5) NOT NULL,
@@ -135,7 +145,7 @@ CREATE TABLE position_user (
         FOREIGN KEY (pu_position_id)
         REFERENCES position_table(pos_id)
 );
-
+-- ////////////////////////////////////////
 
 CREATE TABLE recipe (
     r_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -195,7 +205,12 @@ CREATE TABLE remind_event (
 
 CREATE TABLE category_contact (
   cc_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  cc_name VARCHAR(50) NOT NULL
+  cc_name VARCHAR(50) NOT NULL,
+  cc_group_id INT NOT NULL, 
+  CONSTRAINT fk_cat_contact_group
+        FOREIGN KEY (cc_group_id)
+        REFERENCES group_table(g_id)
+        ON DELETE CASCADE
 );
 
 
@@ -205,7 +220,7 @@ CREATE TABLE contact (
   c_email VARCHAR(50) NULL,
   c_phone VARCHAR(20) NULL,
   c_address VARCHAR(255) NULL,
-  c_cat_contact_id INT NOT NULL,
+  c_cat_contact_id INT NOT NULL DEFAULT 1,
   c_user_id INT NOT NULL,
   c_group_id INT NOT NULL,  
    CONSTRAINT fk_contact_cat_contact
@@ -231,5 +246,7 @@ INSERT INTO category_document (cd_name) VALUES ('Privé');
 INSERT INTO category_task (cta_name) VALUES ('Courses');
 INSERT INTO category_task (cta_name) VALUES ('A faire');
 
+-- créer une catégorie de contact nommée "sans catégorie"
+INSERT INTO category_contact (cc_name) VALUES ('Sans catégorie');
 
 

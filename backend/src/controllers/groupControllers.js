@@ -64,8 +64,10 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const { groupId, name } = req.body;
-    const [results] = await tables.group_table.updateGroup(groupId, name);
+    // on récupère l'id du groupe dans la route paramétrée
+    const { id } = req.params;
+    const { name } = req.body;
+    const [results] = await tables.group_table.updateGroup(id, name);
 
     if (results.affectedRows) {
       res.status(201).send("Le nom a été modifié");
@@ -79,10 +81,10 @@ const update = async (req, res) => {
 
 const deleteGroup = async (req, res) => {
   try {
-    // on récupère l'id du group à supprimer dans le corps de la requête
-    const { groupId } = req.body;
+    // on récupère l'id du group à supprimer dans la route paramétrée
+    const { id } = req.params;
     // on envoit au manager l'id du group et on stocke la réponse
-    const [result] = await tables.group_table.deleteGroup(groupId);
+    const [result] = await tables.group_table.deleteGroup(id);
 
     // si la suppression a fonctionné, une ligne a été affectée
     if (result.affectedRows) {

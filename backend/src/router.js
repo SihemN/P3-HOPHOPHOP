@@ -42,7 +42,7 @@ router.post("/login", userControllers.readByEmail);
 // logout
 router.post("/logout", userControllers.logout);
 // read user by id
-router.get("/users/:id", verifyToken, userControllers.readById);
+router.get("/me", verifyToken, userControllers.readById);
 // update user without password with upload
 router.patch(
   "/users/update-upload",
@@ -76,20 +76,35 @@ router.delete("/users", verifyToken, userControllers.deleteUser);
 // créer un groupe
 router.post("/groups", verifyToken, groupControllers.create);
 // récupérer les groupes du user
-router.get("/groups/users/:id", verifyToken, groupControllers.read);
+router.get("/groups/users", verifyToken, groupControllers.read);
 // récupérer les users d'un groupe
 // router.get("/groups/:id/users", verifyToken, groupControllers.readUsers);
 // modifier le nom du groupe
-router.patch("/groups/update", verifyToken, groupControllers.update);
+router.patch("/groups/update/:id", verifyToken, groupControllers.update);
 // suppprimer un groupe
-router.delete("/groups", verifyToken, isAdmin, groupControllers.deleteGroup);
+router.delete(
+  "/groups/:id",
+  verifyToken,
+  isAdmin,
+  groupControllers.deleteGroup
+);
 
 /* *************************************************************************
    TRANSACTION ENTITY
 *************************************************************************** */
 // Créer une transaction dans un groupe
-router.post("/transactions", verifyToken, transactionControllers.create);
+router.post(
+  "/transactions/groups/:id",
+  verifyToken,
+  transactionControllers.create
+);
 
+// Créer une transaction avec une nouvelle catégorie dans un groupe
+router.post(
+  "/transactions/groups/:id/categories",
+  verifyToken,
+  transactionControllers.createWithNewCategory
+);
 // Récupérer toutes les transactions d'un groupe
 router.get(
   "/transactions/groups/:id",
@@ -99,7 +114,7 @@ router.get(
 
 // Récupérer les transactions d'un groupe par user
 router.get(
-  "/transactions/groups/:id/users/:id",
+  "/transactions/groups/:id/users",
   verifyToken,
   transactionControllers.readByUser
 );
@@ -112,6 +127,15 @@ router.delete(
   "/transactions/:id",
   verifyToken,
   transactionControllers.deleteTransaction
+);
+
+/* *************************************************************************
+   CATEGORY TRANSACTION ENTITY
+*************************************************************************** */
+router.get(
+  "/transactions-categories/groups/:id",
+  verifyToken,
+  transactionControllers.getCategoriesByGroup
 );
 
 module.exports = router;

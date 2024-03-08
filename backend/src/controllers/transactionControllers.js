@@ -4,8 +4,10 @@ const create = async (req, res) => {
   try {
     // on récupère l'id du user dans le payload du token
     const idUser = req.payload;
+    // on récupère l'id du group dans la route paramatrée
+    const { id } = req.params;
     // on récupère dans le body de la requête les infos de la transaction
-    const { name, sum, date, type, categoryId, groupId } = req.body;
+    const { name, sum, date, type, categoryId } = req.body;
     // on stocke la réponse du manager
     const [results] = await tables.transaction.createTransaction(
       idUser,
@@ -14,7 +16,7 @@ const create = async (req, res) => {
       date,
       type,
       categoryId,
-      groupId
+      id
     );
     // on vérifie si une ligne a été mise à jour dans le tableau results
     if (results.affectedRows) {
@@ -27,14 +29,34 @@ const create = async (req, res) => {
   }
 };
 
+const createWithNewCategory = async (req, res) => {
+  try {
+    const idUser = req.payload;
+    const { id } = req.params;
+    const { name, sum, date, type, categoryName } = req.body;
+    const [results] = await tables.transaction.createTransactionWithNewCategory(
+      idUser,
+      name,
+      sum,
+      date,
+      type,
+      categoryName,
+      id
+    );
+    if (results[0].affectedRows && results[1].affectedRows) {
+      res.status(201).send("transation et catégorie created");
+    } else {
+      res.status(401).send("transaction not created");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 const read = async (req, res) => {
   try {
-    // const idUser = req.payload;
-
-    const { groupId } = req.body;
-    const [transactions] = await tables.transaction.getTransactionsGroup(
-      groupId
-    );
+    // on récupère l'id du group dans la route paramatrée
+    const { id } = req.params;
+    const [transactions] = await tables.transaction.getTransactionsGroup(id);
     if (transactions.length) {
       res.status(200).json({
         message: "Liste des transactions du groupe récupérée",
@@ -51,11 +73,11 @@ const read = async (req, res) => {
 const readByUser = async (req, res) => {
   try {
     const idUser = req.payload;
-
-    const { groupId } = req.body;
+    // on récupère l'id du group dans la route paramatrée
+    const { id } = req.params;
     const [transactions] = await tables.transaction.getTransactionsGroupByUser(
       idUser,
-      groupId
+      id
     );
     if (transactions.length) {
       res.status(200).json({
@@ -72,9 +94,9 @@ const readByUser = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    // const userId = req.payload;
-
-    const [results] = await tables.transaction.updateTransaction(req.body);
+    // on récupère l'id de la transaction dans la route paramatrée
+    const { id } = req.params;
+    const [results] = await tables.transaction.updateTransaction(id, req.body);
     if (results.affectedRows) {
       res.status(200).json({ message: "Transaction mise à jour" });
     } else {
@@ -87,8 +109,9 @@ const update = async (req, res) => {
 
 const deleteTransaction = async (req, res) => {
   try {
-    const { transactionId } = req.body;
-    const [results] = await tables.transaction.deleteTransaction(transactionId);
+    // on récupère l'id de la transaction dans la route paramatrée
+    const { id } = req.params;
+    const [results] = await tables.transaction.deleteTransaction(id);
 
     if (results.affectedRows) {
       res.status(200).send("Transaction supprimée");
@@ -100,4 +123,31 @@ const deleteTransaction = async (req, res) => {
   }
 };
 
-module.exports = { create, read, readByUser, update, deleteTransaction };
+// Contrôle des catégories de transaction
+
+const getCategoriesByGroup = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [categories] = await tables.transaction.getCatTransactionByGroup(id);
+    if (categories.length) {
+      res.status(200).json({
+        message: "Liste des catégories du groupe récupérée",
+        categories,
+      });
+    } else {
+      res.status(204).send("Pas de liste trouvée");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = {
+  create,
+  createWithNewCategory,
+  read,
+  readByUser,
+  update,
+  deleteTransaction,
+  getCategoriesByGroup,
+};
