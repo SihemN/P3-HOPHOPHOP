@@ -3,14 +3,14 @@ const tables = require("../tables");
 const isAdmin = async (req, res, next) => {
   try {
     // on récupère l'id du user dans le token
-    const id = req.payload;
-    // on récupère l'id du group dans le corps de la requête
-    const { groupId } = req.body;
+    const userId = req.payload;
+    // on récupère l'id du group dans les params
+    const { id } = req.params;
     // on récupère les utilisateurs du group
-    const [group] = await tables.group_table.getUsersofGroup(groupId);
+    const [group] = await tables.group_table.getUsersofGroup(id);
     // some() sert à vérifier si une valeur est vraie dans un tableau d'objet, renvoie un booléen
 
-    const userIsInGroup = group.some((user) => user.ug_user_id === id);
+    const userIsInGroup = group.some((user) => user.ug_user_id === userId);
     const userIsAdmin = group.some((user) => user.ug_user_role === "admin");
 
     // on vérifie si on reçoit les users du group

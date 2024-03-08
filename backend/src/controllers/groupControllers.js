@@ -27,15 +27,21 @@ const create = async (req, res) => {
     console.info("results", results);
     // la réponse nous renvoie un tableau avec 2 objets, un objet concernant la création du nouveau group et un objet concernant les ajouts dans user_group
     // on vérifie donc la mise à jour dans les 2 objets
-    if (
-      results[0].affectedRows &&
-      results[1].serverStatus === 10 &&
-      results[2].affectedRows &&
-      results[3].affectedRows &&
-      results[4].affectedRows &&
-      results[5].affectedRows &&
-      results[6].affectedRows
-    ) {
+
+    // Vérifions le tableau results
+    let resultsIsValid = true;
+
+    // si aucune ligne n'est affectée OU si une requête n'a pas fonctionné (donc différente de 10)
+    // alors results n'est pas valide
+    for (let i = 0; i < results.length; i += 1) {
+      if (results[i].affectedRows === 0 && results[i].serverStatus !== 10) {
+        resultsIsValid = false;
+        // break nous sort de la boucle une fois la condition vérifiée
+        // Nous évite de parcourir tout le tableau si pas nécessaire
+        break;
+      }
+    }
+    if (resultsIsValid) {
       res.status(201).send("Group created");
     } else {
       res.status(401).send("Error during the group's creation");
@@ -89,7 +95,6 @@ const update = async (req, res) => {
     const { id } = req.params;
     const { name } = req.body;
     const [results] = await tables.group_table.updateGroup(id, name);
-
     if (results.affectedRows) {
       res.status(201).send("Le nom a été modifié");
     } else {
@@ -122,6 +127,5 @@ module.exports = {
   create,
   read,
   update,
-  deleteGroup,
-  // readUsers,
+  deleteGroup, // readUsers,
 };

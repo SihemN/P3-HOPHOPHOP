@@ -19,6 +19,7 @@ const verifyToken = require("./services/verifyToken");
 const hashPasswordWithoutUpload = require("./services/hashedPasswordWithoutUpload");
 const upload = require("./services/upload");
 const isAdmin = require("./services/isAdmin");
+const userExistsAndActive = require("./services/userExistsAndActive");
 
 // Route to get a list of items
 router.get("/items", itemControllers.browse);
@@ -35,8 +36,15 @@ router.post("/items", itemControllers.add);
 
 // Route to get a list of users
 router.get("/users", verifyToken, userControllers.read);
-// Route to create a user
+// Route to create a user and his group
 router.post("/users", upload, hashPassword, userControllers.create);
+// Créer un user et l'ajouter dans un groupe par lien d'invitation
+// router.post(
+//   "/users/group/:id",
+//   upload,
+//   hashPassword,
+//   userControllers.createFromInvite
+// );
 // Authentification
 router.post("/login", userControllers.readByEmail);
 // logout
@@ -70,6 +78,14 @@ router.patch(
 // delete user
 router.delete("/users", verifyToken, userControllers.deleteUser);
 
+// Ajouter un user dans le groupe
+router.post(
+  "/groups/:id/users",
+  verifyToken,
+  isAdmin,
+  userExistsAndActive,
+  userControllers.addUserInGroup
+);
 /* *************************************************************************
    GROUP ENTITY
 *************************************************************************** */
@@ -88,7 +104,6 @@ router.delete(
   isAdmin,
   groupControllers.deleteGroup
 );
-
 /* *************************************************************************
    TRANSACTION ENTITY
 *************************************************************************** */

@@ -9,13 +9,64 @@ class UserManager extends AbstractManager {
     return this.database.query(`select * from ${this.table}`);
   }
 
-  addUser(name, email, hashedPassword, avatar) {
+  addUserInGroup(userId, groupId, role) {
     return this.database.query(
-      `INSERT INTO ${this.table} (u_name, u_email, u_hashedPassword, u_avatar)
-      VALUES (?, ?, ?, ?)`,
-      [name, email, hashedPassword, avatar]
+      `INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
+      VALUES (?, ?, ?)`,
+      [userId, groupId, role]
     );
   }
+
+  addUserWithGroup(
+    userName,
+    email,
+    hashedPassword,
+    avatar,
+    nameGroup,
+    role,
+    catTransactionName,
+    catDocName,
+    catTaskName,
+    catContactName
+  ) {
+    return this.database.query(
+      `
+  INSERT INTO ${this.table} (u_name, u_email, u_hashedPassword, u_avatar)
+  VALUES (?, ?, ?, ?);
+   SET @userId = LAST_INSERT_ID();
+   INSERT INTO group_table (g_name) VALUES (?);
+   SET @groupId = LAST_INSERT_ID();
+   INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
+   SELECT @userId, @groupId, ?;
+   INSERT INTO category_transaction (ctra_name, ctra_group_id)
+   SELECT ?, @groupId;
+   INSERT INTO category_document (cd_name, cd_group_id)
+   SELECT ?, @groupId;
+   INSERT INTO category_task (cta_name, cta_user_id, cta_group_id)
+   SELECT ?, @userId, @groupId;
+   INSERT INTO category_contact (cc_name, cc_group_id)
+   SELECT ?, @groupId;
+     `,
+      [
+        userName,
+        email,
+        hashedPassword,
+        avatar,
+        nameGroup,
+        role,
+        catTransactionName,
+        catDocName,
+        catTaskName,
+        catContactName,
+      ]
+    );
+  }
+  // on crée le user + on récupère son id
+  // @userId = LAST_INSERT_ID()
+  // on crée le group + on récupère son id
+  // @groupId = LAST_INSERT_ID()
+  // on insert into dan user_group
+  // on initialise les catégories par défaut
 
   getUserByEmail(email) {
     return this.database.query(
