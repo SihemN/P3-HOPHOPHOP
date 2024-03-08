@@ -5,16 +5,40 @@ class GroupManager extends AbstractManager {
     super({ table: "group_table" });
   }
 
-  createGroup(idUser, nameGroup, role) {
-    // Première étape de la requête : on crée un nouveau group avec le nom choisi par le user
-    // Deuxième étape : on ajoute dans la table d'association user_group l'id du user et l'id du nouveau group
-    const result = this.database.query(
+  createGroup(
+    nameGroup,
+    idUser,
+    role,
+    catTransactionName,
+    catDocName,
+    catTaskName,
+    catContactName
+  ) {
+    return this.database.query(
       `INSERT INTO ${this.table} (g_name) VALUES (?);
-      INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
-     SELECT ?, LAST_INSERT_ID() AS group_id, ?`,
-      [nameGroup, idUser, role]
+   SET @groupId = LAST_INSERT_ID();
+   INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
+   SELECT ?, @groupId, ?;
+   INSERT INTO category_transaction (ctra_name, ctra_group_id)
+   SELECT ?, @groupId;
+   INSERT INTO category_document (cd_name, cd_group_id)
+   SELECT ?, @groupId;
+   INSERT INTO category_task (cta_name, cta_user_id, cta_group_id)
+   SELECT ?, ?, @groupId;
+   INSERT INTO category_contact (cc_name, cc_group_id)
+   SELECT ?, @groupId;
+     `,
+      [
+        nameGroup,
+        idUser,
+        role,
+        catTransactionName,
+        catDocName,
+        catTaskName,
+        idUser,
+        catContactName,
+      ]
     );
-    return result;
   }
 
   getGroupsOfUser(userId) {

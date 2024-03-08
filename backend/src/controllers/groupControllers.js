@@ -10,11 +10,32 @@ const create = async (req, res) => {
     // on récupère le nom choisi par le user pour le nouveau groupe
     const { name } = req.body;
     const role = "admin";
+    const catTransactionName = "Sans catégorie";
+    const catDocName = "Privé";
+    const catTaskName = "Ma to do list";
+    const catContactName = "Sans catégorie";
     // on stock la réponse du manager
-    const [results] = await tables.group_table.createGroup(id, name, role);
+    const [results] = await tables.group_table.createGroup(
+      name,
+      id,
+      role,
+      catTransactionName,
+      catDocName,
+      catTaskName,
+      catContactName
+    );
+    console.info("results", results);
     // la réponse nous renvoie un tableau avec 2 objets, un objet concernant la création du nouveau group et un objet concernant les ajouts dans user_group
     // on vérifie donc la mise à jour dans les 2 objets
-    if (results[0].affectedRows && results[1].affectedRows) {
+    if (
+      results[0].affectedRows &&
+      results[1].serverStatus === 10 &&
+      results[2].affectedRows &&
+      results[3].affectedRows &&
+      results[4].affectedRows &&
+      results[5].affectedRows &&
+      results[6].affectedRows
+    ) {
       res.status(201).send("Group created");
     } else {
       res.status(401).send("Error during the group's creation");

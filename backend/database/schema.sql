@@ -36,15 +36,20 @@ CONSTRAINT fk_user_group_group
 );
 
 CREATE TABLE category_document (
-    cd_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    cd_name VARCHAR(50) NOT NULL,
-    cd_private BOOLEAN NOT NULL DEFAULT true
+cd_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+cd_name VARCHAR(50) NOT NULL,
+cd_group_id INT NOT NULL,
+CONSTRAINT fk_cat_document_group
+    FOREIGN KEY (cd_group_id)
+    REFERENCES group_table(g_id)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE document (
   d_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   d_name VARCHAR(50) NOT NULL,
   d_path VARCHAR(255) NOT NULL,
+  d_private BOOLEAN NOT NULL DEFAULT true,
   d_category_document_id INT NOT NULL,
   d_user_id INT NOT NULL,
   d_group_id INT NOT NULL,
@@ -65,7 +70,12 @@ CREATE TABLE document (
 CREATE TABLE category_transaction (
     ctra_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
     ctra_name VARCHAR(50) NOT NULL,
-    ctra_active BOOLEAN NOT NULL DEFAULT true 
+    ctra_active BOOLEAN NOT NULL DEFAULT true,
+    ctra_group_id INT NOT NULL,  
+    CONSTRAINT fk_cat_transaction_group
+            FOREIGN KEY (ctra_group_id)
+            REFERENCES group_table(g_id)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE transaction (
@@ -93,7 +103,7 @@ CREATE TABLE transaction (
 CREATE TABLE category_task (
     cta_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     cta_name VARCHAR(50) NOT NULL,
-    cta_private BOOLEAN NOT NULL,
+    cta_private BOOLEAN NOT NULL DEFAULT false,
     cta_user_id INT NOT NULL,
     cta_group_id INT NOT NULL,
         CONSTRAINT fk_cat_task_user
@@ -237,16 +247,16 @@ CREATE TABLE contact (
 );
 
 
--- créer une catégorie de transaction nommée "sans catégorie"
-INSERT INTO category_transaction (ctra_name) VALUES ('Sans catégorie');
+-- -- créer une catégorie de transaction nommée "sans catégorie"
+-- INSERT INTO category_transaction (ctra_name) VALUES ('Sans catégorie');
 
--- créer une catégorie de documents "privé"
-INSERT INTO category_document (cd_name) VALUES ('Privé');
--- créer des catégories de to do list 'courses', 'à faire' 
-INSERT INTO category_task (cta_name) VALUES ('Courses');
-INSERT INTO category_task (cta_name) VALUES ('A faire');
+-- -- créer une catégorie de documents "privé"
+-- INSERT INTO category_document (cd_name) VALUES ('Privé');
+-- -- créer des catégories de to do list 'courses', 'à faire' 
+-- INSERT INTO category_task (cta_name) VALUES ('Courses');
+-- INSERT INTO category_task (cta_name) VALUES ('A faire');
 
--- créer une catégorie de contact nommée "sans catégorie"
-INSERT INTO category_contact (cc_name) VALUES ('Sans catégorie');
+-- -- créer une catégorie de contact nommée "sans catégorie"
+-- INSERT INTO category_contact (cc_name) VALUES ('Sans catégorie');
 
 
