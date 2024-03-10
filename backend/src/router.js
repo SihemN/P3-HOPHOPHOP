@@ -86,7 +86,7 @@ router.post("/groups", verifyToken, groupControllers.create);
 // récupérer les groupes du user
 router.get("/groups/users", verifyToken, groupControllers.read);
 // récupérer les users d'un groupe
-// router.get("/groups/:id/users", verifyToken, groupControllers.readUsers);
+router.get("/groups/:id/users", verifyToken, groupControllers.readUsersOfGroup);
 // modifier le nom du groupe
 router.patch("/groups/update/:id", verifyToken, groupControllers.update);
 // suppprimer un groupe
@@ -106,12 +106,13 @@ router.post(
   groupControllers.addUserInGroup
 );
 
+// Modifier le rôle du user dans le groupe
+
 // Supprimer un user du groupe
 router.delete(
-  "/groups/:id/users",
+  "/groups/:id/users/:idUser",
   verifyToken,
   isAdmin,
-  userExistsAndActive,
   groupControllers.deleteUserInGroup
 );
 /* *************************************************************************

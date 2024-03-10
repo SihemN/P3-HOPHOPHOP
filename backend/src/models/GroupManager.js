@@ -63,6 +63,15 @@ class GroupManager extends AbstractManager {
     );
   }
 
+  getUserInGroupById(userId, groupId) {
+    return this.database.query(
+      `SELECT u.u_active, ug.ug_user_id FROM user_group AS ug
+      INNER JOIN user AS u ON u.u_id = ug.ug_user_id
+  WHERE ug.ug_user_id = ? AND ug.ug_group_id = ?`,
+      [userId, groupId]
+    );
+  }
+
   updateGroup(groupId, groupName) {
     return this.database.query(
       `UPDATE ${this.table} SET g_name = ? WHERE g_id = ?`,
@@ -83,6 +92,14 @@ class GroupManager extends AbstractManager {
       `INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
       VALUES (?, ?, ?)`,
       [userId, groupId, role]
+    );
+  }
+
+  deleteUserFromGroup(userId, groupId) {
+    return this.database.query(
+      `DELETE FROM user_group
+      WHERE ug_user_id = ? AND ug_group_id = ?`,
+      [userId, groupId]
     );
   }
 }

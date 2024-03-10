@@ -265,8 +265,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// Supprimer un user du groupe
-
 module.exports = {
   read,
   create,

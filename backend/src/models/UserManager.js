@@ -53,14 +53,8 @@ class UserManager extends AbstractManager {
       ]
     );
   }
-  // on crée le user + on récupère son id
-  // @userId = LAST_INSERT_ID()
-  // on crée le group + on récupère son id
-  // @groupId = LAST_INSERT_ID()
-  // on insert into dan user_group
-  // on initialise les catégories par défaut
 
-  getUserByEmail(email) {
+  getUserByEmailWithoutHashedPassword(email) {
     return this.database.query(
       `SELECT u.u_id, u.u_name, u.u_active, ug.ug_group_id
       FROM user_group AS ug
@@ -70,12 +64,12 @@ class UserManager extends AbstractManager {
     );
   }
 
-  // getUserByEmail(email) {
-  //   return this.database.query(
-  //     `select * from ${this.table} where u_email = ?`,
-  //     [email]
-  //   );
-  // }
+  getUserByEmail(email) {
+    return this.database.query(
+      `select * from ${this.table} where u_email = ?`,
+      [email]
+    );
+  }
 
   getUserById(id) {
     return this.database.query(

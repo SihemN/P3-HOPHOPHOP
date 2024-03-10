@@ -72,22 +72,22 @@ const read = async (req, res) => {
 };
 
 // get les users d'un group
-// const readUsers = async (req, res) => {
-//   try {
-//     const { groupId } = req.body;
-//     const [results] = await tables.group_table.updateGroup(groupId);
-//     if (results.length) {
-//       res.status(201).json({
-//         message: "Liste des utilisateurs du groupe récupérée",
-//         results,
-//       });
-//     } else {
-//       res.status(401).send("Erreur pour récupérer les données");
-//     }
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// };
+const readUsersOfGroup = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [results] = await tables.group_table.getUsersofGroup(id);
+    if (results.length) {
+      res.status(201).json({
+        message: "Liste des utilisateurs du groupe récupérée",
+        results,
+      });
+    } else {
+      res.status(401).send("Erreur pour récupérer les données");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 // Mettre à jour le nom du groupe
 const update = async (req, res) => {
@@ -147,22 +147,16 @@ const addUserInGroup = async (req, res) => {
 };
 
 // Supprimer un User du groupe
-
 const deleteUserInGroup = async (req, res) => {
   try {
-    const { userIdToSet } = req.body;
-    const { id } = req.params;
-    const role = "membre";
-    const [results] = await tables.group_table.addUserInGroup(
-      userIdToSet,
-      id,
-      role
-    );
+    // on récupère l'id du groupe et l'id du user dans params
+    const { id, idUser } = req.params;
 
+    const [results] = await tables.group_table.deleteUserFromGroup(idUser, id);
     if (results.affectedRows) {
-      res.status(201).send("User ajouté au groupe");
+      res.status(201).send("User supprimé du groupe");
     } else {
-      res.status(401).send("Erreur pour ajouter le user");
+      res.status(401).send("Erreur pour supprimer le user");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -175,5 +169,6 @@ module.exports = {
   update,
   deleteGroup,
   addUserInGroup,
-  deleteUserInGroup, // readUsers,
+  deleteUserInGroup,
+  readUsersOfGroup,
 };

@@ -7,7 +7,9 @@ const userExistsAndActive = async (req, res, next) => {
     // on récupère l'id du groupe dans params
     const { id } = req.params;
     // on récupère la réponse du Manager
-    const [result] = await tables.user.getUserByEmail(email);
+    const [result] = await tables.user.getUserByEmailWithoutHashedPassword(
+      email
+    );
     const userIsAlreadyInGroup = result.some(
       (element) => element.ug_group_id === parseInt(id, 10)
     );
@@ -15,9 +17,10 @@ const userExistsAndActive = async (req, res, next) => {
     if (result.length) {
       // on vérifie si le user est actif
       if (result[0].u_active) {
-        // si oui, on récupère son id et on la transmet à la suite du code
-        req.body.userIdToSet = result[0].u_id;
+        // on vérifie si le user ne fait pas déjà partie du groupe
         if (userIsAlreadyInGroup === false) {
+          // on récupère son id et on la transmet à la suite du code
+          req.body.userIdToSet = result[0].u_id;
           next();
         } else {
           res.status(401).send("User déjà dans le groupe");
