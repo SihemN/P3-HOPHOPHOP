@@ -95,6 +95,14 @@ class GroupManager extends AbstractManager {
     );
   }
 
+  updateRoleUser(userId, groupId, role) {
+    return this.database.query(
+      `UPDATE user_group SET ug_user_role = ?
+      WHERE ug_user_id = ? AND ug_group_id = ?`,
+      [role, userId, groupId]
+    );
+  }
+
   deleteUserFromGroup(userId, groupId) {
     return this.database.query(
       `DELETE FROM user_group

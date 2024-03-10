@@ -107,6 +107,12 @@ router.post(
 );
 
 // Modifier le rôle du user dans le groupe
+router.patch(
+  "/groups/:id/users/:idUser",
+  verifyToken,
+  isAdmin,
+  groupControllers.updateRoleUser
+);
 
 // Supprimer un user du groupe
 router.delete(

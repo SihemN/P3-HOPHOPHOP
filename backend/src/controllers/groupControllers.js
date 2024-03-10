@@ -146,6 +146,25 @@ const addUserInGroup = async (req, res) => {
   }
 };
 
+// Modifier rôle d'un User du groupe
+const updateRoleUser = async (req, res) => {
+  try {
+    // on récupère l'id du groupe et l'id du user à update dans params
+    const { id, idUser } = req.params;
+    // on récupère de la requête le changement de rôle
+    const { role } = req.body;
+    // on stocke la réponse de la BDD
+    const [results] = await tables.group_table.updateRoleUser(idUser, id, role);
+    if (results.affectedRows) {
+      res.status(201).send("Rôle du User mis à jour");
+    } else {
+      res.status(401).send("Erreur dans la mise à jour du rôle du User");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 // Supprimer un User du groupe
 const deleteUserInGroup = async (req, res) => {
   try {
@@ -169,6 +188,7 @@ module.exports = {
   update,
   deleteGroup,
   addUserInGroup,
+  updateRoleUser,
   deleteUserInGroup,
   readUsersOfGroup,
 };
