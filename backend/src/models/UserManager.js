@@ -9,14 +9,6 @@ class UserManager extends AbstractManager {
     return this.database.query(`select * from ${this.table}`);
   }
 
-  addUserInGroup(userId, groupId, role) {
-    return this.database.query(
-      `INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
-      VALUES (?, ?, ?)`,
-      [userId, groupId, role]
-    );
-  }
-
   addUserWithGroup(
     userName,
     email,
@@ -70,10 +62,20 @@ class UserManager extends AbstractManager {
 
   getUserByEmail(email) {
     return this.database.query(
-      `select * from ${this.table} where u_email = ?`,
+      `SELECT u.u_id, u.u_name, u.u_active, ug.ug_group_id
+      FROM user_group AS ug
+      INNER JOIN user AS u ON ug.ug_user_id = u.u_id
+      WHERE u_email = ?`,
       [email]
     );
   }
+
+  // getUserByEmail(email) {
+  //   return this.database.query(
+  //     `select * from ${this.table} where u_email = ?`,
+  //     [email]
+  //   );
+  // }
 
   getUserById(id) {
     return this.database.query(

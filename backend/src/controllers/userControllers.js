@@ -265,23 +265,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// Ajouter un user au groupe
-const addUserInGroup = async (req, res) => {
-  try {
-    const { userIdToAdd } = req.body;
-    const { id } = req.params;
-    const role = "membre";
-    const [results] = await tables.user.addUserInGroup(userIdToAdd, id, role);
-
-    if (results.affectedRows) {
-      res.status(201).send("User ajouté au groupe");
-    } else {
-      res.status(401).send("Erreur pour ajouter le user");
-    }
-  } catch (error) {
-    res.status(500).send(error);
-  }
-};
+// Supprimer un user du groupe
 
 module.exports = {
   read,
@@ -294,5 +278,4 @@ module.exports = {
   deleteUser,
   updateAvatar,
   desactivateUser,
-  addUserInGroup,
 };

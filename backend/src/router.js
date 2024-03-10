@@ -78,14 +78,6 @@ router.patch(
 // delete user
 router.delete("/users", verifyToken, userControllers.deleteUser);
 
-// Ajouter un user dans le groupe
-router.post(
-  "/groups/:id/users",
-  verifyToken,
-  isAdmin,
-  userExistsAndActive,
-  userControllers.addUserInGroup
-);
 /* *************************************************************************
    GROUP ENTITY
 *************************************************************************** */
@@ -103,6 +95,24 @@ router.delete(
   verifyToken,
   isAdmin,
   groupControllers.deleteGroup
+);
+
+// Ajouter un user dans le groupe
+router.post(
+  "/groups/:id/users",
+  verifyToken,
+  isAdmin,
+  userExistsAndActive,
+  groupControllers.addUserInGroup
+);
+
+// Supprimer un user du groupe
+router.delete(
+  "/groups/:id/users",
+  verifyToken,
+  isAdmin,
+  userExistsAndActive,
+  groupControllers.deleteUserInGroup
 );
 /* *************************************************************************
    TRANSACTION ENTITY

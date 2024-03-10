@@ -4,16 +4,24 @@ const userExistsAndActive = async (req, res, next) => {
   try {
     // on récupère l'email du user à ajouter
     const { email } = req.body;
+    // on récupère l'id du groupe dans params
+    const { id } = req.params;
     // on récupère la réponse du Manager
     const [result] = await tables.user.getUserByEmail(email);
+    const userIsAlreadyInGroup = result.some(
+      (element) => element.ug_group_id === parseInt(id, 10)
+    );
     // on vérifie si le user existe dans la BDD
-
     if (result.length) {
       // on vérifie si le user est actif
       if (result[0].u_active) {
         // si oui, on récupère son id et on la transmet à la suite du code
-        req.body.userIdToAdd = result[0].u_id;
-        next();
+        req.body.userIdToSet = result[0].u_id;
+        if (userIsAlreadyInGroup === false) {
+          next();
+        } else {
+          res.status(401).send("User déjà dans le groupe");
+        }
       } else {
         res.status(401).send("Problème, User désactivé");
       }

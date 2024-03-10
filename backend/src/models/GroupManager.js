@@ -77,6 +77,14 @@ class GroupManager extends AbstractManager {
       [groupId]
     );
   }
+
+  addUserInGroup(userId, groupId, role) {
+    return this.database.query(
+      `INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
+      VALUES (?, ?, ?)`,
+      [userId, groupId, role]
+    );
+  }
 }
 
 module.exports = GroupManager;

@@ -5,13 +5,13 @@
 | /users                                        | GET    | NO    | yes  | Récupérer tous les users                                   | ok              |
 | /users                                        | POST   | NO    | yes  | Créer un user                                              | ok              |
 | /login                                        | POST   | NO    | yes  | Connecter un user                                          | ok              |
-| /logout                                       | POST   | NO    | yes  | déconnecter un user                                        | ok              |
+| /logout                                       | POST   | NO    | yes  | Déconnecter un user                                        | ok              |
 | /me                                           | GET    | NO    | yes  | Récupère les infos du user par son ID                      | ok              |
-| /users/update-upload                          | PATCH  | NO    | yes  | Update user sans password et avec un avatar                | ok              |
+| /users/update-upload                          | PATCH  | NO    | yes  | Update un user sans password et avec un avatar             | ok              |
 | /users/update                                 | PATCH  | NO    | yes  | Update un user sans password et sans avatar                | ok              |
 | /users/update-password                        | PATCH  | NO    | yes  | Update only le password                                    | ok              |
-| /users                                        | DELETE | NO    | yes  | delete user                                                | ok              |
-| /users/desactivate                            | PATCH  | NO    | yes  | Desactivate user                                           | ok              |
+| /users                                        | DELETE | NO    | yes  | Delete user                                                | ok              |
+| /users/desactivate                            | PATCH  | NO    | yes  | Désactiver user                                            | ok              |
 | /groups                                       | POST   | NO    | yes  | Créer un groupe                                            | ok              |
 | /groups/users                                 | GET    | NO    | yes  | Récupérer les groupes du user                              | ok              |
 | /groups/:id/users                             | GET    | NO    | yes  | Récupérer les users du groupe                              | ok              |
@@ -41,7 +41,7 @@
 | /transactions/groups/:id                      | GET    | NO    | yes  | Récupérer toutes les transactions d'un groupe              | OK              |
 | /transactions/:id                             | PATCH  | NO    | yes  | Modifier une transaction                                   | OK              |
 | /transactions/:id                             | DELETE | NO    | yes  | Supprimer une transaction                                  | OK              |
-| /transactions-categories/groups/:id           | GET    | NO    | yes  | Récupérer toutes les catégories de transaction d'un groupe | OK          |
+| /transactions-categories/groups/:id           | GET    | NO    | yes  | Récupérer toutes les catégories de transaction d'un groupe | OK              |
 | /transactions-categories/:id                  | PATCH  | NO    | yes  | Modifier une catégorie de transaction                      | NOT OK          |
 | /transactions-categories/:id                  | DELETE | NO    | yes  | Supprimer une catégorie de transaction                     | NOT OK          |
 | /documents                                    | POST   | NO    | yes  | Créer un document                                          | NOT OK          |

@@ -89,6 +89,7 @@ const read = async (req, res) => {
 //   }
 // };
 
+// Mettre à jour le nom du groupe
 const update = async (req, res) => {
   try {
     // on récupère l'id du groupe dans la route paramétrée
@@ -123,9 +124,56 @@ const deleteGroup = async (req, res) => {
   }
 };
 
+// Ajouter un user au groupe
+const addUserInGroup = async (req, res) => {
+  try {
+    const { userIdToSet } = req.body;
+    const { id } = req.params;
+    const role = "membre";
+    const [results] = await tables.group_table.addUserInGroup(
+      userIdToSet,
+      id,
+      role
+    );
+
+    if (results.affectedRows) {
+      res.status(201).send("User ajouté au groupe");
+    } else {
+      res.status(401).send("Erreur pour ajouter le user");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Supprimer un User du groupe
+
+const deleteUserInGroup = async (req, res) => {
+  try {
+    const { userIdToSet } = req.body;
+    const { id } = req.params;
+    const role = "membre";
+    const [results] = await tables.group_table.addUserInGroup(
+      userIdToSet,
+      id,
+      role
+    );
+
+    if (results.affectedRows) {
+      res.status(201).send("User ajouté au groupe");
+    } else {
+      res.status(401).send("Erreur pour ajouter le user");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
   create,
   read,
   update,
-  deleteGroup, // readUsers,
+  deleteGroup,
+  addUserInGroup,
+  deleteUserInGroup, // readUsers,
 };
