@@ -55,11 +55,11 @@ class GroupManager extends AbstractManager {
   getUsersofGroup(groupId) {
     const isActive = true;
     return this.database.query(
-      `SELECT user.u_name, user_group.ug_user_id, user_group.ug_user_role, user_group.ug_group_id, group_table.g_name
-    FROM user_group
-    JOIN user ON user_group.ug_user_id = user.u_id
-    JOIN group_table ON user_group.ug_group_id = group_table.g_id
-    WHERE ug_group_id = ? AND user.u_active = ?`,
+      `SELECT u.u_name, ug.ug_user_id, ug.ug_user_role, ug.ug_group_id, g.g_name
+    FROM user_group AS ug
+    JOIN user AS u ON ug.ug_user_id = u.u_id
+    JOIN group_table AS g ON ug.ug_group_id = g.g_id
+    WHERE ug.ug_group_id = ? AND u.u_active = ?`,
       [groupId, isActive]
     );
   }
