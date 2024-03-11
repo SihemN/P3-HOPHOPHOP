@@ -53,13 +53,26 @@ class GroupManager extends AbstractManager {
   }
 
   getUsersofGroup(groupId) {
+    const isActive = true;
     return this.database.query(
       `SELECT user.u_name, user_group.ug_user_id, user_group.ug_user_role, user_group.ug_group_id, group_table.g_name
     FROM user_group
     JOIN user ON user_group.ug_user_id = user.u_id
     JOIN group_table ON user_group.ug_group_id = group_table.g_id
-    WHERE ug_group_id = ? `,
-      [groupId]
+    WHERE ug_group_id = ? AND user.u_active = ?`,
+      [groupId, isActive]
+    );
+  }
+
+  getAdminGroup(groupId) {
+    const isActive = true;
+    const admin = "admin";
+    return this.database.query(
+      `SELECT ug.ug_user_role 
+    FROM user_group AS ug
+    JOIN user AS u ON ug.ug_user_id = u.u_id
+    WHERE ug_group_id = ? AND u.u_active = ? AND ug.ug_user_role = ?`,
+      [groupId, isActive, admin]
     );
   }
 
@@ -96,10 +109,13 @@ class GroupManager extends AbstractManager {
   }
 
   updateRoleUser(userId, groupId, role) {
+    const isActive = true;
     return this.database.query(
-      `UPDATE user_group SET ug_user_role = ?
-      WHERE ug_user_id = ? AND ug_group_id = ?`,
-      [role, userId, groupId]
+      `UPDATE user_group AS ug 
+      INNER JOIN user AS u ON ug.ug_user_id = u.u_id
+      SET ug.ug_user_role = ?
+      WHERE ug.ug_user_id = ? AND ug.ug_group_id = ? AND u.u_active = ?`,
+      [role, userId, groupId, isActive]
     );
   }
 

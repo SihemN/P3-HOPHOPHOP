@@ -234,12 +234,20 @@ const updatePassword = async (req, res) => {
 
 const desactivateUser = async (req, res) => {
   try {
+    // on récupère l'id du user dans le token
     const id = req.payload;
+    // on initialise une variable active à false (on l'envoie au Manager ensuite)
     const active = false;
+    // On passe l'expiration du token à zéro pour l'invalider et déconnecter le user désactivé
+    const token = jwt.sign({ payload: id }, process.env.SECRET_KEY_JWT, {
+      expiresIn: "0h",
+    });
     const [result] = await tables.user.desactivateUser(id, active);
     if (result.affectedRows) {
       res.status(200).json({
-        message: "La désactivation du compte a été prise en compte",
+        message:
+          "La désactivation du compte a été prise en compte, user déconnecté",
+        token,
       });
     } else {
       res.status(401).send("problème");

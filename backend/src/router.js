@@ -20,6 +20,7 @@ const hashPasswordWithoutUpload = require("./services/hashedPasswordWithoutUploa
 const upload = require("./services/upload");
 const isAdmin = require("./services/isAdmin");
 const userExistsAndActive = require("./services/userExistsAndActive");
+const isMin2AdminInGroup = require("./services/isMin2AdminInGroup");
 
 // Route to get a list of items
 router.get("/items", itemControllers.browse);
@@ -119,6 +120,7 @@ router.delete(
   "/groups/:id/users/:idUser",
   verifyToken,
   isAdmin,
+  isMin2AdminInGroup,
   groupControllers.deleteUserInGroup
 );
 /* *************************************************************************
