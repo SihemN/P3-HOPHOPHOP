@@ -129,6 +129,7 @@ const getCategoriesByGroup = async (req, res) => {
   try {
     const { id } = req.params;
     const [categories] = await tables.transaction.getCatTransactionByGroup(id);
+
     if (categories.length) {
       res.status(200).json({
         message: "Liste des catégories du groupe récupérée",
@@ -136,6 +137,21 @@ const getCategoriesByGroup = async (req, res) => {
       });
     } else {
       res.status(204).send("Pas de liste trouvée");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const updateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const [result] = await tables.transaction.updateCatTransaction(id, name);
+    if (result.affectedRows) {
+      res.status(200).send("Catégorie transaction mise à jour");
+    } else {
+      res.status(204).send("Problème de mise à jour de la catégorie");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -150,4 +166,5 @@ module.exports = {
   update,
   deleteTransaction,
   getCategoriesByGroup,
+  updateCategory,
 };

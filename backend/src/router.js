@@ -172,4 +172,10 @@ router.get(
   transactionControllers.getCategoriesByGroup
 );
 
+router.patch(
+  "/transactions-categories/:id",
+  verifyToken,
+  transactionControllers.updateCategory
+);
+
 module.exports = router;
