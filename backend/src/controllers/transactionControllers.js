@@ -158,6 +158,21 @@ const updateCategory = async (req, res) => {
   }
 };
 
+const desactivateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.transaction.desactivateCatTransaction(id);
+
+    if (result.affectedRows) {
+      res.status(200).send("Catégorie transaction désactivée");
+    } else {
+      res.status(204).send("Problème de mise à jour de la catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
   create,
   createWithNewCategory,
@@ -167,4 +182,5 @@ module.exports = {
   deleteTransaction,
   getCategoriesByGroup,
   updateCategory,
+  desactivateCategory,
 };

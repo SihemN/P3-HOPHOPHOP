@@ -59,7 +59,7 @@ const read = async (req, res) => {
     const [results] = await tables.group_table.getGroupsOfUser(id);
     // on vérifie si on reçoit bien un tableau avec des données
     if (results.length) {
-      res.status(201).json({
+      res.status(200).json({
         message: "Liste des groupes de l'utilisateur récupérée",
         results,
       });

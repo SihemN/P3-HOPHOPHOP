@@ -90,9 +90,19 @@ class TransactionManager extends AbstractManager {
       [catTransactionName, catTransactionId, isActive, categoryCannotChange]
     );
   }
-}
 
-// POUR PLUS TARD
-// si le user veut créer une catégorie au même nom qu'une catégorie désactivée ?
+  // POUR PLUS TARD
+
+  // si le user veut créer une catégorie au même nom qu'une catégorie désactivée ?
+  desactivateCatTransaction(catTransactionId) {
+    const isActive = false;
+    const categoryCannotChange = "Sans catégorie";
+    return this.database.query(
+      `UPDATE category_transaction SET ctra_active = ? 
+WHERE ctra_id = ? AND ctra_name != ?`,
+      [isActive, catTransactionId, categoryCannotChange]
+    );
+  }
+}
 
 module.exports = TransactionManager;

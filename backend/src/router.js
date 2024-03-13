@@ -178,4 +178,11 @@ router.patch(
   transactionControllers.updateCategory
 );
 
+// Désactiver une catégorie
+router.patch(
+  "/transactions-categories/desactivate/:id",
+  verifyToken,
+  transactionControllers.desactivateCategory
+);
+
 module.exports = router;
