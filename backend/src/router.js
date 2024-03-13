@@ -21,6 +21,7 @@ const upload = require("./services/upload");
 const isAdmin = require("./services/isAdmin");
 const userExistsAndActive = require("./services/userExistsAndActive");
 const isMin2AdminInGroup = require("./services/isMin2AdminInGroup");
+const categoryExists = require("./services/categoryExists");
 
 // Route to get a list of items
 router.get("/items", itemControllers.browse);
@@ -137,6 +138,7 @@ router.post(
 router.post(
   "/transactions/groups/:id/categories",
   verifyToken,
+  categoryExists,
   transactionControllers.createWithNewCategory
 );
 // Récupérer toutes les transactions d'un groupe

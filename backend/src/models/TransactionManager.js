@@ -22,14 +22,26 @@ class TransactionManager extends AbstractManager {
     date,
     type,
     categoryName,
-    groupId
+    groupId,
+    catExists
   ) {
-    return this.database.query(
-      `INSERT INTO category_transaction (ctra_name) VALUES(?);
-      INSERT INTO ${this.table} (tr_name, tr_sum, tr_date, tr_type, tr_cat_transaction_id, tr_group_id, tr_user_id)
-      SELECT ?, ?, ?, ?, LAST_INSERT_ID() AS tr_cat_transaction_id, ?, ?`,
-      [categoryName, name, sum, date, type, groupId, idUser]
+    if (catExists) {
+      const activate = true;
+      const result = this.database.query(
+        `UPDATE category_transaction SET ctra_active = ?
+         WHERE ctra_name = ? AND ctra_group_id = ?`,
+        [activate, categoryName, groupId]
+      );
+      return result;
+    }
+
+    const result = this.database.query(
+      `INSERT INTO category_transaction (ctra_name, ctra_group_id) VALUES(?, ?);
+            INSERT INTO ${this.table} (tr_name, tr_sum, tr_date, tr_type, tr_cat_transaction_id, tr_group_id, tr_user_id)
+            SELECT ?, ?, ?, ?, LAST_INSERT_ID() AS tr_cat_transaction_id, ?, ?`,
+      [categoryName, groupId, name, sum, date, type, groupId, idUser]
     );
+    return result;
   }
 
   // Récupérer toutes les transactions du groupe
@@ -80,6 +92,15 @@ class TransactionManager extends AbstractManager {
     );
   }
 
+  // Récupérer les catégories de transaction d'un groupe
+  // + filtré par le nouveau de catégorie souhaité
+  getCatTransactionDesactivatedByGroup(groupId, newName) {
+    return this.database.query(
+      `SELECT ctra_name, ctra_id FROM category_transaction WHERE ctra_group_id = ? AND ctra_name = ?`,
+      [groupId, newName]
+    );
+  }
+
   // A ajouter : ne pas pouvoir modifier la catégorie "sans catégorie"
   updateCatTransaction(catTransactionId, catTransactionName) {
     const isActive = true;
@@ -94,6 +115,7 @@ class TransactionManager extends AbstractManager {
   // POUR PLUS TARD
 
   // si le user veut créer une catégorie au même nom qu'une catégorie désactivée ?
+
   desactivateCatTransaction(catTransactionId) {
     const isActive = false;
     const categoryCannotChange = "Sans catégorie";

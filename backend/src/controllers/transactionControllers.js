@@ -33,7 +33,7 @@ const createWithNewCategory = async (req, res) => {
   try {
     const idUser = req.payload;
     const { id } = req.params;
-    const { name, sum, date, type, categoryName } = req.body;
+    const { name, sum, date, type, categoryName, catExists } = req.body;
     const [results] = await tables.transaction.createTransactionWithNewCategory(
       idUser,
       name,
@@ -41,9 +41,23 @@ const createWithNewCategory = async (req, res) => {
       date,
       type,
       categoryName,
-      id
+      id,
+      catExists
     );
-    if (results[0].affectedRows && results[1].affectedRows) {
+
+    // 2 cas possibles
+    // On reçoit un objet si uniquement UPDATE d'une catégorie existante
+    // result {}
+    // Ou on reçoit un array contenant deux objets si création de catégorie
+    // result [ {} {}]
+
+    if (Array.isArray(results)) {
+      if (results[0].affectedRows && results[1].affectedRows) {
+        res.status(201).send("transation et catégorie created");
+      } else {
+        res.status(401).send("transaction not created");
+      }
+    } else if (results.affectedRows) {
       res.status(201).send("transation et catégorie created");
     } else {
       res.status(401).send("transaction not created");
@@ -52,6 +66,7 @@ const createWithNewCategory = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
 const read = async (req, res) => {
   try {
     // on récupère l'id du group dans la route paramatrée
