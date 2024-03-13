@@ -20,7 +20,7 @@
 | /groups/:id/users/:idUser                | DELETE | NO    | yes  | Supprimer un user dans le groupe                           | ok              |
 | /groups/update/:id                       | PATCH  | NO    | yes  | Modifier le nom du groupe                                  | ok              |
 | /groups/:id                              | DELETE | NO    | yes  | Supprimer un groupe                                        | ok              |
-| /events                                  | POST   | NO    | yes  | Créer un évènement                                         | nok             |
+| /events/groups/:id                       | POST   | NO    | yes  | Créer un évènement                                         | nok             |
 | /events                                  | GET    | NO    | yes  | Récupérer tous les évènements d'un groupe                  | nok             |
 | /events/:id                              | GET    | NO    | yes  | Récupérer un évènement par son ID                          | NOT OK          |
 | /events/:id                              | PATCH  | NO    | yes  | update un évènement par son ID                             | NOT OK          |

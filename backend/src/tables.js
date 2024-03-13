@@ -7,6 +7,7 @@ const ItemManager = require("./models/ItemManager");
 const UserManager = require("./models/UserManager");
 const GroupManager = require("./models/GroupManager");
 const TransactionManager = require("./models/TransactionManager");
+const EventManager = require("./models/EventManager");
 
 const managers = [
   ItemManager,
@@ -14,6 +15,7 @@ const managers = [
   UserManager,
   GroupManager,
   TransactionManager,
+  EventManager,
 ];
 
 // Create an empty object to hold data managers for different tables

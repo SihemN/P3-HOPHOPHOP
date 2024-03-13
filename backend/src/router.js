@@ -8,6 +8,8 @@ const groupControllers = require("./controllers/groupControllers");
 
 const transactionControllers = require("./controllers/transactionControllers");
 
+const eventControllers = require("./controllers/eventControllers");
+
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
@@ -186,5 +188,11 @@ router.patch(
   verifyToken,
   transactionControllers.desactivateCategory
 );
+
+/* *************************************************************************
+   EVENT ENTITY
+*************************************************************************** */
+// Créer un Event
+router.post("/events/groups/:id", verifyToken, eventControllers.create);
 
 module.exports = router;
