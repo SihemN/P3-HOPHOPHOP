@@ -35,7 +35,7 @@ router.get("/items/:id", itemControllers.read);
 router.post("/items", itemControllers.add);
 
 /* *************************************************************************
-   USER ENTITY
+USER ENTITY
 *************************************************************************** */
 
 // Route to get a list of users
@@ -83,7 +83,7 @@ router.patch(
 router.delete("/users", verifyToken, userControllers.deleteUser);
 
 /* *************************************************************************
-   GROUP ENTITY
+ GROUP ENTITY
 *************************************************************************** */
 // créer un groupe
 router.post("/groups", verifyToken, groupControllers.create);
@@ -127,7 +127,7 @@ router.delete(
   groupControllers.deleteUserInGroup
 );
 /* *************************************************************************
-   TRANSACTION ENTITY
+TRANSACTION ENTITY
 *************************************************************************** */
 // Créer une transaction dans un groupe
 router.post(
@@ -168,7 +168,7 @@ router.delete(
 );
 
 /* *************************************************************************
-   CATEGORY TRANSACTION ENTITY
+CATEGORY TRANSACTION ENTITY
 *************************************************************************** */
 router.get(
   "/transactions-categories/groups/:id",
@@ -190,9 +190,20 @@ router.patch(
 );
 
 /* *************************************************************************
-   EVENT ENTITY
+EVENT ENTITY
 *************************************************************************** */
 // Créer un Event
 router.post("/events/groups/:id", verifyToken, eventControllers.create);
+
+router.get("/events/groups/:id", verifyToken, eventControllers.getEventByGroup);
+
+// Récupérer un event par son id
+router.get("/events/:id", verifyToken, eventControllers.getEventById);
+
+// update un event
+router.patch("/events/:id", verifyToken, eventControllers.updateEvent);
+
+// Supprimer un Event
+router.delete("/events/:id", verifyToken, eventControllers.deleteEvent);
 
 module.exports = router;
