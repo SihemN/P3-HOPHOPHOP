@@ -261,4 +261,27 @@ router.delete("/tasks/:id", verifyToken, taskControllers.deleteTask);
 
 // Update une task
 router.patch("/tasks/:id", verifyToken, taskControllers.updateTask);
+
+// Créer une catégorie task
+
+router.post(
+  "/tasks-categories/groups/:id",
+  verifyToken,
+  taskControllers.createCategory
+);
+
+// Récupérer la liste des catégories task publiques par groupe
+router.get(
+  "/tasks-categories/groups/:id",
+  verifyToken,
+  taskControllers.getPublicCatByGroup
+);
+
+// Récupérer les tasks list privées du user dans le groupe
+router.get(
+  "/tasks-categories/groups/:id/users",
+  verifyToken,
+  taskControllers.getPrivateCatByUserByGroup
+);
+
 module.exports = router;

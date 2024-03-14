@@ -46,6 +46,34 @@ class TaskManager extends AbstractManager {
       [...valuesToUpdate, taskId]
     );
   }
+
+  // *******************POUR LES CATEGORIES TASKS************************///
+
+  // créer une catégorie tasks
+  createCategory(name, isPrivate, userId, groupId) {
+    return this.database.query(
+      `INSERT INTO category_task (cta_name, cta_private, cta_user_id, cta_group_id) VALUES (?, ?, ?, ?)`,
+      [name, isPrivate, userId, groupId]
+    );
+  }
+
+  // Récupérer les tasks list publiques par groupe
+  getPublicCatByGroup(groupId) {
+    const isPrivate = false;
+    return this.database.query(
+      `SELECT cta_name FROM category_task WHERE cta_group_id = ? AND cta_private = ?`,
+      [groupId, isPrivate]
+    );
+  }
+
+  // Récupérer les tasks list privées du user dans le groupe
+  getPrivateCatByUserByGroup(userId, groupId) {
+    const isPrivate = true;
+    return this.database.query(
+      `SELECT cta_name FROM category_task WHERE cta_group_id = ? AND cta_private = ? AND cta_user_id = ?`,
+      [groupId, isPrivate, userId]
+    );
+  }
 }
 
 module.exports = TaskManager;

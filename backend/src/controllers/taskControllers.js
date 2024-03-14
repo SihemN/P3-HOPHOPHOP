@@ -76,4 +76,72 @@ const updateTask = async (req, res) => {
   }
 };
 
-module.exports = { create, getByCategory, deleteTask, updateTask };
+// Créer une to do list (category task)
+const createCategory = async (req, res) => {
+  try {
+    const userId = req.payload;
+    const { id } = req.params;
+    const { name, isPrivate } = req.body;
+    const [result] = await tables.task.createCategory(
+      name,
+      isPrivate,
+      userId,
+      id
+    );
+    if (result.affectedRows) {
+      res.status(201).send("La catégorie task a été créée");
+    } else {
+      res.status(401).send("la création de la catégorie task a échoué!!");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Récupérer les tasks list publiques par groupe
+const getPublicCatByGroup = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.task.getPublicCatByGroup(id);
+
+    if (result.length) {
+      res.status(200).json({
+        message: "Liste de catégorie récupérée",
+        result,
+      });
+    } else {
+      res.status(401).send("Pas de catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Récupérer les tasks list privées du user dans le groupe
+const getPrivateCatByUserByGroup = async (req, res) => {
+  try {
+    const userId = req.payload;
+    const { id } = req.params;
+    const [result] = await tables.task.getPrivateCatByUserByGroup(userId, id);
+    if (result.length) {
+      res.status(200).json({
+        message: "Liste de catégorie privée récupérée",
+        result,
+      });
+    } else {
+      res.status(401).send("Pas de catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = {
+  create,
+  getByCategory,
+  deleteTask,
+  updateTask,
+  createCategory,
+  getPublicCatByGroup,
+  getPrivateCatByUserByGroup,
+};

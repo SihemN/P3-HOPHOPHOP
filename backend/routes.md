@@ -34,9 +34,9 @@
 | /tasks/categories/:id                        | GET    | NO    | yes  | Récupérer toutes les tâches d'une to do list               | OK              |
 | /tasks/:id                                   | DELETE | NO    | yes  | Supprimer une tâche                                        | OK              |
 | /tasks/:id                                   | PATCH  | NO    | yes  | Modifier une tâche                                         | OK              |
-| /tasks-categories                            | POST   | NO    | yes  | Créer une to do list                                       | NOT OK          |
-| /tasks-categories                            | GET    | NO    | yes  | Récupérer toutes les to do list                            | NOT OK          |
-| /tasks-categories/:id                        | GET    | NO    | yes  | Récupérer une to do list                                   | NOT OK          |
+| /tasks-categories                            | POST   | NO    | yes  | Créer une to do list                                       | OK              |
+| /tasks-categories/groups/:id                 | GET    | NO    | yes  | Récupérer les to do list publiques du group                | OK              |
+| /tasks-categories/groups/:id/users/          | GET    | NO    | yes  | Récupérer les to do list privées du User dans le groupe    | OK              |
 | /tasks-categories/:id                        | PATCH  | NO    | yes  | Modifier une to do list                                    | NOT OK          |
 | /tasks-categories/:id                        | DELETE | NO    | yes  | Supprimer une to do list                                   | NOT OK          |
 | /transactions                                | POST   | NO    | yes  | Créer une transaction                                      | OK              |
@@ -60,10 +60,6 @@
 | /recipes/:id                                 | PATCH  | NO    | yes  | Modifier une recette                                       | NOT OK          |
 | /recipes/:id                                 | GET    | NO    | yes  | Récupérer une recette                                      | NOT OK          |
 | /recipes/:id                                 | DELETE | NO    | yes  | Supprimer une recette                                      | NOT OK          |
-| /positions                                   | POST   | NO    | yes  | Ajouter une position                                       | NOT OK          |
-| /positions/:id                               | DELETE | NO    | yes  | Supprimer une position                                     | NOT OK          |
-| /positions/:id                               | GET    | NO    | yes  | Récupérer une position par son ID                          | NOT OK          |
-| ????????/positions                           | GET    | NO    | yes  | Récupérer toutes les positions                             | NOT OK ???????? |
 | /messages                                    | POST   | NO    | yes  | Créer un message                                           | NOT OK          |
 | /messages/:id                                | DELETE | NO    | yes  | Supprimer un message                                       | NOT OK          |
 | /messages                                    | GET    | NO    | yes  | Récupérer tous les messages                                | NOT OK          |
@@ -76,6 +72,11 @@
 | /contacts-categories/:id                     | PATCH  | NO    | yes  | Modifier une catégorie de contact                          | NOT OK          |
 | /contacts-categories/                        | GET    | NO    | yes  | Récupérer toutes les catégories de contact                 | NOT OK          |
 | /contacts-categories/:id                     | DELETE | NO    | yes  | Supprimer une catégorie de contact                         | NOT OK          |
+| pour une V2                                  | -      | -     | -    | -                                                          | -               |
+| /positions                                   | POST   | NO    | yes  | Ajouter une position                                       | NOT OK          |
+| /positions/:id                               | DELETE | NO    | yes  | Supprimer une position                                     | NOT OK          |
+| /positions/:id                               | GET    | NO    | yes  | Récupérer une position par son ID                          | NOT OK          |
+| ????????/positions                           | GET    | NO    | yes  | Récupérer toutes les positions                             | NOT OK ???????? |
 
 # Les routes `Frontend :D :D :D`
 
