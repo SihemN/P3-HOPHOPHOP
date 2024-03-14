@@ -12,6 +12,8 @@ const eventControllers = require("./controllers/eventControllers");
 
 const remindEventControllers = require("./controllers/remindEventControllers");
 
+const taskControllers = require("./controllers/taskControllers");
+
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
@@ -240,4 +242,23 @@ router.delete(
   remindEventControllers.deleteReminder
 );
 
+/* *************************************************************************
+TASK ENTITY
+*************************************************************************** */
+
+// Créer une task
+router.post(
+  "/tasks/groups/:groupId/categories/:catTaskId",
+  verifyToken,
+  taskControllers.create
+);
+
+// Récupérer les tâches d'une to do list
+router.get("/tasks/categories/:id", verifyToken, taskControllers.getByCategory);
+
+// Supprimer une task
+router.delete("/tasks/:id", verifyToken, taskControllers.deleteTask);
+
+// Update une task
+router.patch("/tasks/:id", verifyToken, taskControllers.updateTask);
 module.exports = router;
