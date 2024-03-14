@@ -9,7 +9,10 @@ const create = async (req, res) => {
     let description;
     if (!text) {
       description = null;
+    } else {
+      description = text;
     }
+
     const [result] = await tables.event.createEvent(
       idUser,
       id,

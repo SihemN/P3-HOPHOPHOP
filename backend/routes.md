@@ -25,10 +25,11 @@
 | /events/:id                              | GET    | NO    | yes  | Récupérer un évènement par son ID                          | OK              |
 | /events/:id                              | PATCH  | NO    | yes  | update un évènement par son ID                             | OK              |
 | /events/:id                              | DELETE | NO    | yes  | Supprimer un évènement par son ID                          | OK              |
-| /reminders                               | POST   | NO    | yes  | Créer une alerte                                           | NOT OK          |
-| /reminders/:id                           | GET    | NO    | yes  | Récupérer une alerte par son ID                            | NOT OK          |
-| /reminders/:id                           | PATCH  | NO    | yes  | Modifier une alerte par son ID                             | NOT OK          |
-| /reminders/:id                           | DELETE | NO    | yes  | Supprimer une alerte par son ID                            | NOT OK          |
+| /reminders                               | POST   | NO    | yes  | Créer une alerte                                           | OK              |
+| /reminders/:id                           | GET    | NO    | yes  | Récupérer une alerte par son ID                            | OK              |
+| /reminders/events/:id                    | GET    | NO    | yes  | Récupérer les alertes d'un event                           | OK              |
+| /reminders/:id                           | PATCH  | NO    | yes  | Modifier une alerte par son ID                             | OK              |
+| /reminders/:id                           | DELETE | NO    | yes  | Supprimer une alerte par son ID                            | OK              |
 | /tasks                                   | POST   | NO    | yes  | Créer une tâche                                            | NOT OK          |
 | /tasks                                   | GET    | NO    | yes  | Récupérer toutes les tâches d'une to do list               | NOT OK          |
 | /tasks/:id                               | DELETE | NO    | yes  | Supprimer une tâche                                        | NOT OK          |

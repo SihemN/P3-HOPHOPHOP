@@ -10,6 +10,8 @@ const transactionControllers = require("./controllers/transactionControllers");
 
 const eventControllers = require("./controllers/eventControllers");
 
+const remindEventControllers = require("./controllers/remindEventControllers");
+
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
@@ -195,6 +197,7 @@ EVENT ENTITY
 // Créer un Event
 router.post("/events/groups/:id", verifyToken, eventControllers.create);
 
+// Récupérer tous les event d'un groupe
 router.get("/events/groups/:id", verifyToken, eventControllers.getEventByGroup);
 
 // Récupérer un event par son id
@@ -205,5 +208,36 @@ router.patch("/events/:id", verifyToken, eventControllers.updateEvent);
 
 // Supprimer un Event
 router.delete("/events/:id", verifyToken, eventControllers.deleteEvent);
+
+/* *************************************************************************
+REMINDER EVENT ENTITY
+*************************************************************************** */
+
+// Créer un reminder
+router.post(
+  "/reminders/events/:id",
+  verifyToken,
+  remindEventControllers.create
+);
+
+// Récupérer un reminder par id
+router.get("/reminders/:id", verifyToken, remindEventControllers.readById);
+
+// Update un reminder
+router.patch("/reminders/:id", verifyToken, remindEventControllers.update);
+
+// Récupérer les reminders de l'event
+router.get(
+  "/reminders/events/:id",
+  verifyToken,
+  remindEventControllers.readByEventId
+);
+
+// Supprimer un reminder
+router.delete(
+  "/reminders/:id",
+  verifyToken,
+  remindEventControllers.deleteReminder
+);
 
 module.exports = router;
