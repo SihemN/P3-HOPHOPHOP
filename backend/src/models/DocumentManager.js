@@ -25,6 +25,14 @@ class DocumentManager extends AbstractManager {
     );
   }
 
+  // Récupérer les docs privés du User pour la catégorie "Privée"
+  getPrivateDocByUserByGroup(userId, categoryId) {
+    return this.database.query(
+      `SELECT d_name, d_id, d_path FROM ${this.table} WHERE d_category_document_id = ? AND d_user_id = ?`,
+      [categoryId, userId]
+    );
+  }
+
   // Modifier un document
   updateDocument(docId, name) {
     return this.database.query(
@@ -40,6 +48,42 @@ class DocumentManager extends AbstractManager {
     ]);
   }
   // *******CATEGORY DOCUMENT*****//
+
+  // Créer une category_document
+  createCategory(catName, groupId) {
+    return this.database.query(
+      `INSERT INTO category_document (cd_name, cd_group_id) VALUES (?, ?)`,
+      [catName, groupId]
+    );
+  }
+
+  // Récupérer les category_documents publiques d'un groupe
+  getCategoryByGroup(groupId) {
+    return this.database.query(
+      `SELECT cd_id, cd_name FROM category_document WHERE cd_group_id = ?`,
+      [groupId]
+    );
+  }
+
+  // Récupérer la category_document privée du User dans le groupe
+
+  // Update une category_document
+  updateCategory(name, id) {
+    const lockName = "Privé";
+    return this.database.query(
+      `UPDATE category_document SET cd_name = ? WHERE cd_id = ? AND cd_name != ?`,
+      [name, id, lockName]
+    );
+  }
+
+  // Supprimer une category_document
+  deleteCategory(id) {
+    const lockName = "Privé";
+    return this.database.query(
+      `DELETE FROM category_document WHERE cd_id = ? AND cd_name != ?`,
+      [id, lockName]
+    );
+  }
 }
 
 module.exports = DocumentManager;

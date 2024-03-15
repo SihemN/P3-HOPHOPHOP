@@ -42,6 +42,27 @@ const getDocumentByCat = async (req, res) => {
   }
 };
 
+// Récupérer les docs privés du User pour la catégorie "Privée" dans le groupe
+const getPrivateDocByUserByGroup = async (req, res) => {
+  try {
+    const userId = req.payload;
+    const { id } = req.params;
+    const [results] = await tables.document.getPrivateDocByUserByGroup(
+      userId,
+      id
+    );
+    if (results.length) {
+      res
+        .status(200)
+        .json({ message: "Liste des docs privés du User récupérée", results });
+    } else {
+      res.status(401).send("Problème pour récupérer la liste de documents");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 // Modifier un document
 const updateDocument = async (req, res) => {
   try {
@@ -71,10 +92,80 @@ const deleteDocument = async (req, res) => {
     res.status(500).send(error);
   }
 };
+// Créer une category_document
+const createCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const [result] = await tables.document.createCategory(name, id);
+    if (result.affectedRows) {
+      res.status(201).send("catégorie créée avec succès");
+    } else {
+      res.status(401).send("Problème pour créer la catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Update une category_document
+const updateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const [result] = await tables.document.updateCategory(name, id);
+
+    if (result.affectedRows) {
+      res.status(200).send("catégorie mise à jour avec succès");
+    } else {
+      res.status(401).send("Problème pour mettre à jour la catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Récupérer les category_document du groupe
+const getCategoriesByGroup = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [results] = await tables.document.getCategoryByGroup(id);
+    if (results.length) {
+      res
+        .status(200)
+        .json({ messsage: "Liste des catégories récupérée !", results });
+    } else {
+      res.status(401).send("Problème pour récupérer la liste des catégories");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Supprimer une category_document
+const deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.document.deleteCategory(id);
+
+    if (result.affectedRows) {
+      res.status(200).send("catégorie supprimée avec succès");
+    } else {
+      res.status(401).send("Problème pour supprimer la catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 module.exports = {
   createDocument,
   getDocumentByCat,
+  getPrivateDocByUserByGroup,
   updateDocument,
   deleteDocument,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  getCategoriesByGroup,
 };

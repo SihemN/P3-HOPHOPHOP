@@ -318,6 +318,13 @@ router.get(
   verifyToken,
   documentControllers.getDocumentByCat
 );
+// Récupérer les docs privés du User pour la catégorie "Privée"
+router.get(
+  "/documents/users/categories/:id",
+  verifyToken,
+  documentControllers.getPrivateDocByUserByGroup
+);
+
 // Modifier un document  | /documents/:id
 router.patch("/documents/:id", verifyToken, documentControllers.updateDocument);
 // Supprimer un document      /documents/:id
@@ -329,9 +336,32 @@ router.delete(
 /* *************************************************************************
 CATEGORY DOCUMENT ENTITY
 *************************************************************************** */
-// Créer une catégorie de documents  /documents-categories
-// Récupérer toutes les catégories de documents   /documents-categories
+// Créer une catégorie de documents
+router.post(
+  "/documents-categories/groups/:id",
+  verifyToken,
+  documentControllers.createCategory
+);
+
+// Récupérer toutes les catégories de documents du groupe
+router.get(
+  "/documents-categories/groups/:id",
+  verifyToken,
+  documentControllers.getCategoriesByGroup
+);
+
 // Modifier une catégorie de documents       /documents-categories/:id
+router.patch(
+  "/documents-categories/:id",
+  verifyToken,
+  documentControllers.updateCategory
+);
+
 // Supprimer une catégorie de documents   /documents-categories/:id
+router.delete(
+  "/documents-categories/:id",
+  verifyToken,
+  documentControllers.deleteCategory
+);
 
 module.exports = router;
