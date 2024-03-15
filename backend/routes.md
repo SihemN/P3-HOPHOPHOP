@@ -37,8 +37,8 @@
 | /tasks-categories                            | POST   | NO    | yes  | Créer une to do list                                       | OK              |
 | /tasks-categories/groups/:id                 | GET    | NO    | yes  | Récupérer les to do list publiques du group                | OK              |
 | /tasks-categories/groups/:id/users/          | GET    | NO    | yes  | Récupérer les to do list privées du User dans le groupe    | OK              |
-| /tasks-categories/:id                        | PATCH  | NO    | yes  | Modifier une to do list                                    | NOT OK          |
-| /tasks-categories/:id                        | DELETE | NO    | yes  | Supprimer une to do list                                   | NOT OK          |
+| /tasks-categories/:id                        | PATCH  | NO    | yes  | Modifier une to do list                                    | OK              |
+| /tasks-categories/:id                        | DELETE | NO    | yes  | Supprimer une to do list                                   | OK              |
 | /transactions                                | POST   | NO    | yes  | Créer une transaction                                      | OK              |
 | /transactions/groups/:id                     | POST   | NO    | yes  | Créer une transaction avec new category                    | OK              |
 | /transactions/groups/:id                     | GET    | NO    | yes  | Récupérer toutes les transactions d'un groupe              | OK              |
@@ -47,10 +47,10 @@
 | /transactions-categories/groups/:id          | GET    | NO    | yes  | Récupérer toutes les catégories de transaction d'un groupe | OK              |
 | /transactions-categories/:id                 | PATCH  | NO    | yes  | Modifier une catégorie de transaction                      | OK              |
 | /transactions-categories/desactivate/:id     | PATCH  | NO    | yes  | Désactiver une catégorie de transaction                    | OK              |
-| /documents                                   | POST   | NO    | yes  | Créer un document                                          | NOT OK          |
-| /documents                                   | GET    | NO    | yes  | Récupérer tous les documents d'un dossier                  | NOT OK          |
-| /documents/:id                               | PATCH  | NO    | yes  | Modifier un document                                       | NOT OK          |
-| /documents/:id                               | DELETE | NO    | yes  | Supprimer un document                                      | NOT OK          |
+| /documents                                   | POST   | NO    | yes  | Créer un document                                          | OK              |
+| /documents/categories/:id                    | GET    | NO    | yes  | Récupérer tous les documents d'un dossier                  | OK              |
+| /documents/:id                               | PATCH  | NO    | yes  | Modifier un document                                       | OK              |
+| /documents/:id                               | DELETE | NO    | yes  | Supprimer un document                                      | OK              |
 | /documents-categories                        | POST   | NO    | yes  | Créer une catégorie de documents                           | NOT OK          |
 | /documents-categories                        | GET    | NO    | yes  | Réupérer toutes les catégories de documents                | NOT OK          |
 | /documents-categories/:id                    | PATCH  | NO    | yes  | Modifier une catégorie de documents                        | NOT OK          |

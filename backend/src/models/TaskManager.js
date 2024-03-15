@@ -21,7 +21,7 @@ class TaskManager extends AbstractManager {
   getTasksOfCategoryTask(catTaskId) {
     return this.database.query(
       `SELECT ta_name,
-      ta_done FROM ${this.table} WHERE ta_cat_task_id = ?`,
+      ta_done, ta_id FROM ${this.table} WHERE ta_cat_task_id = ?`,
       [catTaskId]
     );
   }
@@ -73,6 +73,21 @@ class TaskManager extends AbstractManager {
       `SELECT cta_name FROM category_task WHERE cta_group_id = ? AND cta_private = ? AND cta_user_id = ?`,
       [groupId, isPrivate, userId]
     );
+  }
+
+  // Modifier une to do list
+  updateCategory(name, id) {
+    return this.database.query(
+      `UPDATE category_task SET cta_name = ? WHERE cta_id = ?`,
+      [name, id]
+    );
+  }
+  // Supprimer une to do list
+
+  deleteCategory(id) {
+    return this.database.query(`DELETE FROM category_task WHERE cta_id = ?`, [
+      id,
+    ]);
   }
 }
 

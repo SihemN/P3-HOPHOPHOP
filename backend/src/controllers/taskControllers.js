@@ -136,6 +136,37 @@ const getPrivateCatByUserByGroup = async (req, res) => {
   }
 };
 
+// Update une to do list
+const updateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { categoryName } = req.body;
+    const [result] = await tables.task.updateCategory(categoryName, id);
+    if (result.affectedRows) {
+      res.status(200).send("mise à jour faite avec succès");
+    } else {
+      res.status(401).send("problème de mise à jour");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Supprimer une to do list
+const deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.task.deleteCategory(id);
+    if (result.affectedRows) {
+      res.status(200).send("to do list supprimée avec succès");
+    } else {
+      res.status(401).send("problème de suppression");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
   create,
   getByCategory,
@@ -144,4 +175,6 @@ module.exports = {
   createCategory,
   getPublicCatByGroup,
   getPrivateCatByUserByGroup,
+  updateCategory,
+  deleteCategory,
 };

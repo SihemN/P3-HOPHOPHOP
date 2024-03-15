@@ -14,6 +14,8 @@ const remindEventControllers = require("./controllers/remindEventControllers");
 
 const taskControllers = require("./controllers/taskControllers");
 
+const documentControllers = require("./controllers/documentControllers");
+
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
@@ -24,6 +26,7 @@ const hashPassword = require("./services/hashedPassword");
 const verifyToken = require("./services/verifyToken");
 const hashPasswordWithoutUpload = require("./services/hashedPasswordWithoutUpload");
 const upload = require("./services/upload");
+const uploadDoc = require("./services/uploadDoc");
 const isAdmin = require("./services/isAdmin");
 const userExistsAndActive = require("./services/userExistsAndActive");
 const isMin2AdminInGroup = require("./services/isMin2AdminInGroup");
@@ -283,5 +286,52 @@ router.get(
   verifyToken,
   taskControllers.getPrivateCatByUserByGroup
 );
+
+// Update une category_task
+router.patch(
+  "/tasks-categories/:id",
+  verifyToken,
+  taskControllers.updateCategory
+);
+
+// Supprimer une category_task
+router.delete(
+  "/tasks-categories/:id",
+  verifyToken,
+  taskControllers.deleteCategory
+);
+
+/* *************************************************************************
+DOCUMENT ENTITY
+*************************************************************************** */
+
+// Créer un document
+router.post(
+  "/documents/groups/:id/categories/:catId",
+  verifyToken,
+  uploadDoc,
+  documentControllers.createDocument
+);
+// Récupérer tous les documents d'un dossier   /documents
+router.get(
+  "/documents/categories/:id",
+  verifyToken,
+  documentControllers.getDocumentByCat
+);
+// Modifier un document  | /documents/:id
+router.patch("/documents/:id", verifyToken, documentControllers.updateDocument);
+// Supprimer un document      /documents/:id
+router.delete(
+  "/documents/:id",
+  verifyToken,
+  documentControllers.deleteDocument
+);
+/* *************************************************************************
+CATEGORY DOCUMENT ENTITY
+*************************************************************************** */
+// Créer une catégorie de documents  /documents-categories
+// Récupérer toutes les catégories de documents   /documents-categories
+// Modifier une catégorie de documents       /documents-categories/:id
+// Supprimer une catégorie de documents   /documents-categories/:id
 
 module.exports = router;
