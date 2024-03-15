@@ -56,11 +56,11 @@
 | /documents-categories                        | GET    | NO    | yes  | Réupérer toutes les catégories de documents                           | OK              |
 | /documents-categories/:id                    | PATCH  | NO    | yes  | Modifier une catégorie de documents                                   | OK              |
 | /documents-categories/:id                    | DELETE | NO    | yes  | Supprimer une catégorie de documents                                  | OK              |
-| /recipes                                     | POST   | NO    | yes  | Créer une recette                                                     | NOT OK          |
-| /recipes                                     | GET    | NO    | yes  | Récupérer toutes les recettes                                         | NOT OK          |
-| /recipes/:id                                 | PATCH  | NO    | yes  | Modifier une recette                                                  | NOT OK          |
-| /recipes/:id                                 | GET    | NO    | yes  | Récupérer une recette                                                 | NOT OK          |
-| /recipes/:id                                 | DELETE | NO    | yes  | Supprimer une recette                                                 | NOT OK          |
+| /recipes                                     | POST   | NO    | yes  | Créer une recette                                                     | OK              |
+| /recipes                                     | GET    | NO    | yes  | Récupérer toutes les recettes                                         | OK              |
+| /recipes/:id                                 | PATCH  | NO    | yes  | Modifier une recette                                                  | OK              |
+| /recipes/:id                                 | GET    | NO    | yes  | Récupérer une recette                                                 | OK              |
+| /recipes/:id                                 | DELETE | NO    | yes  | Supprimer une recette                                                 | OK              |
 | /messages                                    | POST   | NO    | yes  | Créer un message                                                      | NOT OK          |
 | /messages/:id                                | DELETE | NO    | yes  | Supprimer un message                                                  | NOT OK          |
 | /messages                                    | GET    | NO    | yes  | Récupérer tous les messages                                           | NOT OK          |

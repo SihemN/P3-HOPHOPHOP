@@ -16,6 +16,10 @@ const taskControllers = require("./controllers/taskControllers");
 
 const documentControllers = require("./controllers/documentControllers");
 
+const recipeControllers = require("./controllers/recipeControllers");
+
+const contactControllers = require("./controllers/contactControllers");
+
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
@@ -363,5 +367,42 @@ router.delete(
   verifyToken,
   documentControllers.deleteCategory
 );
+
+/* *************************************************************************
+RECIPE ENTITY
+*************************************************************************** */
+// Créer une recette
+router.post("/recipes/groups/:id", verifyToken, recipeControllers.createRecipe);
+
+//  Récupérer toutes les recettes
+router.get(
+  "/recipes/groups/:id",
+  verifyToken,
+  recipeControllers.getRecipeByGroup
+);
+
+// Modifier une recette
+router.patch("/recipes/:id", verifyToken, recipeControllers.updateRecipe);
+
+// Récupérer une recette
+router.get("/recipes/:id", verifyToken, recipeControllers.getRecipeById);
+
+// Supprimer une recette
+router.delete("/recipes/:id", verifyToken, recipeControllers.deleteRecipe);
+
+/* *************************************************************************
+CONTACT ENTITY
+*************************************************************************** */
+
+// Créer un contact
+router.post(
+  "/contacts/groups/:id/category/:catId",
+  verifyToken,
+  contactControllers.createContact
+);
+// /contacts/:id                             Récupérer un contact
+// /contacts/groups/:id                      Récupérer tous les contacts
+// /contacts/:id                             Modifier un contact
+// /contacts/:id                             Supprimer un contact
 
 module.exports = router;

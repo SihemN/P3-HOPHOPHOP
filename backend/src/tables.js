@@ -11,6 +11,8 @@ const EventManager = require("./models/EventManager");
 const RemindEventManager = require("./models/RemindEventManager");
 const TaskManager = require("./models/TaskManager");
 const DocumentManager = require("./models/DocumentManager");
+const RecipeManager = require("./models/RecipeManager");
+const ContactManager = require("./models/ContactManager");
 
 const managers = [
   ItemManager,
@@ -22,6 +24,8 @@ const managers = [
   RemindEventManager,
   TaskManager,
   DocumentManager,
+  RecipeManager,
+  ContactManager,
 ];
 
 // Create an empty object to hold data managers for different tables
