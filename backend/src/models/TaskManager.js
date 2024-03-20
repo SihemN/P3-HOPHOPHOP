@@ -20,8 +20,8 @@ class TaskManager extends AbstractManager {
   // Récupérer les tasks d'une to do list (category_task)
   getTasksOfCategoryTask(catTaskId) {
     return this.database.query(
-      `SELECT ta_name,
-      ta_done, ta_id FROM ${this.table} WHERE ta_cat_task_id = ?`,
+      `SELECT  ta_id, ta_name,
+      ta_done FROM ${this.table} WHERE ta_cat_task_id = ?`,
       [catTaskId]
     );
   }

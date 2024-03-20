@@ -20,7 +20,7 @@ class DocumentManager extends AbstractManager {
   // Récupérer tous les documents d'un dossier
   getDocumentByCat(categoryId) {
     return this.database.query(
-      `SELECT d_name, d_id, d_path FROM ${this.table} WHERE d_category_document_id = ? `,
+      `SELECT d_id, d_name, d_path FROM ${this.table} WHERE d_category_document_id = ? `,
       [categoryId]
     );
   }
@@ -28,7 +28,7 @@ class DocumentManager extends AbstractManager {
   // Récupérer les docs privés du User pour la catégorie "Privée"
   getPrivateDocByUserByGroup(userId, categoryId) {
     return this.database.query(
-      `SELECT d_name, d_id, d_path FROM ${this.table} WHERE d_category_document_id = ? AND d_user_id = ?`,
+      `SELECT d_id, d_name, d_path FROM ${this.table} WHERE d_category_document_id = ? AND d_user_id = ?`,
       [categoryId, userId]
     );
   }

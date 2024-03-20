@@ -67,7 +67,7 @@ class GroupManager extends AbstractManager {
     const isActive = true;
     const admin = "admin";
     return this.database.query(
-      `SELECT ug.ug_user_role 
+      `SELECT ug.ug_user_role, ug.ug_user_id 
       FROM user_group AS ug
       JOIN user AS u ON ug.ug_user_id = u.u_id
       WHERE ug_group_id = ? AND u.u_active = ? AND ug.ug_user_role = ?`,

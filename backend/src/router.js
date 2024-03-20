@@ -2,30 +2,19 @@ const express = require("express");
 
 const router = express.Router();
 
+// Require les controllers
 const userControllers = require("./controllers/userControllers");
-
 const groupControllers = require("./controllers/groupControllers");
-
 const transactionControllers = require("./controllers/transactionControllers");
-
 const eventControllers = require("./controllers/eventControllers");
-
 const remindEventControllers = require("./controllers/remindEventControllers");
-
 const taskControllers = require("./controllers/taskControllers");
-
 const documentControllers = require("./controllers/documentControllers");
-
 const recipeControllers = require("./controllers/recipeControllers");
-
 const contactControllers = require("./controllers/contactControllers");
 
-/* ************************************************************************* */
-// Define Your API Routes Here
-/* ************************************************************************* */
+// Require les middlewares
 
-// Import itemControllers module for handling item-related operations
-const itemControllers = require("./controllers/itemControllers");
 const hashPassword = require("./services/hashedPassword");
 const verifyToken = require("./services/verifyToken");
 const hashPasswordWithoutUpload = require("./services/hashedPasswordWithoutUpload");
@@ -35,15 +24,6 @@ const isAdmin = require("./services/isAdmin");
 const userExistsAndActive = require("./services/userExistsAndActive");
 const isMin2AdminInGroup = require("./services/isMin2AdminInGroup");
 const categoryExists = require("./services/categoryExists");
-
-// Route to get a list of items
-router.get("/items", itemControllers.browse);
-
-// Route to get a specific item by ID
-router.get("/items/:id", itemControllers.read);
-
-// Route to add a new item
-router.post("/items", itemControllers.add);
 
 /* *************************************************************************
 USER ENTITY

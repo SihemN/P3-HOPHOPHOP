@@ -73,7 +73,7 @@ class UserManager extends AbstractManager {
 
   getUserById(id) {
     return this.database.query(
-      `select u_name, u_email, u_avatar from ${this.table} where u_id = ?`,
+      `select u_id, u_name, u_email, u_avatar from ${this.table} where u_id = ?`,
       [id]
     );
   }

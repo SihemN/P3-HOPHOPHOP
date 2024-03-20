@@ -28,7 +28,7 @@ class RecipeManager extends AbstractManager {
   //  Récupérer toutes les recettes d'un groupe
   getRecipeByGroup(groupId) {
     return this.database.query(
-      `SELECT r_name, r_id, r_category, u.u_name FROM ${this.table} JOIN user AS u ON u.u_id = r_user_id WHERE r_group_id = ? 
+      `SELECT r_id, r_name, r_category, u.u_name FROM ${this.table} JOIN user AS u ON u.u_id = r_user_id WHERE r_group_id = ? 
       `,
       [groupId]
     );
@@ -51,7 +51,7 @@ class RecipeManager extends AbstractManager {
   //  Récupérer une recette
   getRecipeById(recipeId) {
     return this.database.query(
-      `SELECT r_name, r_description, r_time_preparation, r_nb_persons, r_list_ingredients, r_category, r_id FROM ${this.table} WHERE r_id = ?`,
+      `SELECT r_id, r_name, r_description, r_time_preparation, r_nb_persons, r_list_ingredients, r_category FROM ${this.table} WHERE r_id = ?`,
       [recipeId]
     );
   }
