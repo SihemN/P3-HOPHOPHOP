@@ -13,10 +13,75 @@ class ContactManager extends AbstractManager {
     );
   }
 
-  // /contacts/:id                             Récupérer un contact
-  // /contacts/groups/:id                      Récupérer tous les contacts
-  // /contacts/:id                             Modifier un contact
-  // /contacts/:id                             Supprimer un contact
+  // Récupérer les contacts d'un groupe
+  getContactByGroup(groupId) {
+    return this.database.query(
+      `SELECT c_id, c_name, c_cat_contact_id, c_user_id FROM ${this.table} WHERE c_group_id = ?`,
+      [groupId]
+    );
+  }
+
+  // Récupérer tous les contacts
+  getContactById(contactId) {
+    return this.database.query(
+      `SELECT c_id, c_name, c_email, c_phone, c_address, c_cat_contact_id FROM ${this.table} WHERE c_id = ?`,
+      [contactId]
+    );
+  }
+
+  // Modifier un contact
+  updateContact(contactId, contactUpdated) {
+    // on récupère les champs renseignés dans req.body
+    const keysToUpdate = Object.keys(contactUpdated);
+    // on récupère leurs valeurs
+    const valuesToUpdate = Object.values(contactUpdated);
+    // on compile ces champs dans une string en leur ajoutant le préfixe pour coller à notre BDD et à la syntaxe SQL
+    const setKeys = keysToUpdate.map((column) => `c_${column} = ?`).join(", ");
+    return this.database.query(
+      `UPDATE ${this.table} SET ${setKeys} WHERE c_id = ?`,
+      [...valuesToUpdate, contactId]
+    );
+  }
+
+  // Supprimer un contact
+  deleteContact(contactId) {
+    return this.database.query(`DELETE FROM ${this.table} WHERE c_id = ?`, [
+      contactId,
+    ]);
+  }
+
+  // Pour les category_contact
+
+  // Créer une catégorie
+  createCategory(catName, groupId) {
+    return this.database.query(
+      `INSERT INTO category_contact (cc_name, cc_group_id) VALUES (?, ?)`,
+      [catName, groupId]
+    );
+  }
+
+  // Récupérer les catégories du groupe
+  getCategoriesByGroup(groupId) {
+    return this.database.query(
+      `SELECT cc_id, cc_name FROM category_contact WHERE cc_group_id = ?`,
+      [groupId]
+    );
+  }
+
+  // Modifier une catégorie
+  updateCategory(catName, catId) {
+    return this.database.query(
+      `UPDATE category_contact SET cc_name = ? WHERE cc_id = ?`,
+      [catName, catId]
+    );
+  }
+
+  // Supprimer une catégorie
+  deleteCategory(catId) {
+    return this.database.query(`DELETE FROM category_contact WHERE cc_id = ?`, [
+      catId,
+    ]);
+  }
 }
 
 module.exports = ContactManager;

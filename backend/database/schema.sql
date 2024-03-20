@@ -1,70 +1,70 @@
 
 create table item (
-  id int unsigned primary key auto_increment not null,
-  title varchar(255) not null
+    id int unsigned primary key auto_increment not null,
+    title varchar(255) not null
 );
 
 
 CREATE TABLE user (
-  u_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  u_name VARCHAR(20) NOT NULL,
-  u_email VARCHAR(50) UNIQUE,
-  u_hashedPassword VARCHAR(255) NOT NULL,
-  u_avatar VARCHAR(500) NULL,
-  u_active BOOLEAN NOT NULL DEFAULT true 
+    u_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    u_name VARCHAR(20) NOT NULL,
+    u_email VARCHAR(50) UNIQUE,
+    u_hashedPassword VARCHAR(255) NOT NULL,
+    u_avatar VARCHAR(500) NULL,
+    u_active BOOLEAN NOT NULL DEFAULT true 
 );
 
 CREATE TABLE group_table (
-   g_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-   g_name VARCHAR(30) NOT NULL
+    g_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    g_name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE user_group (
-ug_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-ug_user_id INT NOT NULL,
-ug_user_role ENUM ('admin', 'membre') NOT NULL,
-ug_group_id INT NOT NULL,
-ug_message TEXT NULL,
-CONSTRAINT fk_user_group_user
-    FOREIGN KEY (ug_user_id)
-    REFERENCES user(u_id)
-    ON DELETE CASCADE,
-CONSTRAINT fk_user_group_group
-  FOREIGN KEY (ug_group_id)
-  REFERENCES group_table(g_id)
-  ON DELETE CASCADE    
+    ug_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    ug_user_id INT NOT NULL,
+    ug_user_role ENUM ('admin', 'membre') NOT NULL,
+    ug_group_id INT NOT NULL,
+    ug_message TEXT NULL,
+        CONSTRAINT fk_user_group_user
+            FOREIGN KEY (ug_user_id)
+            REFERENCES user(u_id)
+            ON DELETE CASCADE,
+        CONSTRAINT fk_user_group_group
+            FOREIGN KEY (ug_group_id)
+            REFERENCES group_table(g_id)
+            ON DELETE CASCADE    
 );
 
 CREATE TABLE category_document (
-cd_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-cd_name VARCHAR(50) NOT NULL,
-cd_group_id INT NOT NULL,
-CONSTRAINT fk_cat_document_group
-    FOREIGN KEY (cd_group_id)
-    REFERENCES group_table(g_id)
-    ON DELETE CASCADE
+    cd_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    cd_name VARCHAR(50) NOT NULL,
+    cd_group_id INT NOT NULL,
+        CONSTRAINT fk_cat_document_group
+            FOREIGN KEY (cd_group_id)
+            REFERENCES group_table(g_id)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE document (
-  d_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  d_name VARCHAR(50) NOT NULL,
-  d_path VARCHAR(255) NOT NULL,
-  d_private BOOLEAN NOT NULL DEFAULT true,
-  d_category_document_id INT NOT NULL,
-  d_user_id INT NOT NULL,
-  d_group_id INT NOT NULL,
-  CONSTRAINT fk_document_category
-    FOREIGN KEY (d_category_document_id)
-    REFERENCES category_document(cd_id)
-    ON DELETE CASCADE,
-  CONSTRAINT fk_document_user
-    FOREIGN KEY (d_user_id)
-    REFERENCES user(u_id)
-    ON DELETE CASCADE,
-  CONSTRAINT fk_document_group
-    FOREIGN KEY (d_group_id)
-    REFERENCES group_table(g_id)
-    ON DELETE CASCADE
+    d_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    d_name VARCHAR(50) NOT NULL,
+    d_path VARCHAR(255) NOT NULL,
+    d_private BOOLEAN NOT NULL DEFAULT true,
+    d_category_document_id INT NOT NULL,
+    d_user_id INT NOT NULL,
+    d_group_id INT NOT NULL,
+        CONSTRAINT fk_document_category
+            FOREIGN KEY (d_category_document_id)
+            REFERENCES category_document(cd_id)
+            ON DELETE CASCADE,
+        CONSTRAINT fk_document_user
+            FOREIGN KEY (d_user_id)
+            REFERENCES user(u_id)
+            ON DELETE CASCADE,
+        CONSTRAINT fk_document_group
+            FOREIGN KEY (d_group_id)
+            REFERENCES group_table(g_id)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE category_transaction (
@@ -72,7 +72,7 @@ CREATE TABLE category_transaction (
     ctra_name VARCHAR(50) NOT NULL,
     ctra_active BOOLEAN NOT NULL DEFAULT true,
     ctra_group_id INT NOT NULL,  
-    CONSTRAINT fk_cat_transaction_group
+        CONSTRAINT fk_cat_transaction_group
             FOREIGN KEY (ctra_group_id)
             REFERENCES group_table(g_id)
             ON DELETE CASCADE
@@ -84,7 +84,7 @@ CREATE TABLE transaction (
     tr_sum DECIMAL NOT NULL,
     tr_date DATE NOT NULL,
     tr_type VARCHAR(50) NOT NULL,
-    tr_cat_transaction_id INT NOT NULL DEFAULT 1,
+    tr_cat_transaction_id INT NOT NULL,
     tr_group_id INT NOT NULL, 
     tr_user_id INT NOT NULL, 
         CONSTRAINT fk_transaction_category_trans
@@ -113,7 +113,6 @@ CREATE TABLE category_task (
             FOREIGN KEY (cta_group_id)
             REFERENCES group_table(g_id)
             ON DELETE CASCADE
-  
 );
 
 CREATE TABLE task (
@@ -148,12 +147,12 @@ CREATE TABLE position_user (
     pu_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     pu_user_id INT NOT NULL,
     pu_position_id INT NOT NULL,
-    CONSTRAINT fk_position_user_user
-        FOREIGN KEY (pu_user_id)
-        REFERENCES user(u_id),
-    CONSTRAINT fk_position_user_position
-        FOREIGN KEY (pu_position_id)
-        REFERENCES position_table(pos_id)
+        CONSTRAINT fk_position_user_user
+            FOREIGN KEY (pu_user_id)
+            REFERENCES user(u_id),
+        CONSTRAINT fk_position_user_position
+            FOREIGN KEY (pu_position_id)
+            REFERENCES position_table(pos_id)
 );
 -- ////////////////////////////////////////
 
@@ -168,25 +167,25 @@ CREATE TABLE recipe (
     r_photo_path VARCHAR(255) NULL,
     r_group_id INT NOT NULL,
     r_user_id INT NOT NULL,
-    CONSTRAINT fk_recipe_group
-        FOREIGN KEY (r_group_id)
-        REFERENCES group_table(g_id)
-        ON DELETE CASCADE,
-    CONSTRAINT fk_recipe_user
-        FOREIGN KEY (r_user_id)
-        REFERENCES user(u_id)
+        CONSTRAINT fk_recipe_group
+            FOREIGN KEY (r_group_id)
+            REFERENCES group_table(g_id)
+            ON DELETE CASCADE,
+        CONSTRAINT fk_recipe_user
+            FOREIGN KEY (r_user_id)
+            REFERENCES user(u_id)
 );
 
 
-CREATE TABLE event (
-     e_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-     e_title VARCHAR(50) NOT NULL,
-     e_text VARCHAR(250) NULL,
-     e_date_start TIMESTAMP NOT NULL,
-     e_date_end TIMESTAMP NOT NULL,
-     e_private BOOLEAN NOT NULL,
-     e_user_id INT NOT NULL,
-     e_group_id INT NOT NULL,
+CREATE TABLE event (  
+    e_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    e_title VARCHAR(50) NOT NULL,
+    e_text VARCHAR(250) NULL,
+    e_date_start TIMESTAMP NOT NULL,
+    e_date_end TIMESTAMP NOT NULL,
+    e_private BOOLEAN NOT NULL,
+    e_user_id INT NOT NULL,
+    e_group_id INT NOT NULL,
         CONSTRAINT fk_event_user
             FOREIGN KEY (e_user_id)
             REFERENCES user(u_id),
@@ -214,49 +213,34 @@ CREATE TABLE remind_event (
 
 
 CREATE TABLE category_contact (
-  cc_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  cc_name VARCHAR(50) NOT NULL,
-  cc_group_id INT NOT NULL, 
-  CONSTRAINT fk_cat_contact_group
-        FOREIGN KEY (cc_group_id)
-        REFERENCES group_table(g_id)
-        ON DELETE CASCADE
+    cc_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    cc_name VARCHAR(50) NOT NULL,
+    cc_group_id INT NOT NULL, 
+        CONSTRAINT fk_cat_contact_group
+            FOREIGN KEY (cc_group_id)
+            REFERENCES group_table(g_id)
+            ON DELETE CASCADE
 );
 
 
 CREATE TABLE contact (
-  c_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  c_name VARCHAR(50) NOT NULL,
-  c_email VARCHAR(50) NULL,
-  c_phone VARCHAR(20) NULL,
-  c_address VARCHAR(255) NULL,
-  c_cat_contact_id INT NOT NULL DEFAULT 1,
-  c_user_id INT NOT NULL,
-  c_group_id INT NOT NULL,  
-   CONSTRAINT fk_contact_cat_contact
-        FOREIGN KEY (c_cat_contact_id)
-        REFERENCES category_contact(cc_id)
-        ON DELETE CASCADE,
-   CONSTRAINT fk_contact_user
-        FOREIGN KEY (c_user_id)
-        REFERENCES user(u_id),
-   CONSTRAINT fk_contact_group
-        FOREIGN KEY (c_group_id)
-        REFERENCES group_table(g_id)
-        ON DELETE CASCADE
+    c_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    c_name VARCHAR(50) NOT NULL,
+    c_email VARCHAR(50) NULL,
+    c_phone VARCHAR(20) NULL,
+    c_address VARCHAR(255) NULL,
+    c_cat_contact_id INT NOT NULL,
+    c_user_id INT NOT NULL,
+    c_group_id INT NOT NULL,  
+        CONSTRAINT fk_contact_cat_contact
+            FOREIGN KEY (c_cat_contact_id)
+            REFERENCES category_contact(cc_id)
+            ON DELETE CASCADE,
+        CONSTRAINT fk_contact_user
+            FOREIGN KEY (c_user_id)
+            REFERENCES user(u_id),
+        CONSTRAINT fk_contact_group
+            FOREIGN KEY (c_group_id)
+            REFERENCES group_table(g_id)
+            ON DELETE CASCADE
 );
-
-
--- -- créer une catégorie de transaction nommée "sans catégorie"
--- INSERT INTO category_transaction (ctra_name) VALUES ('Sans catégorie');
-
--- -- créer une catégorie de documents "privé"
--- INSERT INTO category_document (cd_name) VALUES ('Privé');
--- -- créer des catégories de to do list 'courses', 'à faire' 
--- INSERT INTO category_task (cta_name) VALUES ('Courses');
--- INSERT INTO category_task (cta_name) VALUES ('A faire');
-
--- -- créer une catégorie de contact nommée "sans catégorie"
--- INSERT INTO category_contact (cc_name) VALUES ('Sans catégorie');
-
-

@@ -25,8 +25,149 @@ const createContact = async (req, res) => {
   }
 };
 
-module.exports = { createContact };
+// Récupérer tous les contacts d'un groupe
+const getContactByGroup = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [results] = await tables.contact.getContactByGroup(id);
+
+    if (results.length) {
+      res.status(200).json({
+        message: "Liste des contacts du groupe récupérée !",
+        results,
+      });
+    } else {
+      res.status(401).send("Pas de contacts");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 // Récupérer un contact
-// Récupérer tous les contacts
+const getContactById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.contact.getContactById(id);
+
+    if (result.length) {
+      res.status(200).json({
+        message: "Contact récupéré avec susccès !",
+        result,
+      });
+    } else {
+      res.status(401).send("Pas de contact");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 // Modifier un contact
+const updateContact = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.contact.updateContact(id, req.body);
+
+    if (result.affectedRows) {
+      res.status(200).send("Contact mis à jour avec succès !");
+    } else {
+      res.status(401).send("Problème de mise à jour du contact");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 // Supprimer un contact
+const deleteContact = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.contact.deleteContact(id);
+
+    if (result.affectedRows) {
+      res.status(200).send("Contact supprimé !");
+    } else {
+      res.status(401).send("Problème pour supprimer le contact");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Créer une catégorie
+const createCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const [result] = await tables.contact.createCategory(name, id);
+    if (result.affectedRows) {
+      res.status(201).send("Catégorie créée avec succès !");
+    } else {
+      res.status(401).send("Problème pour créer la catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Récupérer les catégories du groupe
+const getCategoriesByGroup = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [results] = await tables.contact.getCategoriesByGroup(id);
+    if (results.length) {
+      res.status(200).json({
+        message: "Liste des catégories récupérée avec succès !",
+        results,
+      });
+    } else {
+      res.status(401).send("Pas de liste");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Modifier une catégorie
+const updateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const [result] = await tables.contact.updateCategory(name, id);
+    if (result.affectedRows) {
+      res.status(200).send("Catégorie mise à jour avec succès !");
+    } else {
+      res.status(401).send("Problème pour mettre à jour la catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+// Supprimer une catégorie
+const deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.contact.deleteCategory(id);
+    if (result.affectedRows) {
+      res.status(200).send("Catégorie supprimée avec succès !");
+    } else {
+      res.status(401).send("Problème pour supprimer la catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = {
+  createContact,
+  getContactByGroup,
+  getContactById,
+  updateContact,
+  deleteContact,
+  createCategory,
+  getCategoriesByGroup,
+  updateCategory,
+  deleteCategory,
+};

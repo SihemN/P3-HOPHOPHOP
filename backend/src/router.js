@@ -400,9 +400,51 @@ router.post(
   verifyToken,
   contactControllers.createContact
 );
-// /contacts/:id                             Récupérer un contact
-// /contacts/groups/:id                      Récupérer tous les contacts
-// /contacts/:id                             Modifier un contact
-// /contacts/:id                             Supprimer un contact
+
+// Récupérer tous les contacts du groupe
+router.get(
+  "/contacts/groups/:id",
+  verifyToken,
+  contactControllers.getContactByGroup
+);
+// Récupérer un contact
+router.get("/contacts/:id", verifyToken, contactControllers.getContactById);
+
+// Modifier un contact
+router.patch("/contacts/:id", verifyToken, contactControllers.updateContact);
+
+// Supprimer un contact
+router.delete("/contacts/:id", verifyToken, contactControllers.deleteContact);
+
+/* *************************************************************************
+CATEGORY_CONTACT ENTITY
+*************************************************************************** */
+// Créer une catégorie
+router.post(
+  "/contacts-categories/groups/:id",
+  verifyToken,
+  contactControllers.createCategory
+);
+
+// Récupérer les catégories du groupe
+router.get(
+  "/contacts-categories/groups/:id",
+  verifyToken,
+  contactControllers.getCategoriesByGroup
+);
+
+// Modifier une catégorie
+router.patch(
+  "/contacts-categories/:id",
+  verifyToken,
+  contactControllers.updateCategory
+);
+
+// Supprimer une catégorie
+router.delete(
+  "/contacts-categories/:id",
+  verifyToken,
+  contactControllers.deleteCategory
+);
 
 module.exports = router;

@@ -19,7 +19,7 @@ class RecipeManager extends AbstractManager {
   ) {
     return this.database.query(
       `INSERT INTO ${this.table} (
-        r_name, r_description, r_time_preparation, r_nb_persons, r_list_ingredients, r_category, r_group_id,r_user_id
+      r_name, r_description, r_time_preparation, r_nb_persons, r_list_ingredients, r_category, r_group_id,r_user_id
       ) VALUES (?,?,?,?,?,?,?,?)`,
       [name, description, time, persons, ingredients, category, groupId, userId]
     );

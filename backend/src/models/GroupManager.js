@@ -16,18 +16,17 @@ class GroupManager extends AbstractManager {
   ) {
     return this.database.query(
       `INSERT INTO ${this.table} (g_name) VALUES (?);
-   SET @groupId = LAST_INSERT_ID();
-   INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
-   SELECT ?, @groupId, ?;
-   INSERT INTO category_transaction (ctra_name, ctra_group_id)
-   SELECT ?, @groupId;
-   INSERT INTO category_document (cd_name, cd_group_id)
-   SELECT ?, @groupId;
-   INSERT INTO category_task (cta_name, cta_user_id, cta_group_id)
-   SELECT ?, ?, @groupId;
-   INSERT INTO category_contact (cc_name, cc_group_id)
-   SELECT ?, @groupId;
-     `,
+      SET @groupId = LAST_INSERT_ID();
+      INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
+      SELECT ?, @groupId, ?;
+      INSERT INTO category_transaction (ctra_name, ctra_group_id)
+      SELECT ?, @groupId;
+      INSERT INTO category_document (cd_name, cd_group_id)
+      SELECT ?, @groupId;
+      INSERT INTO category_task (cta_name, cta_user_id, cta_group_id)
+      SELECT ?, ?, @groupId;
+      INSERT INTO category_contact (cc_name, cc_group_id)
+      SELECT ?, @groupId;`,
       [
         nameGroup,
         idUser,
@@ -45,9 +44,9 @@ class GroupManager extends AbstractManager {
     return this.database.query(
       `SELECT group_table.g_name, user_group.ug_user_id, user_group.ug_group_id   
       FROM user_group     
-    JOIN user ON user_group.ug_user_id = user.u_id
-    JOIN group_table ON user_group.ug_group_id = group_table.g_id
-    WHERE user.u_id = ?`,
+      JOIN user ON user_group.ug_user_id = user.u_id
+      JOIN group_table ON user_group.ug_group_id = group_table.g_id
+      WHERE user.u_id = ?`,
       [userId]
     );
   }
@@ -56,10 +55,10 @@ class GroupManager extends AbstractManager {
     const isActive = true;
     return this.database.query(
       `SELECT u.u_name, ug.ug_user_id, ug.ug_user_role, ug.ug_group_id, g.g_name
-    FROM user_group AS ug
-    JOIN user AS u ON ug.ug_user_id = u.u_id
-    JOIN group_table AS g ON ug.ug_group_id = g.g_id
-    WHERE ug.ug_group_id = ? AND u.u_active = ?`,
+      FROM user_group AS ug
+      JOIN user AS u ON ug.ug_user_id = u.u_id
+      JOIN group_table AS g ON ug.ug_group_id = g.g_id
+      WHERE ug.ug_group_id = ? AND u.u_active = ?`,
       [groupId, isActive]
     );
   }
@@ -69,9 +68,9 @@ class GroupManager extends AbstractManager {
     const admin = "admin";
     return this.database.query(
       `SELECT ug.ug_user_role 
-    FROM user_group AS ug
-    JOIN user AS u ON ug.ug_user_id = u.u_id
-    WHERE ug_group_id = ? AND u.u_active = ? AND ug.ug_user_role = ?`,
+      FROM user_group AS ug
+      JOIN user AS u ON ug.ug_user_id = u.u_id
+      WHERE ug_group_id = ? AND u.u_active = ? AND ug.ug_user_role = ?`,
       [groupId, isActive, admin]
     );
   }
@@ -80,7 +79,7 @@ class GroupManager extends AbstractManager {
     return this.database.query(
       `SELECT u.u_active, ug.ug_user_id FROM user_group AS ug
       INNER JOIN user AS u ON u.u_id = ug.ug_user_id
-  WHERE ug.ug_user_id = ? AND ug.ug_group_id = ?`,
+      WHERE ug.ug_user_id = ? AND ug.ug_group_id = ?`,
       [userId, groupId]
     );
   }
@@ -95,7 +94,7 @@ class GroupManager extends AbstractManager {
   deleteGroup(groupId) {
     return this.database.query(
       `DELETE FROM ${this.table} 
-       WHERE g_id = ?`,
+      WHERE g_id = ?`,
       [groupId]
     );
   }

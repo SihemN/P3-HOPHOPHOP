@@ -29,7 +29,7 @@ class TransactionManager extends AbstractManager {
       const activate = true;
       const result = this.database.query(
         `UPDATE category_transaction SET ctra_active = ?
-         WHERE ctra_name = ? AND ctra_group_id = ?`,
+        WHERE ctra_name = ? AND ctra_group_id = ?`,
         [activate, categoryName, groupId]
       );
       return result;
