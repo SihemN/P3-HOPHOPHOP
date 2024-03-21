@@ -33,13 +33,6 @@ USER ENTITY
 router.get("/users", verifyToken, userControllers.read);
 // Route to create a user and his group
 router.post("/users", upload, hashPassword, userControllers.create);
-// Créer un user et l'ajouter dans un groupe par lien d'invitation
-// router.post(
-//   "/users/group/:id",
-//   upload,
-//   hashPassword,
-//   userControllers.createFromInvite
-// );
 // Authentification
 router.post("/login", userControllers.readByEmail);
 // logout
