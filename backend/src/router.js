@@ -427,4 +427,19 @@ router.delete(
   contactControllers.deleteCategory
 );
 
+/* *************************************************************************
+MESSAGERIE INSTANTANEE
+*************************************************************************** */
+router.post(
+  "/messages/groups/:id",
+  verifyToken,
+  groupControllers.createMessage
+);
+
+router.get(
+  "/messages/groups/:id",
+  verifyToken,
+  groupControllers.getMessagesByGroup
+);
+
 module.exports = router;

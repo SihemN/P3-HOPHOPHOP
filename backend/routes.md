@@ -61,9 +61,8 @@
 | /recipes/:id                                  | PATCH  | NO    | yes  | Modifier une recette                                                  | OK              |
 | /recipes/:id                                  | GET    | NO    | yes  | Récupérer une recette                                                 | OK              |
 | /recipes/:id                                  | DELETE | NO    | yes  | Supprimer une recette                                                 | OK              |
-| /messages                                     | POST   | NO    | yes  | Créer un message                                                      | NOT OK          |
-| /messages/:id                                 | DELETE | NO    | yes  | Supprimer un message                                                  | NOT OK          |
-| /messages                                     | GET    | NO    | yes  | Récupérer tous les messages                                           | NOT OK          |
+| /messages/groups/:id                          | POST   | NO    | yes  | Créer un message                                                      | OK              |
+| /messages/groups/:id                          | GET    | NO    | yes  | Récupérer tous les messages du groupe                                 | OK              |
 | /contacts/contacts/groups/:id/category/:catId | POST   | NO    | yes  | Créer un contact                                                      | OK              |
 | /contacts/:id                                 | GET    | NO    | yes  | Récupérer un contact                                                  | OK              |
 | /contacts/groups/:id                          | GET    | NO    | yes  | Récupérer tous les contacts du groupe                                 | OK              |

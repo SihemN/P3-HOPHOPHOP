@@ -182,6 +182,47 @@ const deleteUserInGroup = async (req, res) => {
   }
 };
 
+// ***** MESSAGERIE INSTANTANEE *** //
+
+// Créer un message
+const createMessage = async (req, res) => {
+  try {
+    const userId = req.payload;
+    const { id } = req.params;
+    const { message, role } = req.body;
+    const [result] = await tables.group_table.createMessage(
+      message,
+      id,
+      userId,
+      role
+    );
+    if (result.affectedRows) {
+      res.status(201).send("message créé avec succès");
+    } else {
+      res.status(401).send("problème pour créer le message");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+// Récupérer les messages du groupe
+const getMessagesByGroup = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [results] = await tables.group_table.getMessagesByGroup(id);
+
+    if (results.length) {
+      res
+        .status(200)
+        .json({ message: "liste des messages récupérée", results });
+    } else {
+      res.status(401).send("pas de liste");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
   create,
   read,
@@ -191,4 +232,6 @@ module.exports = {
   updateRoleUser,
   deleteUserInGroup,
   readUsersOfGroup,
+  createMessage,
+  getMessagesByGroup,
 };
