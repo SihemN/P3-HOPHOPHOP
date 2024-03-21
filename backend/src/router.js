@@ -14,7 +14,6 @@ const recipeControllers = require("./controllers/recipeControllers");
 const contactControllers = require("./controllers/contactControllers");
 
 // Require les middlewares
-
 const hashPassword = require("./services/hashedPassword");
 const verifyToken = require("./services/verifyToken");
 const hashPasswordWithoutUpload = require("./services/hashedPasswordWithoutUpload");
@@ -71,12 +70,16 @@ router.delete("/users", verifyToken, userControllers.deleteUser);
 *************************************************************************** */
 // créer un groupe
 router.post("/groups", verifyToken, groupControllers.create);
+
 // récupérer les groupes du user
 router.get("/groups/users", verifyToken, groupControllers.read);
+
 // récupérer les users d'un groupe
 router.get("/groups/:id/users", verifyToken, groupControllers.readUsersOfGroup);
+
 // modifier le nom du groupe
 router.patch("/groups/update/:id", verifyToken, groupControllers.update);
+
 // suppprimer un groupe
 router.delete(
   "/groups/:id",
@@ -110,6 +113,7 @@ router.delete(
   isMin2AdminInGroup,
   groupControllers.deleteUserInGroup
 );
+
 /* *************************************************************************
 TRANSACTION ENTITY
 *************************************************************************** */
@@ -127,6 +131,7 @@ router.post(
   categoryExists,
   transactionControllers.createWithNewCategory
 );
+
 // Récupérer toutes les transactions d'un groupe
 router.get(
   "/transactions/groups/:id",
@@ -160,6 +165,7 @@ router.get(
   transactionControllers.getCategoriesByGroup
 );
 
+// Mettre à jour une catégorie de transaction
 router.patch(
   "/transactions-categories/:id",
   verifyToken,
@@ -243,7 +249,6 @@ router.delete("/tasks/:id", verifyToken, taskControllers.deleteTask);
 router.patch("/tasks/:id", verifyToken, taskControllers.updateTask);
 
 // Créer une catégorie task
-
 router.post(
   "/tasks-categories/groups/:id",
   verifyToken,
@@ -299,6 +304,7 @@ router.get(
   verifyToken,
   documentControllers.getDocumentByCat
 );
+
 // Récupérer les docs privés du User pour la catégorie "Privée"
 router.get(
   "/documents/users/categories/:id",
@@ -308,12 +314,14 @@ router.get(
 
 // Modifier un document
 router.patch("/documents/:id", verifyToken, documentControllers.updateDocument);
+
 // Supprimer un document
 router.delete(
   "/documents/:id",
   verifyToken,
   documentControllers.deleteDocument
 );
+
 /* *************************************************************************
 CATEGORY DOCUMENT ENTITY
 *************************************************************************** */
@@ -331,14 +339,14 @@ router.get(
   documentControllers.getCategoriesByGroup
 );
 
-// Modifier une catégorie de documents       /documents-categories/:id
+// Modifier une catégorie de documents
 router.patch(
   "/documents-categories/:id",
   verifyToken,
   documentControllers.updateCategory
 );
 
-// Supprimer une catégorie de documents   /documents-categories/:id
+// Supprimer une catégorie de documents
 router.delete(
   "/documents-categories/:id",
   verifyToken,
@@ -427,12 +435,15 @@ router.delete(
 /* *************************************************************************
 MESSAGERIE INSTANTANEE
 *************************************************************************** */
+
+// Créer un message
 router.post(
   "/messages/groups/:id",
   verifyToken,
   groupControllers.createMessage
 );
 
+// Récupérer les messages du groupe
 router.get(
   "/messages/groups/:id",
   verifyToken,
