@@ -289,7 +289,11 @@ router.post(
   uploadDoc,
   documentControllers.createDocument
 );
-// Récupérer tous les documents d'un dossier   /documents
+
+// Récupérer un document par id
+router.get("/documents/:id", verifyToken, documentControllers.getDocumentbyId);
+
+// Récupérer tous les documents d'un dossier
 router.get(
   "/documents/categories/:id",
   verifyToken,
@@ -302,9 +306,9 @@ router.get(
   documentControllers.getPrivateDocByUserByGroup
 );
 
-// Modifier un document  | /documents/:id
+// Modifier un document
 router.patch("/documents/:id", verifyToken, documentControllers.updateDocument);
-// Supprimer un document      /documents/:id
+// Supprimer un document
 router.delete(
   "/documents/:id",
   verifyToken,

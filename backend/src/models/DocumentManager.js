@@ -25,6 +25,14 @@ class DocumentManager extends AbstractManager {
     );
   }
 
+  // Récupérer un document par son id
+  getDocumentbyId(docId) {
+    return this.database.query(
+      `SELECT d_id, d_category_document_id d_name, d_path FROM ${this.table} WHERE d_id = ?`,
+      [docId]
+    );
+  }
+
   // Récupérer les docs privés du User pour la catégorie "Privée"
   getPrivateDocByUserByGroup(userId, categoryId) {
     return this.database.query(

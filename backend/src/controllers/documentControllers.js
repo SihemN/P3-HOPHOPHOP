@@ -27,6 +27,21 @@ const createDocument = async (req, res) => {
   }
 };
 
+// Récupérer un document par son id
+const getDocumentbyId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.document.getDocumentbyId(id);
+    if (result.length) {
+      res.status(200).json({ message: "Document récupéré", result });
+    } else {
+      res.status(401).send("Problème pour récupérer le document");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 // Récupérer tous les documents d'un dossier
 const getDocumentByCat = async (req, res) => {
   try {
@@ -160,6 +175,7 @@ const deleteCategory = async (req, res) => {
 
 module.exports = {
   createDocument,
+  getDocumentbyId,
   getDocumentByCat,
   getPrivateDocByUserByGroup,
   updateDocument,
