@@ -3,17 +3,26 @@
 /* ************************************************************************* */
 
 // Import the manager modules responsible for handling data operations on the tables
-const ItemManager = require("./models/ItemManager");
 const UserManager = require("./models/UserManager");
 const GroupManager = require("./models/GroupManager");
 const TransactionManager = require("./models/TransactionManager");
+const EventManager = require("./models/EventManager");
+const RemindEventManager = require("./models/RemindEventManager");
+const TaskManager = require("./models/TaskManager");
+const DocumentManager = require("./models/DocumentManager");
+const RecipeManager = require("./models/RecipeManager");
+const ContactManager = require("./models/ContactManager");
 
 const managers = [
-  ItemManager,
-  // Add other managers here
   UserManager,
   GroupManager,
   TransactionManager,
+  EventManager,
+  RemindEventManager,
+  TaskManager,
+  DocumentManager,
+  RecipeManager,
+  ContactManager,
 ];
 
 // Create an empty object to hold data managers for different tables
