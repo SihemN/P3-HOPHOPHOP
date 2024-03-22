@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         "Neue-Kabel": ["neue-kabel", "sans-serif"],
       },
+      clipPath: {
+        "forme-personnalisee": "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
+      },
     },
     colors: {
       green: {

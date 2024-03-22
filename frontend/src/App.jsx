@@ -1,4 +1,5 @@
 import { AiFillEdit } from "react-icons/ai";
+import ghostTitle from "./assets/logo/ghost-title.svg";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
         Hello Tailwind
       </h1>
       <AiFillEdit className="text-green-default" />
+      <img src={ghostTitle} alt="logo hop hop hop fantôme" />
     </div>
   );
 }
