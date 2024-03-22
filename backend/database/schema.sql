@@ -93,7 +93,7 @@ CREATE TABLE transaction (
 CREATE TABLE category_task (
     cta_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     cta_name VARCHAR(50) NOT NULL,
-    cta_private BOOLEAN NOT NULL,
+    cta_private BOOLEAN NOT NULL DEFAULT false,
     cta_user_id INT NOT NULL,
     cta_group_id INT NOT NULL,
         CONSTRAINT fk_cat_task_user
