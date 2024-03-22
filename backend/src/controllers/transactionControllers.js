@@ -33,7 +33,7 @@ const createWithNewCategory = async (req, res) => {
   try {
     const idUser = req.payload;
     const { id } = req.params;
-    const { name, sum, date, type, categoryName } = req.body;
+    const { name, sum, date, type, categoryName, catExists } = req.body;
     const [results] = await tables.transaction.createTransactionWithNewCategory(
       idUser,
       name,
@@ -41,9 +41,23 @@ const createWithNewCategory = async (req, res) => {
       date,
       type,
       categoryName,
-      id
+      id,
+      catExists
     );
-    if (results[0].affectedRows && results[1].affectedRows) {
+
+    // 2 cas possibles
+    // On reçoit un objet si uniquement UPDATE d'une catégorie existante
+    // result {}
+    // Ou on reçoit un array contenant deux objets si création de catégorie
+    // result [ {} {}]
+
+    if (Array.isArray(results)) {
+      if (results[0].affectedRows && results[1].affectedRows) {
+        res.status(201).send("transation et catégorie created");
+      } else {
+        res.status(401).send("transaction not created");
+      }
+    } else if (results.affectedRows) {
       res.status(201).send("transation et catégorie created");
     } else {
       res.status(401).send("transaction not created");
@@ -52,6 +66,7 @@ const createWithNewCategory = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
 const read = async (req, res) => {
   try {
     // on récupère l'id du group dans la route paramatrée
@@ -129,6 +144,7 @@ const getCategoriesByGroup = async (req, res) => {
   try {
     const { id } = req.params;
     const [categories] = await tables.transaction.getCatTransactionByGroup(id);
+
     if (categories.length) {
       res.status(200).json({
         message: "Liste des catégories du groupe récupérée",
@@ -136,6 +152,36 @@ const getCategoriesByGroup = async (req, res) => {
       });
     } else {
       res.status(204).send("Pas de liste trouvée");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const updateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const [result] = await tables.transaction.updateCatTransaction(id, name);
+    if (result.affectedRows) {
+      res.status(200).send("Catégorie transaction mise à jour");
+    } else {
+      res.status(204).send("Problème de mise à jour de la catégorie");
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const desactivateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await tables.transaction.desactivateCatTransaction(id);
+
+    if (result.affectedRows) {
+      res.status(200).send("Catégorie transaction désactivée");
+    } else {
+      res.status(204).send("Problème de mise à jour de la catégorie");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -150,4 +196,6 @@ module.exports = {
   update,
   deleteTransaction,
   getCategoriesByGroup,
+  updateCategory,
+  desactivateCategory,
 };

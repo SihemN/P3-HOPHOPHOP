@@ -9,11 +9,58 @@ class UserManager extends AbstractManager {
     return this.database.query(`select * from ${this.table}`);
   }
 
-  addUser(name, email, hashedPassword, avatar) {
+  addUserWithGroup(
+    userName,
+    email,
+    hashedPassword,
+    avatar,
+    nameGroup,
+    role,
+    catTransactionName,
+    catDocName,
+    catTaskName,
+    catContactName
+  ) {
     return this.database.query(
-      `INSERT INTO ${this.table} (u_name, u_email, u_hashedPassword, u_avatar)
-      VALUES (?, ?, ?, ?)`,
-      [name, email, hashedPassword, avatar]
+      `
+  INSERT INTO ${this.table} (u_name, u_email, u_hashedPassword, u_avatar)
+  VALUES (?, ?, ?, ?);
+   SET @userId = LAST_INSERT_ID();
+   INSERT INTO group_table (g_name) VALUES (?);
+   SET @groupId = LAST_INSERT_ID();
+   INSERT INTO user_group (ug_user_id, ug_group_id, ug_user_role)
+   SELECT @userId, @groupId, ?;
+   INSERT INTO category_transaction (ctra_name, ctra_group_id)
+   SELECT ?, @groupId;
+   INSERT INTO category_document (cd_name, cd_group_id)
+   SELECT ?, @groupId;
+   INSERT INTO category_task (cta_name, cta_user_id, cta_group_id)
+   SELECT ?, @userId, @groupId;
+   INSERT INTO category_contact (cc_name, cc_group_id)
+   SELECT ?, @groupId;
+     `,
+      [
+        userName,
+        email,
+        hashedPassword,
+        avatar,
+        nameGroup,
+        role,
+        catTransactionName,
+        catDocName,
+        catTaskName,
+        catContactName,
+      ]
+    );
+  }
+
+  getUserByEmailWithoutHashedPassword(email) {
+    return this.database.query(
+      `SELECT u.u_id, u.u_name, u.u_active, ug.ug_group_id
+      FROM user_group AS ug
+      INNER JOIN user AS u ON ug.ug_user_id = u.u_id
+      WHERE u_email = ?`,
+      [email]
     );
   }
 
@@ -26,7 +73,7 @@ class UserManager extends AbstractManager {
 
   getUserById(id) {
     return this.database.query(
-      `select u_name, u_email, u_avatar from ${this.table} where u_id = ?`,
+      `select u_id, u_name, u_email, u_avatar from ${this.table} where u_id = ?`,
       [id]
     );
   }

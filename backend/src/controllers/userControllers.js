@@ -80,17 +80,48 @@ const create = async (req, res) => {
       // si req.file.path existe, on l'assigne en avatar
       avatar = req.file.path;
     }
+    // on récupère les infos du nouveau User et le nom de son Groupe dans la requête
+    const { name, email, hashedPassword, nameGroup } = req.body;
+    const role = "admin";
+    // On stocke les noms des catégories par défaut à créer dans la requête SQL
+    const catTransactionName = "Sans catégorie";
+    const catDocName = "Privé";
+    const catTaskName = "Ma to do list";
+    const catContactName = "Sans catégorie";
 
-    const { name, email, hashedPassword } = req.body;
-
-    const [results] = await tables.user.addUser(
+    const [results] = await tables.user.addUserWithGroup(
       name,
       email,
       hashedPassword,
-      avatar
+      avatar,
+      nameGroup,
+      role,
+      catTransactionName,
+      catDocName,
+      catTaskName,
+      catContactName
     );
     console.info("result", results);
-    if (results.affectedRows) {
+
+    // on vérifie la réponse (on reçoit un objet par requête SQL)
+    // affectedRows : pour les requêtes qui créent ou modifient ou suppriment une ligne (=affectent une ligne)
+    // pour les requêtes de type SELECT ou SET, ça n'affecte pas la BDD (pas de modif). On vérifie si le statut du serveur = 10 (signifie que la requête a fonctionné)
+
+    // Vérifions le tableau results
+    let resultsIsValid = true;
+
+    // si aucune ligne n'est affectée OU si une requête n'a pas fonctionné (donc différente de 10)
+    // alors results n'est pas valide
+    for (let i = 0; i < results.length; i += 1) {
+      if (results[i].affectedRows === 0 && results[i].serverStatus !== 10) {
+        resultsIsValid = false;
+        // break nous sort de la boucle une fois la condition vérifiée
+        // Nous évite de parcourir tout le tableau si pas nécessaire
+        break;
+      }
+    }
+
+    if (resultsIsValid) {
       res.status(201).send("Created");
     } else if (req.file) {
       fs.unlinkSync(req.file.path);
@@ -203,12 +234,20 @@ const updatePassword = async (req, res) => {
 
 const desactivateUser = async (req, res) => {
   try {
+    // on récupère l'id du user dans le token
     const id = req.payload;
+    // on initialise une variable active à false (on l'envoie au Manager ensuite)
     const active = false;
+    // On passe l'expiration du token à zéro pour l'invalider et déconnecter le user désactivé
+    const token = jwt.sign({ payload: id }, process.env.SECRET_KEY_JWT, {
+      expiresIn: "0h",
+    });
     const [result] = await tables.user.desactivateUser(id, active);
     if (result.affectedRows) {
       res.status(200).json({
-        message: "La désactivation du compte a été prise en compte",
+        message:
+          "La désactivation du compte a été prise en compte, user déconnecté",
+        token,
       });
     } else {
       res.status(401).send("problème");
