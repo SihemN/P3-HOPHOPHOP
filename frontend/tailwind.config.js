@@ -23,8 +23,16 @@ export default {
         lighter: "#FFD1A8",
         default: "#F8A75D",
       },
-      dark: "1D1F21",
-      cream: "FFFDFA",
+
+      blue: {
+        lighter: "#B9D9F6",
+        default: "#054B8C",
+      },
+
+      dark: {
+        default: "#1D1F21",
+      },
+      cream: "#FFFDFA",
     },
 
     plugins: [],
