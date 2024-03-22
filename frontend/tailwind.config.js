@@ -27,3 +27,17 @@ export default {
     plugins: [],
   },
 };
+
+// Librairie d'Icons : Phosphor Icons
+// https://github.com/phosphor-icons/core
+
+// Installer les librairies :
+// npm install react-icons --save
+
+// Exemple pour utiliser icon :
+// ******On importe l'icon
+// import { nomIcon } from "react-icons/ai";
+// ******On appelle composant :
+// <nomIcon />
+// passer des props :
+//  <nomIcon className="text-green-default" />
