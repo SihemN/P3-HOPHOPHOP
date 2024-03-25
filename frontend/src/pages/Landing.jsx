@@ -1,5 +1,8 @@
 import React from "react";
+import Footer from "../components/Footer";
 
 export default function Landing() {
-  return <div>Landing</div>;
+  return (
+    <Footer />
+  )
 }
