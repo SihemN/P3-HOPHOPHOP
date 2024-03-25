@@ -10,7 +10,7 @@ export default function Functionnalities({
   return (
     <>
       {/* container box */}
-      <div className="font-Neue-Kabel text-dark-default m-10 relative flex flex-col w-48 ">
+      <div className="font-Neue-Kabel text-dark-default m-10 relative flex flex-col w-48 min-w-48">
         {/* bandeau rouge avec le titre de la fonctionnalité */}
         <div className="z-10 flex justify-center items-center bg-red-default w-full h-9 rounded-t-2xl border-solid border border-dark">
           {/* titre de la fonctionnalité */}
@@ -27,7 +27,7 @@ export default function Functionnalities({
         <img
           src={icon}
           alt={iconDescription}
-          className="absolute z-30 -top-7 -left-7 w-20 h-20 -rotate-12"
+          className="absolute z-10 -top-7 -left-7 w-20 h-20 -rotate-12"
         />
       </div>
     </>

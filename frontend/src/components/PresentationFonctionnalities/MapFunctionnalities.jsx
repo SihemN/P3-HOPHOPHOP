@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import Functionnalities from "./Functionnalities";
 import iconCalendar from "../../assets/icons-functionnalities/calendar.svg";
@@ -8,7 +9,7 @@ import iconDocument from "../../assets/icons-functionnalities/document.svg";
 import iconChat from "../../assets/icons-functionnalities/chat.svg";
 import iconRecipe from "../../assets/icons-functionnalities/recipe.svg";
 
-export default function PresentationFonctionnalities() {
+export default function MapFunctionnalities() {
   const functionnalities = [
     {
       id: 1,
@@ -68,29 +69,23 @@ export default function PresentationFonctionnalities() {
       iconDescription: "Icon Recettes",
     },
   ];
-
   return (
-    <div className="bg-cream h-[1050px]">
-      <h1 className="font-Puffin-Display-Soft font-black italic text-2xl text-center">
-        LES FONCTIONNALITES
-      </h1>
-      <div className="flex justify-center p-5">
-        <div className="w-3/4 max-w-4xl h-80 flex flex-wrap justify-center">
-          {/* On map le tableau functionnalities
+    <div className="flex justify-center p-5">
+      <div className="w-3/4 max-w-4xl h-80 flex flex-wrap justify-center">
+        {/* On map le tableau functionnalities
           On crée un composant Functionnalities par élément */}
-          {functionnalities.map(
-            ({ title, description, icon, iconDescription }) => {
-              return (
-                <Functionnalities
-                  title={title}
-                  description={description}
-                  icon={icon}
-                  iconDescription={iconDescription}
-                />
-              );
-            }
-          )}
-        </div>
+        {functionnalities.map(
+          ({ title, description, icon, iconDescription }) => {
+            return (
+              <Functionnalities
+                title={title}
+                description={description}
+                icon={icon}
+                iconDescription={iconDescription}
+              />
+            );
+          }
+        )}
       </div>
     </div>
   );

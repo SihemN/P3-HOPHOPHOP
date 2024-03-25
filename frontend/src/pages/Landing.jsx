@@ -1,11 +1,10 @@
 import React from "react";
-import PresentationFonctionnalities from "../components/PresentationFonctionnalities/PresentationFonctionnalities";
+import PresentationFunctionnalities from "../components/PresentationFonctionnalities/PresentationFunctionnalities";
 
 export default function Landing() {
   return (
     <div>
-      {" "}
-      <PresentationFonctionnalities />
+      <PresentationFunctionnalities />
     </div>
   );
 }
