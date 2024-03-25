@@ -1,10 +1,18 @@
-import "./App.css";
+import ghostTitle from "./assets/logo/ghost-title.svg";
+import HeaderFunctionnalities from "./components/HeaderFunctionnalities";
 
 function App() {
   return (
     <div className="App">
-      App
-      <h1 className="text-3xl text-blue-800">Hello Tailwind</h1>
+      <h1 className="text-3xl text-green-default font-Neue-Kabel  font-bold italic">
+        Hello Tailwind
+      </h1>
+      <img
+        src={ghostTitle}
+        alt="logo hop hop hop fantôme"
+        className=" w-80 h-80"
+      />
+      <HeaderFunctionnalities color="text-blue-default" />
     </div>
   );
 }
