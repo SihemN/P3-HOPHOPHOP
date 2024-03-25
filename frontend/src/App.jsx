@@ -1,15 +1,18 @@
-import { AiFillEdit } from "react-icons/ai";
 import ghostTitle from "./assets/logo/ghost-title.svg";
+import HeaderFunctionnalities from "./components/HeaderFunctionnalities";
 
 function App() {
   return (
     <div className="App">
-      App
       <h1 className="text-3xl text-green-default font-Neue-Kabel  font-bold italic">
         Hello Tailwind
       </h1>
-      <AiFillEdit className="text-green-default" />
-      <img src={ghostTitle} alt="logo hop hop hop fantôme" />
+      <img
+        src={ghostTitle}
+        alt="logo hop hop hop fantôme"
+        className=" w-80 h-80"
+      />
+      <HeaderFunctionnalities color="text-blue-default" />
     </div>
   );
 }
