@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         "Neue-Kabel": ["neue-kabel", "sans-serif"],
+        "Puffin-Display-Soft": ["puffin-display-soft", "sans-serif"],
       },
       clipPath: {
         "forme-personnalisee": "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
@@ -14,6 +15,7 @@ export default {
       green: {
         lighter: "#95D9CC",
         default: "#0EB495",
+        lightest: "#CAEBE3",
       },
       red: {
         lighter: "#FFC5BF",
@@ -33,12 +35,50 @@ export default {
         default: "#1D1F21",
       },
       cream: "#FFFDFA",
+      white: "#FFFFFF",
     },
 
-    plugins: [],
-  },
-};
+    animation: {
+      marquee: "marquee 40s linear infinite",
+      marquee2: "marquee2 40s linear infinite",
+      marquee3: "marquee 40s linear infinite",
+      marquee4: "marquee2 40s linear infinite",
+      burgerDown: "burgerDown 0.5s ease-out forwards",
+    },
 
+    keyframes: {
+      marquee: {
+        "0%": { transform: "translateX(0%)" },
+        "100%": { transform: "translateX(-100%)" },
+      },
+      marquee2: {
+        "0%": { transform: "translateX(100%)" },
+        "100%": { transform: "translateX(0%)" },
+      },
+      marquee3: {
+        "0%": { transform: "translateX(100%)" },
+        "100%": { transform: "translateX(0%)" },
+      },
+      marquee4: {
+        "0%": { transform: "translateX(0%)" },
+        "100%": { transform: "translateX(-100%)" },
+      },
+      burgerDown: {
+        '0%': {
+          transform: 'scale(0.95)',
+          transformOrigin: 'top right',
+          opacity: 0,
+        },
+        '100%': {
+          transform: 'scale(1)',
+          transformOrigin: 'top right',
+          opacity: 1,
+        },
+        plugins: [],
+      },
+    }
+  }
+}
 // Librairie d'Icons : Phosphor Icons
 // https://github.com/phosphor-icons/core
 
