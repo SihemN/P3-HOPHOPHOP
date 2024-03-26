@@ -2,12 +2,15 @@ import React from "react";
 import { GrDown } from "react-icons/gr";
 import LogoBackground from "../assets/icons-functionnalities/landing-pc.svg";
 import LogoBackgroundMobile from "../assets/icons-functionnalities/landing-mobile.svg";
+import MenuBurgerAnchor from "./MenuBurgerAnchor";
 
 import ButtonLanding from "./ButtonLanding";
 
 function Header() {
   return (
+
     <header className=" bg-blue-default md:p-5 font-Neue-Kabel">
+      <MenuBurgerAnchor />
       <img
         src={LogoBackground}
         alt="Logo fantôme"

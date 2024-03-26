@@ -64,21 +64,21 @@ export default {
         "100%": { transform: "translateX(-100%)" },
       },
       burgerDown: {
-        '0%': {
-          transform: 'scale(0.95)',
-          transformOrigin: 'top right',
+        "0%": {
+          transform: "scale(0.95)",
+          transformOrigin: "top right",
           opacity: 0,
         },
-        '100%': {
-          transform: 'scale(1)',
-          transformOrigin: 'top right',
+        "100%": {
+          transform: "scale(1)",
+          transformOrigin: "top right",
           opacity: 1,
         },
         plugins: [],
       },
-    }
-  }
-}
+    },
+  },
+};
 // Librairie d'Icons : Phosphor Icons
 // https://github.com/phosphor-icons/core
 
