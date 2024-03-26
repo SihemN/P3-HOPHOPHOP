@@ -1,4 +1,5 @@
 import ghostTitle from "./assets/logo/ghost-title.svg";
+import MenuBurgerAnchor from "./components/MenuBurgerAnchor";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         className=" w-80 h-80"
       />
     </div>
+
   );
 }
 
