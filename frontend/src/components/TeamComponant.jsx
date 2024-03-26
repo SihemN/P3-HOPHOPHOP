@@ -1,14 +1,15 @@
 import React from "react";
 import TeamMembers from "./TeamMembers";
-
 import teamMember1 from "../assets/logo/ghost-blue.svg";
 import teamMember2 from "../assets/logo/ghost-green.svg";
+import SectionTitle from "./PresentationFonctionnalities/SectionTitle";
+
 
 function TeamComponant() {
   return (
     <>
-      <h1 className="text-center text-xl pb-6 font-extrabold">LA TEAM</h1>
-      <div className="flex flex-row flex-wrap gap-2 justify-center">
+      <SectionTitle title="LA TEAM" />
+      <div className="flex flex-row flex-wrap gap-2 justify-center my-10">
         <TeamMembers
           color="bg-orange-lighter"
           image={teamMember1}
