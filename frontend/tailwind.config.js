@@ -15,6 +15,7 @@ export default {
       green: {
         lighter: "#95D9CC",
         default: "#0EB495",
+        lightest: "#CAEBE3",
       },
       red: {
         lighter: "#FFC5BF",
