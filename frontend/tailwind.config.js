@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         "Neue-Kabel": ["neue-kabel", "sans-serif"],
+        "Puffin-Display-Soft": ["puffin-display-soft", "sans-serif"],
       },
       clipPath: {
         "forme-personnalisee": "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
@@ -33,6 +34,7 @@ export default {
         default: "#1D1F21",
       },
       cream: "#FFFDFA",
+      white: "#FFFFFF",
     },
 
     animation: {
