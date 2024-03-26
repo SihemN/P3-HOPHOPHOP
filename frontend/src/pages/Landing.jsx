@@ -1,3 +1,5 @@
+
+import Header from "../components/HeaderLogoIcons";
 import Bandeau from "../components/Bandeau";
 import PresentationFunctionnalities from "../components/PresentationFonctionnalities/PresentationFunctionnalities";
 import TeamComponant from "../components/TeamComponant";
@@ -8,6 +10,7 @@ import Presentation from "../components/Presentation";
 export default function Landing() {
   return (
     <>
+      <Header />
       <ButtonLanding text="Se connecter" color="bg-green-default" to="/login" />
       <ButtonLanding text="S'inscrire" color="bg-orange-default" to="/signup" />
       <Bandeau />
@@ -22,4 +25,5 @@ export default function Landing() {
       <Footer />
     </>
   );
+
 }
