@@ -15,6 +15,7 @@ export default {
       green: {
         lighter: "#95D9CC",
         default: "#0EB495",
+        lightest: "#CAEBE3",
       },
       red: {
         lighter: "#FFC5BF",
@@ -42,7 +43,9 @@ export default {
       marquee2: "marquee2 40s linear infinite",
       marquee3: "marquee 40s linear infinite",
       marquee4: "marquee2 40s linear infinite",
+      burgerDown: "burgerDown 0.5s ease-out forwards",
     },
+
     keyframes: {
       marquee: {
         "0%": { transform: "translateX(0%)" },
@@ -60,11 +63,22 @@ export default {
         "0%": { transform: "translateX(0%)" },
         "100%": { transform: "translateX(-100%)" },
       },
+      burgerDown: {
+        "0%": {
+          transform: "scale(0.95)",
+          transformOrigin: "top right",
+          opacity: 0,
+        },
+        "100%": {
+          transform: "scale(1)",
+          transformOrigin: "top right",
+          opacity: 1,
+        },
+        plugins: [],
+      },
     },
-    plugins: [],
   },
 };
-
 // Librairie d'Icons : Phosphor Icons
 // https://github.com/phosphor-icons/core
 
