@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import Functionnalities from "./Functionnalities";
+import FunctionnalitiesPC from "./FunctionnalitiesPC";
+import FunctionnalitiesMobile from "./FunctionnalitiesMobile";
 import iconCalendar from "../../assets/icons-functionnalities/calendar.svg";
 import iconBudget from "../../assets/icons-functionnalities/budget.svg";
 import iconList from "../../assets/icons-functionnalities/todolist.svg";
@@ -18,6 +18,7 @@ export default function MapFunctionnalities() {
         "Un agenda pour vous et votre famille, votre colocation, groupe d’amis... Comme ça, pas d’excuse, on est au courant de l’anniversaire d’Hoppy !",
       icon: iconCalendar,
       iconDescription: "Icon Agenda",
+      color: "blue-default",
     },
 
     {
@@ -27,6 +28,7 @@ export default function MapFunctionnalities() {
         "Un budget pour regrouper vos dépenses et recettes, ordonner vos dépenses par catégorie, etc.",
       icon: iconBudget,
       iconDescription: "Icon Budget",
+      color: "green-default",
     },
     {
       id: 3,
@@ -35,6 +37,7 @@ export default function MapFunctionnalities() {
         "Entre les amis, la famille, les colocs, le travail, c’est facile d’oublier quelque chose ! Allez hop une to do list !",
       icon: iconList,
       iconDescription: "Icon To Do List",
+      color: "orange-default",
     },
     {
       id: 4,
@@ -43,6 +46,7 @@ export default function MapFunctionnalities() {
         "Fini le post-it qui disparaît au mauvais moment, un répertoire ça change la vie !",
       icon: iconContact,
       iconDescription: "Icon Contacts",
+      color: "red-default",
     },
     {
       id: 5,
@@ -51,6 +55,8 @@ export default function MapFunctionnalities() {
         " Ordonnance, documents d’identité, attestation... retrouvez au même endroit les documents qu’il vous faut.",
       icon: iconDocument,
       iconDescription: "Icon Documents",
+      color: "blue-lighter",
+      colorFont: "dark-default",
     },
     {
       id: 6,
@@ -59,6 +65,8 @@ export default function MapFunctionnalities() {
         "Echanger des messages avec les membres de votre groupe pour planifier votre prochaine sortie ou encore jouer au loup-garou avec Hoppy.",
       icon: iconChat,
       iconDescription: "Icon Messages",
+      color: "green-lighter",
+      colorFont: "dark-default",
     },
     {
       id: 7,
@@ -67,17 +75,21 @@ export default function MapFunctionnalities() {
         "Avec tout ce temps gagné, quoi de mieux qu’un bon petit plat à savourer tous ensemble ? Et puis cette fois, on a vraiment la recette !",
       icon: iconRecipe,
       iconDescription: "Icon Recettes",
+      color: "orange-lighter",
+      colorFont: "dark-default",
     },
   ];
+
   return (
-    <div className="hidden md:flex justify-center p-5">
-      <div className="w-3/4 max-w-4xl h-80 flex flex-wrap justify-center">
+    <div className="flex justify-center p-5">
+      {/* Version PC */}
+      <div className="hidden w-3/4 max-w-4xl h-80 md:flex flex-wrap justify-center">
         {/* On map le tableau functionnalities
           On crée un composant Functionnalities par élément */}
         {functionnalities.map(
           ({ title, description, icon, iconDescription }) => {
             return (
-              <Functionnalities
+              <FunctionnalitiesPC
                 title={title}
                 description={description}
                 icon={icon}
@@ -85,6 +97,20 @@ export default function MapFunctionnalities() {
               />
             );
           }
+        )}
+      </div>
+      {/* Version Mobile */}
+      <div className="flex flex-wrap justify-center p-5 md:hidden">
+        {functionnalities.map(
+          ({ id, title, description, color, colorFont }) => (
+            <FunctionnalitiesMobile
+              key={id}
+              title={title}
+              description={description}
+              color={color}
+              colorFont={colorFont}
+            />
+          )
         )}
       </div>
     </div>

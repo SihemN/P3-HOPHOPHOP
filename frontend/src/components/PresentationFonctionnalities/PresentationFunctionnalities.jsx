@@ -4,7 +4,7 @@ import MapFunctionnalities from "./MapFunctionnalities";
 
 export default function PresentationFunctionnalities() {
   return (
-    <div className="bg-cream md:h-[1000px] ">
+    <div id="functionnalities" className="bg-cream md:h-[1000px] ">
       <SectionTitle title="LES FONCTIONNALITES" />
       <MapFunctionnalities />
     </div>
