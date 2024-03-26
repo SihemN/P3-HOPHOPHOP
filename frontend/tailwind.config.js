@@ -42,7 +42,9 @@ export default {
       marquee2: "marquee2 40s linear infinite",
       marquee3: "marquee 40s linear infinite",
       marquee4: "marquee2 40s linear infinite",
+      burgerDown: "burgerDown 0.5s ease-out forwards",
     },
+
     keyframes: {
       marquee: {
         "0%": { transform: "translateX(0%)" },
@@ -60,11 +62,22 @@ export default {
         "0%": { transform: "translateX(0%)" },
         "100%": { transform: "translateX(-100%)" },
       },
-    },
-    plugins: [],
-  },
-};
-
+      burgerDown: {
+        '0%': {
+          transform: 'scale(0.95)',
+          transformOrigin: 'top right',
+          opacity: 0,
+        },
+        '100%': {
+          transform: 'scale(1)',
+          transformOrigin: 'top right',
+          opacity: 1,
+        },
+        plugins: [],
+      },
+    }
+  }
+}
 // Librairie d'Icons : Phosphor Icons
 // https://github.com/phosphor-icons/core
 
