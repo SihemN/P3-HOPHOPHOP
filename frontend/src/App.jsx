@@ -1,5 +1,4 @@
 import ghostTitle from "./assets/logo/ghost-title.svg";
-import HeaderFunctionnalities from "./components/HeaderFunctionnalities";
 
 function App() {
   return (
@@ -12,7 +11,6 @@ function App() {
         alt="logo hop hop hop fantôme"
         className=" w-80 h-80"
       />
-      <HeaderFunctionnalities color="text-blue-default" />
     </div>
   );
 }
