@@ -70,7 +70,7 @@ export default function MapFunctionnalities() {
     },
   ];
   return (
-    <div className="flex justify-center p-5">
+    <div className="hidden md:flex justify-center p-5">
       <div className="w-3/4 max-w-4xl h-80 flex flex-wrap justify-center">
         {/* On map le tableau functionnalities
           On crée un composant Functionnalities par élément */}
