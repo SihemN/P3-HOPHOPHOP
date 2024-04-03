@@ -28,7 +28,6 @@ const app = express();
 // 4. Be sure to only have URLs in the array with domains from which you want to allow requests.
 // For example: ["http://mysite.com", "http://another-domain.com"]
 
-/*
 const cors = require("cors");
 
 app.use(
@@ -37,10 +36,9 @@ app.use(
       process.env.FRONTEND_URL, // keep this one, after checking the value in `backend/.env`
       "http://mysite.com",
       "http://another-domain.com",
-    ]
+    ],
   })
 );
-*/
 
 /* ************************************************************************* */
 
@@ -133,7 +131,6 @@ app.get("*", (req, res) => {
 // Middleware for Error Logging (Uncomment to enable)
 // Important: Error-handling middleware should be defined last, after other app.use() and routes calls.
 
-/*
 // Define a middleware function to log errors
 const logErrors = (err, req, res, next) => {
   // Log the error to the console for debugging purposes
@@ -146,7 +143,6 @@ const logErrors = (err, req, res, next) => {
 
 // Mount the logErrors middleware globally
 app.use(logErrors);
-*/
 
 /* ************************************************************************* */
 
