@@ -37,6 +37,7 @@ export default {
 
       dark: {
         default: "#1D1F21",
+        shadow: "#B4B4B4",
       },
       cream: "#FFFDFA",
       white: "#FFFFFF",
