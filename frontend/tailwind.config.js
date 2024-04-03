@@ -44,6 +44,8 @@ export default {
       marquee3: "marquee 40s linear infinite",
       marquee4: "marquee2 40s linear infinite",
       burgerDown: "burgerDown 0.5s ease-out forwards",
+      "menu-slide-down": "menuSlideDown 0.5s ease-in-out forwards",
+      "menu-slide-up": "menuSlideUp 0.5s ease-in-out forwards",
     },
 
     keyframes: {
@@ -63,6 +65,7 @@ export default {
         "0%": { transform: "translateX(0%)" },
         "100%": { transform: "translateX(-100%)" },
       },
+
       burgerDown: {
         "0%": {
           transform: "scale(0.95)",
@@ -75,6 +78,15 @@ export default {
           opacity: 1,
         },
         plugins: [],
+      },
+
+      menuSlideDown: {
+        "0%": { transform: "translateY(-3%)", opacity: 0 },
+        "100%": { transform: "translateY(0)", opacity: 1 },
+      },
+      menuSlideUp: {
+        "0%": { transform: "translateY(0)", opacity: 1 },
+        "100%": { transform: "translateY(-100%)", opacity: 0 },
       },
     },
   },

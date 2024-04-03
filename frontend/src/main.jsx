@@ -22,6 +22,7 @@ import LostPassword from "./pages/LostPassword";
 import Parameters from "./pages/Parameters";
 import ProfileParams from "./pages/ProfileParams";
 import Recipe from "./pages/Recipe";
+import CreateGroup from "./pages/CreateGroup";
 
 const router = createBrowserRouter([
   // Routes publiques
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
   {
     path: "/group",
     element: <GroupParams />,
+  },
+  {
+    path: "/create-group",
+    element: <CreateGroup />,
   },
 ]);
 

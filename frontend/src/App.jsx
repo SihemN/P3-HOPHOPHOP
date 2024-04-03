@@ -1,4 +1,5 @@
 import ghostTitle from "./assets/logo/ghost-title.svg";
+import GroupNav from "./components/GroupNav/GroupNav";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         alt="logo hop hop hop fantôme"
         className=" w-80 h-80"
       />
+      <GroupNav />
     </div>
   );
 }
