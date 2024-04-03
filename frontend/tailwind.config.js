@@ -10,6 +10,10 @@ export default {
       clipPath: {
         "forme-personnalisee": "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
       },
+
+      width: {
+        custom: "calc(100% - 50px)",
+      },
     },
     colors: {
       green: {
