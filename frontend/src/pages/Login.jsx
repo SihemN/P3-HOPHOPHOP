@@ -1,6 +1,7 @@
+// import SignupPC from "../components/LogIn_page/SignupPC";
+// import SignupMobile from "../components/LogIn_page/SignupMobile";
 
-import SignupPC from "../components/LogIn_page/SignupPC";
-import SignupMobile from "../components/LogIn_page/SignupMobile";
+import LoginMobile from "../components/LogIn_page/LoginMobile";
 
 export default function Login() {
   return (
@@ -8,11 +9,12 @@ export default function Login() {
       <div className="bg-green-lighter h-screen w-custom rounded-r-2xl shadow-lg shadow-dark-default lg:block hidden">
         <div className="bg-orange-lighter h-screen w-custom rounded-r-2xl  shadow-lg shadow-dark-default">
           <div className="bg-blue-default h-screen w-custom rounded-r-2xl shadow-lg shadow-dark-default flex justify-center items-center py-10">
-            <SignupPC />
+            {/* <SignupPC /> */}
           </div>
         </div>
       </div>
-      <SignupMobile />
+      {/* <SignupMobile /> */}
+      <LoginMobile />
     </div>
   );
 }
