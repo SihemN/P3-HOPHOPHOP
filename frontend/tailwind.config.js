@@ -14,6 +14,10 @@ export default {
       width: {
         custom: "calc(100% - 50px)",
       },
+
+      boxShadow: {
+        top: "0 -5px 15px -5px rgba(0, 0, 0, 0.1)",
+      },
     },
     colors: {
       green: {
