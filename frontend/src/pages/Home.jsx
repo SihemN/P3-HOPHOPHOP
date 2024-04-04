@@ -1,5 +1,10 @@
 import React from "react";
+import HeaderHome from "../components/Header_home/HeaderHome";
 
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <header>
+      <HeaderHome />
+    </header>
+  );
 }
