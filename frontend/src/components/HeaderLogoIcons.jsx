@@ -8,7 +8,6 @@ import ButtonLanding from "./ButtonLanding";
 
 function Header() {
   return (
-
     <header className=" bg-blue-default md:p-5 font-Neue-Kabel">
       <MenuBurgerAnchor />
       <img
