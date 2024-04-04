@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { FaRegHandPointDown } from "react-icons/fa";
 import { FaCircleArrowLeft } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function SignupForm() {
-  // on déclare notre navigate
-  const navigate = useNavigate();
-
   // Gérer les données rentrées dans le formulaire
   const [dataForm, setDataForm] = useState({
     name: "",
@@ -35,7 +32,6 @@ export default function SignupForm() {
       .then((res) => {
         console.info("Login res :>> ", res);
         // alert(res);
-        navigate("/home");
       })
       .catch((err) => console.info("err :>> ", err));
   };
