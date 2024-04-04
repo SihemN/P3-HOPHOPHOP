@@ -13,7 +13,6 @@ export default function InvitationMail() {
             Inviter par e-mail
           </label>
         </div>
-
         <div className="flex flex-col items-center gap-4">
           <input
             type="email"
@@ -22,7 +21,7 @@ export default function InvitationMail() {
           />
           <button
             type="submit"
-            className="bg-blue-default w-72 py-1 rounded-lg text-cream"
+            className="bg-blue-default w-72 py-1 rounded-lg text-cream shadow-lg"
           >
             Envoyer l'invitation
           </button>

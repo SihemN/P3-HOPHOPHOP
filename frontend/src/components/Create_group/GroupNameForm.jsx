@@ -22,7 +22,7 @@ export default function GroupNameForm() {
           />
           <button
             type="submit"
-            className="bg-blue-default w-72 py-1 rounded-lg text-cream"
+            className="bg-blue-default w-72 py-1 rounded-lg text-cream shadow-lg"
           >
             Enregistrer
           </button>
