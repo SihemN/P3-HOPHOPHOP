@@ -81,7 +81,7 @@ const create = async (req, res) => {
       avatar = req.file.path;
     }
     // on récupère les infos du nouveau User et le nom de son Groupe dans la requête
-    const { name, email, hashedPassword, nameGroup } = req.body;
+    const { name, email, hashedPassword, nameGroup = "Mon Groupe" } = req.body;
     const role = "admin";
     // On stocke les noms des catégories par défaut à créer dans la requête SQL
     const catTransactionName = "Sans catégorie";
@@ -101,7 +101,7 @@ const create = async (req, res) => {
       catTaskName,
       catContactName
     );
-    console.info("result", results);
+    console.info("result userControllers", results);
 
     // on vérifie la réponse (on reçoit un objet par requête SQL)
     // affectedRows : pour les requêtes qui créent ou modifient ou suppriment une ligne (=affectent une ligne)
@@ -122,7 +122,7 @@ const create = async (req, res) => {
     }
 
     if (resultsIsValid) {
-      res.status(201).send("Created");
+      res.status(201).json("user Created");
     } else if (req.file) {
       fs.unlinkSync(req.file.path);
 
