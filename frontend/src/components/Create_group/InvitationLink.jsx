@@ -26,4 +26,3 @@ export default function InvitationLink() {
     </div>
   );
 }
-//   <div className="absolute top-0 right-48"></div>;
