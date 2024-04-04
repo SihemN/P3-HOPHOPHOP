@@ -9,21 +9,15 @@ function MenuBurgerAnchor() {
     setIsOpen(!isOpen);
   }
 
-  function closeMenu() {
-    setIsOpen(false);
-  }
-
   return (
-    <div className="flex justify-end p-4 font-Neue-Kabel">
-      {!isOpen && (
-        <button type="button" label="cliquer" onClick={toggleMenu}>
-          <TiThMenu size={40} className="text-dark-default" />
-        </button>
-      )}
+    <div className="flex justify-end p-4 font-Neue-Kabel relative">
+      <button type="button" onClick={toggleMenu} aria-label="Toggle menu">
+        <TiThMenu size={40} className="text-dark-default" />
+      </button>
       {isOpen && (
-        <div className="border rounded-xl animate-burgerDown">
+        <div className="absolute right-0 -top-8 mt-12 mr-4 border rounded-xl animate-burgerDown z-10">
           <div className="flex justify-end bg-red-default h-10 rounded-t-xl">
-            <button type="button" label="cliquer" onClick={closeMenu}>
+            <button type="button" onClick={toggleMenu} aria-label="Close menu">
               <IoCloseSharp size={30} className="text-cream w-10" />
             </button>
           </div>
@@ -31,10 +25,10 @@ function MenuBurgerAnchor() {
             <a href="#about" className="hover:text-green-default">
               A propos
             </a>
-            <a className="hover:text-green-default" href="#functionality">
+            <a href="#functionality" className="hover:text-green-default">
               Les fonctionnalités
             </a>
-            <a className="hover:text-green-default" href="#team">
+            <a href="#team" className="hover:text-green-default">
               La team
             </a>
           </div>
