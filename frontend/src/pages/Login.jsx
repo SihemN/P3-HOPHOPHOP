@@ -1,5 +1,4 @@
-// import SignupForm from "../components/LogIn_page/SignupForm";
-// import Logo from "../assets/logo/ghost-pink.svg";
+
 import SignupPC from "../components/LogIn_page/SignupPC";
 import SignupMobile from "../components/LogIn_page/SignupMobile";
 
