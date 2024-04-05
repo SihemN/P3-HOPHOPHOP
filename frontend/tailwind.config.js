@@ -15,6 +15,9 @@ export default {
         custom: "calc(100% - 50px)",
       },
 
+      height: {
+        custom: "calc(100vh - 5rem)",
+
       boxShadow: {
         top: "0 -5px 15px -5px rgba(0, 0, 0, 0.1)",
       },
