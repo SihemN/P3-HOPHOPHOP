@@ -52,19 +52,19 @@ const readByEmail = async (req, res) => {
               }
             );
             // on envoie le token
-            res.status(200).send(token);
+            res.status(200).json({ message: "user connecté", token });
           } else {
-            res.status(401).send("vérifier vos données");
+            res.status(401).json("vérifier vos données");
           }
         } else {
-          res.status(401).send("votre compte est désactivé");
+          res.status(401).json("votre compte est désactivé");
         }
       } else {
-        res.status(401).send("adresse mail n'existe pas");
+        res.status(401).json("adresse mail n'existe pas");
       }
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 };
 
@@ -158,9 +158,9 @@ const readById = async (req, res) => {
     const id = req.payload;
     const [user] = await tables.user.getUserById(id);
     if (user.length) {
-      res.status(200).json({ message: "Connecté", user: user[0] });
+      res.status(200).json({ isLogged: true, data: user[0] });
     } else {
-      res.status(401).send("Vérifiez vos données");
+      res.status(401).json({ isLogged: false, message: "User non connecté" });
     }
   } catch (error) {
     res.status(500).send(error);
