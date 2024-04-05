@@ -12,7 +12,7 @@ function MenuBurgerAnchor() {
   return (
     <div className="flex justify-end p-4 font-Neue-Kabel relative">
       <button type="button" onClick={toggleMenu} aria-label="Toggle menu">
-        <TiThMenu size={40} className="text-dark-default" />
+        <TiThMenu size={40} className="text-cream" />
       </button>
       {isOpen && (
         <div className="absolute right-0 -top-8 mt-12 mr-4 border rounded-xl animate-burgerDown z-10">
