@@ -13,6 +13,9 @@ import iconRecipe from "../assets/icons-functionnalities/recipe.svg";
 import iconLogout from "../assets/icons-functionnalities/logout.svg";
 
 export default function Home() {
+  // On gère si le user est connecté
+  // on récupère UserContext
+
   // Définir les fonctionnalités avec les titres et les icônes correspondantes
   const functionnalities = [
     {

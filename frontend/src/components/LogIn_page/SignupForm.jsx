@@ -17,7 +17,8 @@ export default function SignupForm() {
     setDataForm({ ...dataForm, [name]: value });
   };
 
-  console.info("dataForm", dataForm);
+  // console.info("dataForm", dataForm);
+
   // au submit du formulaire, on envoie dataForm au backend pour créer le user
   const handlSubmit = (e) => {
     e.preventDefault();
@@ -30,15 +31,16 @@ export default function SignupForm() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.info("Login res :>> ", res);
+        console.info("SignUp res :>> ", res);
         // alert(res);
       })
       .catch((err) => console.info("err :>> ", err));
   };
+
   return (
     <div>
       {/* Bouton flèche retour à la landing page */}
-      <Link to="/index">
+      <Link to="/">
         <FaCircleArrowLeft className="text-blue-default text-3xl mt-2" />
       </Link>
       <div className="flex flex-col items-center my-5">
