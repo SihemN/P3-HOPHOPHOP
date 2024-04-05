@@ -66,17 +66,19 @@ export default function Home() {
   ];
 
   return (
-    <>
+    <div className="bg-blue-default">
       <header>
         <HeaderHome />
       </header>
-      <div className="grid grid-cols-2  md:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-2 m-5 ">
-        {functionnalities.map(({ id, title, icon }) => (
-          <Link to={Link} key={id}>
-            <HomeNavigComp title={title} icon={icon} />
-          </Link>
-        ))}
+      <div className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom flex justify-center items-center">
+        <div className="grid grid-cols-2 lg:grid-cols-4 grid-rows-4 lg:grid-rows-2 gap-8 lg:gap-16 md:gap-20 max-w-[75%] py-3 px-2 lg:p-10">
+          {functionnalities.map(({ id, title, icon }) => (
+            <Link to={Link} key={id}>
+              <HomeNavigComp title={title} icon={icon} />
+            </Link>
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 }

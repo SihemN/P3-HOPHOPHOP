@@ -14,6 +14,10 @@ export default {
       width: {
         custom: "calc(100% - 50px)",
       },
+
+      height: {
+        custom: "calc(100vh - 5rem)",
+      },
     },
     colors: {
       green: {
