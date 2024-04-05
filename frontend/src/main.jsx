@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 import "./index.css";
 
 import App from "./App";
-import Landing from "./pages/Landing";
 import Error404 from "./pages/Error404";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -23,22 +22,49 @@ import Parameters from "./pages/Parameters";
 import ProfileParams from "./pages/ProfileParams";
 import Recipe from "./pages/Recipe";
 import CreateGroup from "./pages/CreateGroup";
+import UserProvider, { UserContext } from "./context/UserContext";
+import RefusedAccess from "./components/Not-Connected/RefusedAccess";
+
+// PrivateApp englobe toutes nos routes privées
+// on y vérifie si le user est connecté
+// sinon on renvoie à la page de connexion
+function PrivateApp() {
+  // on récupère le UserContext
+  const { user, setUser } = useContext(UserContext);
+
+  // on get by id le user connecté grâce à son token
+  // si oui, on reçoit isLogged = true
+
+  useEffect(() => {
+    fetch("http://localhost:3310/api/me", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.info("privateApp, res, isLogged>> ", res);
+        setUser(res);
+      })
+      .catch((err) => console.info("Error fetching user data:", err));
+  }, [setUser]);
+
+  return (
+    // si isLogged est true, on affiche l'app privé, sinon on affiche le composant qui invite à s'inscrire ou se connecter
+    <main>
+      {" "}
+      {user.isLogged && <Outlet />} {!user.isLogged && <RefusedAccess />}
+    </main>
+  );
+}
 
 const router = createBrowserRouter([
   // Routes publiques
   {
     path: "/",
     element: <App />,
-  },
-
-  {
-    path: "/index",
-    element: <Landing />,
-  },
-
-  {
-    path: "*",
-    element: <Error404 />,
   },
 
   {
@@ -56,63 +82,73 @@ const router = createBrowserRouter([
     element: <LostPassword />,
   },
 
+  {
+    path: "*",
+    element: <Error404 />,
+  },
+
   // Routes privées
   {
-    path: "/home",
-    element: <Home />,
-  },
+    element: <PrivateApp />,
+    children: [
+      {
+        path: "/home",
+        element: <Home />,
+      },
 
-  {
-    path: "/calendar",
-    element: <Calendar />,
-  },
+      {
+        path: "/calendar",
+        element: <Calendar />,
+      },
 
-  {
-    path: "/budget",
-    element: <Budget />,
-  },
+      {
+        path: "/budget",
+        element: <Budget />,
+      },
 
-  {
-    path: "/todolist",
-    element: <List />,
-  },
+      {
+        path: "/todolist",
+        element: <List />,
+      },
 
-  {
-    path: "/recipes",
-    element: <Recipe />,
-  },
+      {
+        path: "/recipes",
+        element: <Recipe />,
+      },
 
-  {
-    path: "/contacts",
-    element: <Contact />,
-  },
+      {
+        path: "/contacts",
+        element: <Contact />,
+      },
 
-  {
-    path: "/documents",
-    element: <DocShare />,
-  },
+      {
+        path: "/documents",
+        element: <DocShare />,
+      },
 
-  {
-    path: "/chat",
-    element: <Chat />,
-  },
-  {
-    path: "/settings",
-    element: <Parameters />,
-  },
+      {
+        path: "/chat",
+        element: <Chat />,
+      },
+      {
+        path: "/settings",
+        element: <Parameters />,
+      },
 
-  {
-    path: "/profile",
-    element: <ProfileParams />,
-  },
+      {
+        path: "/profile",
+        element: <ProfileParams />,
+      },
 
-  {
-    path: "/group",
-    element: <GroupParams />,
-  },
-  {
-    path: "/create-group",
-    element: <CreateGroup />,
+      {
+        path: "/group",
+        element: <GroupParams />,
+      },
+      {
+        path: "/create-group",
+        element: <CreateGroup />,
+      },
+    ],
   },
 ]);
 
@@ -120,6 +156,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </React.StrictMode>
 );
