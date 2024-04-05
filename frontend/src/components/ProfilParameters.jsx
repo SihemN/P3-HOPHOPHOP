@@ -1,14 +1,14 @@
+/* eslint-disable react/prop-types */
 import { PiUserFill } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
 export default function ProfilParameters() {
   return (
-    <div className="h-20 pr-4 py-4 flex justify-end">
-      <div className="bg-cream rounded-full w-9 h-9  flex justify-center items-center">
-        <Link to="/profile">
-          <PiUserFill size={23} className="text-blue-default" />
-        </Link>
-      </div>
-    </div>
+    <Link to="/profile">
+      <PiUserFill
+        size={20}
+        className="text-blue-default bg-cream rounded-full w-10 h-10  flex justify-center items-center p-1 mr-4 my-5"
+      />
+    </Link>
   );
 }
