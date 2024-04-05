@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import HeaderHome from "../components/Header_home/HeaderHome";
 import HomeNavigComp from "../components/HomeNavigComp";
 
@@ -18,41 +19,49 @@ export default function Home() {
       id: 1,
       title: "Calendrier",
       icon: iconCalendar,
+      Link: "/",
     },
     {
       id: 2,
       title: "Budget",
       icon: iconBudget,
+      Link: "/",
     },
     {
       id: 3,
       title: "To Do List",
       icon: iconList,
+      Link: "/",
     },
     {
       id: 4,
       title: "Recettes",
       icon: iconRecipe,
+      Link: "/",
     },
     {
       id: 5,
       title: "Contacts",
       icon: iconContact,
+      Link: "/",
     },
     {
       id: 6,
       title: "Documents",
       icon: iconDocument,
+      Link: "/",
     },
     {
       id: 7,
       title: "Messagerie",
       icon: iconChat,
+      Link: "/",
     },
     {
       id: 8,
       title: "Déconnexion",
       icon: iconLogout,
+      Link: "/",
     },
   ];
 
@@ -63,7 +72,9 @@ export default function Home() {
       </header>
       <div className="grid grid-cols-2  md:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-2 m-5 ">
         {functionnalities.map(({ id, title, icon }) => (
-          <HomeNavigComp key={id} title={title} icon={icon} />
+          <Link to={Link} key={id}>
+            <HomeNavigComp title={title} icon={icon} />
+          </Link>
         ))}
       </div>
     </>
