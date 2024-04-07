@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaRegHandPointDown } from "react-icons/fa";
 import { FaCircleArrowLeft } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignupForm() {
   // Gérer les données rentrées dans le formulaire
@@ -10,7 +10,8 @@ export default function SignupForm() {
     email: "",
     password: "",
   });
-
+  // on importe useNavigate
+  const navigate = useNavigate();
   // quand le user rentre des données dans le formulaire, on update notre state dataForm
   const handlChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +33,11 @@ export default function SignupForm() {
       .then((res) => res.json())
       .then((res) => {
         console.info("SignUp res :>> ", res);
-        // alert(res);
+        // eslint-disable-next-line no-alert
+        alert(res);
+        if (res === "user Created") {
+          navigate("/login");
+        }
       })
       .catch((err) => console.info("err :>> ", err));
   };
