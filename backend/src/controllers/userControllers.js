@@ -122,19 +122,18 @@ const create = async (req, res) => {
     }
 
     if (resultsIsValid) {
-      res.status(201).json("user Created");
+      res.status(201).json({ message: "user Created" });
     } else if (req.file) {
       fs.unlinkSync(req.file.path);
-
-      res.status(401).send("Error during the creation");
+      res.status(401).json({ message: "user Created" });
     } else {
-      res.status(401).send("Error during the creation");
+      res.status(401).json({ message: "user Created" });
     }
   } catch (error) {
     if (req.file) {
       fs.unlinkSync(req.file.path);
     }
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 };
 

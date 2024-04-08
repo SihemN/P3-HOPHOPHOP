@@ -34,7 +34,6 @@ function LoginForm() {
         // console.info("Login res :>> ", res);
         localStorage.setItem("token", JSON.stringify(res.token));
         if (res.token) {
-          // alert("hello token");
           navigate("/home");
         }
       })
@@ -94,13 +93,15 @@ function LoginForm() {
         />
         <button
           type="submit"
-          className="bg-blue-default h-12 mt-10 mb-7 py-2 px-5 rounded-lg text-cream font-semibold shadow-md shadow-dark-shadow"
+          className="bg-blue-default h-12 mt-10 mb-7 py-2 px-5 rounded-lg text-cream font-semibold shadow-md shadow-dark-shadow  hover:bg-green-default active:bg-green-lighter"
         >
           CONTINUER
         </button>
-        <p className="text-center underline py-2 hover:text-green-default">
-          Je veux créer un compte
-        </p>
+        <Link to="/signup">
+          <p className="text-center underline py-2 hover:text-green-default">
+            Je veux créer un compte
+          </p>
+        </Link>
       </form>
     </div>
   );

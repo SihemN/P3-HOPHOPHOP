@@ -1,7 +1,8 @@
+/* eslint-disable no-alert */
 import { useState } from "react";
 import { FaRegHandPointDown } from "react-icons/fa";
 import { FaCircleArrowLeft } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignupForm() {
   // Gérer les données rentrées dans le formulaire
@@ -10,7 +11,8 @@ export default function SignupForm() {
     email: "",
     password: "",
   });
-
+  // on importe useNavigate
+  const navigate = useNavigate();
   // quand le user rentre des données dans le formulaire, on update notre state dataForm
   const handlChange = (e) => {
     const { name, value } = e.target;
@@ -32,9 +34,17 @@ export default function SignupForm() {
       .then((res) => res.json())
       .then((res) => {
         console.info("SignUp res :>> ", res);
-        // alert(res);
+        if (res.message === "user Created") {
+          alert(res.message);
+          navigate("/login");
+        } else if (res.errno === 1062) {
+          alert("e-mail déjà utilisé");
+        }
       })
-      .catch((err) => console.info("err :>> ", err));
+      .catch((err) => {
+        console.info("err :>> ", err);
+        // alert("Email déjà utilisé");
+      });
   };
 
   return (
@@ -44,7 +54,7 @@ export default function SignupForm() {
         <FaCircleArrowLeft className="text-blue-default text-3xl mt-2" />
       </Link>
       <div className="flex flex-col items-center my-5">
-        <h1 className=" text-3xl font-bold text-center px-10">
+        <h1 className=" text-2xl font-bold text-center px-10">
           Facilitez-vous la vie et inscrivez-vous !
         </h1>
         <FaRegHandPointDown className="m-3 text-3xl text-green-default" />
@@ -64,6 +74,7 @@ export default function SignupForm() {
           value={dataForm.name}
           type="text"
           placeholder="Quel est votre prénom ?"
+          required
           className="border border-solid border-blue-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-blue-default"
           onChange={handlChange}
         />
@@ -75,6 +86,7 @@ export default function SignupForm() {
           type="text"
           name="email"
           value={dataForm.email}
+          required
           placeholder="nom@exemple.com"
           className="border border-solid border-blue-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-blue-default"
           onChange={handlChange}
@@ -88,16 +100,25 @@ export default function SignupForm() {
           name="password"
           value={dataForm.password}
           placeholder="Top secret"
+          required
           className="border border-solid border-blue-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-blue-default"
           onChange={handlChange}
         />
+        {/* <p className="text-red-default text-xs italic">
+          Please choose a password.
+        </p> */}
+
         <button
           type="submit"
-          className="bg-blue-default h-12 mt-10 mb-7 py-2 px-5 rounded-lg text-cream font-semibold shadow-md shadow-dark-shadow"
+          className="bg-blue-default  hover:bg-green-default active:bg-green-lighter h-12 mt-10 mb-7 py-2 px-5 rounded-lg text-cream font-semibold shadow-md shadow-dark-shadow"
         >
           CONTINUER
         </button>
-        <p className="text-center">J'ai déjà un compte : me connecter</p>
+        <Link to="/login">
+          <p className="text-center underline py-2 hover:text-green-default mb-2">
+            J'ai déjà un compte : me connecter
+          </p>
+        </Link>
       </form>
     </div>
   );
