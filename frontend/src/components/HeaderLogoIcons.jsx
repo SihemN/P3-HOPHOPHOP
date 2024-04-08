@@ -8,14 +8,13 @@ import ButtonLanding from "./ButtonLanding";
 
 function Header() {
   return (
-    <header className="relative font-Neue-Kabel bg-blue-default lg:p-5 h-screen md:h-auto lg:flex lg:flex-col lg:items-center">
+    <header className="lg:relative font-Neue-Kabel bg-blue-default lg:p-5 h-screen md:h-auto">
       <MenuBurgerAnchor />
-
       <div className="flex justify-center items-center w-full">
         <img
           src={LogoBackground}
           alt="Logo fantôme"
-          className="hidden md:block lg:mx-28 w-full"
+          className="hidden md:block lg:mx-10"
         />
       </div>
       <div>
@@ -25,7 +24,7 @@ function Header() {
           className="md:hidden"
         />
       </div>
-      <div className="relative bottom-20 w-fit flex flex-col">
+      <div className="lg:relative lg:bottom-36 text-center">
         <h2 className="text-cream font-bold text-2xl md:text-3xl py-8 lg:py-2 mb-5 flex justify-center">
           Le site qui vous facilite la vie !
         </h2>
