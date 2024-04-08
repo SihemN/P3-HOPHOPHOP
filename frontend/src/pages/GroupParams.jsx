@@ -1,9 +1,13 @@
 import React from "react";
 import { MdGroups2 } from "react-icons/md";
+import { FiSend } from "react-icons/fi";
 
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import MapMembers from "../components/Group_params/MapMembers";
 import ButtonLanding from "../components/ButtonLanding";
+import AddUser from "../components/Group_params/AddUser";
+import InvitationMail from "../components/Create_group/InvitationMail";
+import InvitationLink from "../components/Create_group/InvitationLink";
 
 export default function GroupParams() {
   return (
@@ -26,6 +30,16 @@ export default function GroupParams() {
             color="bg-red-default"
             to="/home"
           />
+        </section>
+        <section>
+          <div className="flex flex-col py-9 items-center">
+            <AddUser />
+            <FiSend className="bg-blue-default text-cream w-16 h-16 rounded-full p-4" />
+          </div>
+          <div>
+            <InvitationMail />
+            <InvitationLink />
+          </div>
         </section>
       </main>
     </div>
