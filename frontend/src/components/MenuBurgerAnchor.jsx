@@ -10,7 +10,7 @@ function MenuBurgerAnchor() {
   }
 
   return (
-    <div className="flex justify-end p-4 font-Neue-Kabel relative">
+    <div className="absolute top-0 right-0 p-4 font-Neue-Kabel">
       <button type="button" onClick={toggleMenu} aria-label="Toggle menu">
         <TiThMenu size={40} className="text-cream" />
       </button>
