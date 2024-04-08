@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/no-array-index-key */
 import { useState, useEffect } from "react";
 import { GoTriangleDown } from "react-icons/go";
@@ -10,6 +11,10 @@ import GroupList from "./GroupList";
 export default function GroupNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
+  const [groups, setGroups] = useState([]);
+  // console.info("groups dans GroupNav >>", groups);
+  const [currentGroup, setCurrentGroup] = useState();
+  console.info("currentGroup - GroupNav >>>", currentGroup);
 
   function toggleMenu() {
     if (!playAnimation) {
@@ -42,9 +47,11 @@ export default function GroupNav() {
           type="button"
           aria-label="Cliquez pour changer de groupe"
           onClick={toggleMenu}
+          // key={currentGroup.ug_group_id}
           className="pr-2 flex items-center font-Puffin-Display-Soft font-bold text-lg"
         >
-          HOP HOP HOP
+          {/* On va utiliser le storage pour afficher le groupe */}
+          {currentGroup && <h1>{currentGroup.g_name}</h1>}
           <GoTriangleDown size={25} />
         </button>
       </div>
@@ -56,7 +63,12 @@ export default function GroupNav() {
       >
         <ParametersButton />
         <div className="flex flex-col items-center py-5 font-Neue-Kabel">
-          <GroupList />
+          <GroupList
+            groups={groups}
+            setGroups={setGroups}
+            currentGroup={currentGroup}
+            setCurrentGroup={setCurrentGroup}
+          />
           <div className="flex justify-center items-center bg-blue-default text-cream w-8 h-8 rounded-full">
             <Link to="/create-group">
               <FaPlus />
