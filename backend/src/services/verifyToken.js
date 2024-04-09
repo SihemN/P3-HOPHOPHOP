@@ -20,7 +20,7 @@ const verifyToken = (req, res, next) => {
       next();
     }
   } catch (error) {
-    console.info("verifyToken error", error);
+    // console.info("verifyToken error", error);
     res.status(500).send(error);
   }
 };

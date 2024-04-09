@@ -101,7 +101,7 @@ const create = async (req, res) => {
       catTaskName,
       catContactName
     );
-    console.info("result userControllers", results);
+    // console.info("result userControllers", results);
 
     // on vérifie la réponse (on reçoit un objet par requête SQL)
     // affectedRows : pour les requêtes qui créent ou modifient ou suppriment une ligne (=affectent une ligne)

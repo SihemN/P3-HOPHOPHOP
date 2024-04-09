@@ -32,6 +32,7 @@ function LoginForm() {
       .then((res) => res.json())
       .then((res) => {
         // console.info("Login res :>> ", res);
+        localStorage.clear();
         localStorage.setItem("token", JSON.stringify(res.token));
         if (res.token) {
           navigate("/home");
