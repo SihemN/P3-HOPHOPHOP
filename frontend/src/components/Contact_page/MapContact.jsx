@@ -1,8 +1,16 @@
+import { useState } from "react";
 import { FaPhone } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
 import { VscKebabVertical } from "react-icons/vsc";
+import MenuKebabContact from "./MenuKebabContact";
 
 export default function MapContact() {
+  const [openMenuContactId, setOpenMenuContactId] = useState(null);
+
+  const handleClick = (id) => {
+    setOpenMenuContactId(openMenuContactId === id ? null : id);
+  };
+
   const contacts = [
     {
       id: 1,
@@ -52,7 +60,7 @@ export default function MapContact() {
                 {contact.phone}
               </a>
             </div>
-            <div className="text-sm text-gray-600">
+            <div>
               <a href={`mailto:${contact.email}`} className="flex">
                 <IoIosMail className="mr-2 text-blue-medium" />
                 {contact.email}
@@ -60,7 +68,18 @@ export default function MapContact() {
             </div>
           </div>
           <div>
-            <VscKebabVertical className="text-blue-medium cursor-pointer" />
+            <button
+              type="button"
+              aria-label="Modifier ou supprimer un contact"
+              onClick={() => handleClick(contact.id)}
+            >
+              <VscKebabVertical className="text-blue-medium cursor-pointer" />
+            </button>
+            {openMenuContactId === contact.id && (
+              <div>
+                <MenuKebabContact />
+              </div>
+            )}
           </div>
         </div>
       ))}
