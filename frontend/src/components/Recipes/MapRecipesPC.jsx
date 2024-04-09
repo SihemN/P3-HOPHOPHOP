@@ -1,32 +1,22 @@
 /* eslint-disable react/prop-types */
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { FaCirclePlus } from "react-icons/fa6";
-// import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function MapRecipes({ filterSelected }) {
   // On stocke l'id de la recette cliquée
-  // const [recipeSelected, setRecipeSelected] = useState();
-  const navigate = useNavigate();
+  const [recipeSelected, setRecipeSelected] = useState();
 
   // onClick sur une recette
-  const handleClickButton = (recipe) => {
-    // au clic sur le bouton de la recette, on navigate vers la page qui montre le détail de la recette
-    navigate("/recipes/detail", {
-      state: {
-        recipe,
-      },
-    });
+  const handleClick = (id) => {
+    if (id === recipeSelected) {
+      return setRecipeSelected();
+    }
+    return setRecipeSelected(id);
   };
 
-  // const handleClickDots = (id) => {
-  //   if (id === recipeSelected) {
-  //     return setRecipeSelected();
-  //   }
-  //   return setRecipeSelected(id);
-  // };
-
   // console.log("recipeSelected ", recipeSelected);
+
   // fake data de recettes
   const recipes = [
     {
@@ -95,21 +85,25 @@ export default function MapRecipes({ filterSelected }) {
                 (recipe) =>
                   category === "Toutes" || recipe.category === category
               )
-              .map((recipe) => (
+              .map(({ id, name, user }) => (
                 <button
                   type="button"
-                  key={recipe.id}
-                  name={recipe.category}
-                  onClick={() => handleClickButton(recipe)}
-                  className="flex justify-between items-center bg-red-clear hover:border hover:border-red-default border border-red-clear text-dark-default w-full p-3 rounded-xl mb-3"
+                  key={id}
+                  name={category}
+                  onClick={() => handleClick(id)}
+                  className={
+                    recipeSelected === id
+                      ? "flex justify-between items-center bg-red-clear hover:border hover:border-red-default border border-red-clear text-dark-default w-full p-3 rounded-xl mb-3 shadow-inner shadow-dark-shadow"
+                      : "flex justify-between items-center bg-red-clear hover:border hover:border-red-default border border-red-clear text-dark-default w-full p-3 rounded-xl mb-3"
+                  }
                 >
                   <div className="flex flex-col items-start">
-                    <h2 className="font-bold">{recipe.name}</h2>
-                    <h3 className="font-light">{`Ajoutée par ${recipe.user}`}</h3>
+                    <h2 className="font-bold">{name}</h2>
+                    <h3 className="font-light">{`Ajoutée par ${user}`}</h3>
                   </div>
                   <HiOutlineDotsVertical
                     className="text-3xl text-red-default"
-                    // onClick={() => handleClickDots(id)}
+                    onClick={() => handleClick(id)}
                   />
                 </button>
               ))}
