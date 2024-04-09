@@ -83,7 +83,7 @@ export default function MapFunctionnalities() {
   return (
     <div className="flex justify-center p-5">
       {/* Version PC */}
-      <div className="hidden w-3/4 max-w-4xl h-80 md:flex flex-wrap justify-center">
+      <div className="hidden w-3/4 max-w-4xl h-80 lg:flex flex-wrap justify-center">
         {/* On map le tableau functionnalities
           On crée un composant Functionnalities par élément */}
         {functionnalities.map(
@@ -100,7 +100,7 @@ export default function MapFunctionnalities() {
         )}
       </div>
       {/* Version Mobile */}
-      <div className="flex flex-wrap justify-center p-5 md:hidden">
+      <div className="flex flex-col justify-center p-5 lg:hidden">
         {functionnalities.map(
           ({ id, title, description, color, colorFont }) => (
             <FunctionnalitiesMobile

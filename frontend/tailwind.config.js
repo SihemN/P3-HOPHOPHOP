@@ -48,6 +48,7 @@ export default {
         shadow: "#B4B4B4",
       },
       cream: "#FFFDFA",
+      cream_dark: "#fffcf5",
       white: "#FFFFFF",
     },
 
