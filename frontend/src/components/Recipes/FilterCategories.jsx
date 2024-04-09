@@ -1,7 +1,9 @@
-import { useState } from "react";
+/* eslint-disable react/prop-types */
 
-export default function FilterCategories() {
-  const [filterSelected, setFilterSelected] = useState(1);
+export default function FilterCategories({
+  filterSelected,
+  setFilterSelected,
+}) {
   const filters = [
     { name: "Toutes", id: 1 },
     { name: "Desserts", id: 2 },
@@ -11,25 +13,27 @@ export default function FilterCategories() {
     { name: "Confitures", id: 6 },
   ];
 
-  //
-  const handleClick = (id) => {
-    return setFilterSelected(id);
+  // Au clic sur le bouton catégorie, on récupère son id
+  // on met à jour le state filterSelected avec l'id récupéré
+  const handleClick = (name) => {
+    return setFilterSelected(name);
   };
 
   console.info("filterSelected", filterSelected);
 
   return (
-    <div className="flex gap-2 flex-wrap border p-6">
+    <div className="flex gap-2 flex-wrap p-6">
       {filters.map(({ name, id }) => (
         <button
           key={id}
           aria-label={name}
           type="button"
-          onClick={() => handleClick(id)}
+          name={name}
+          onClick={() => handleClick(name)}
           className={
-            filterSelected === id // vérifie si filterSelected correspond à l'id du filtre
+            filterSelected === name // vérifie si filterSelected correspond à l'id du filtre
               ? "bg-cream border-2 border-red-default active:bg-red-lighter text-red-default font-semibold rounded-[11px] h-full  w-fit px-4" // Si oui, on lui applique la classe border rouge et fond cream
-              : "bg-red-default border-2 border-red-default hover:bg-blue-default active:bg-red-lighter text-cream rounded-[11px] h-full px-5" // Si non, classe normale fond rouge
+              : "bg-red-default border-2 border-red-default hover:bg-blue-default hover:border-blue-default active:bg-red-lighter text-cream rounded-[11px] h-full px-5" // Si non, classe normale fond rouge
           }
         >
           {name}
