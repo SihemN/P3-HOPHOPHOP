@@ -6,7 +6,7 @@ const verifyToken = (req, res, next) => {
   try {
     // on récupère le token dans le header de la requête
     const headers = req.get("Authorization");
-    console.info("verifyToken, headers", headers);
+    // console.info("verifyToken, headers", headers);
     // on récupère une string contenant le type et le token
     // on utilise .split pour transformer en array avec espace comme séparateur
     // on obtient un array contenant 2 éléments ["type", "token"]

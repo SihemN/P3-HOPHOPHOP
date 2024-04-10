@@ -10,12 +10,12 @@ const createRecipe = async (req, res) => {
     const [result] = await tables.recipe.createRecipe(
       name,
       description,
-      time,
       persons,
       ingredients,
       category,
       id,
-      userId
+      userId,
+      time
     );
     if (result.affectedRows) {
       res.status(201).send("Votre recette à été créée");
@@ -32,13 +32,14 @@ const getRecipeByGroup = async (req, res) => {
   try {
     const { id } = req.params;
     const [result] = await tables.recipe.getRecipeByGroup(id);
+    console.info("back", result);
     if (result.length) {
       res.status(200).json({
         message: "Liste des recettes du groupe",
         result,
       });
     } else {
-      res.status(401).send("Pas de liste!!");
+      res.status(401).json("Vous n'avez pas de recettes :(");
     }
   } catch (error) {
     res.status(500).send(error);

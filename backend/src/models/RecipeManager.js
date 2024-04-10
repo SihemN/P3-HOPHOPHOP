@@ -10,12 +10,12 @@ class RecipeManager extends AbstractManager {
   createRecipe(
     name,
     description,
-    time,
     persons,
     ingredients,
     category,
     groupId,
-    userId
+    userId,
+    time = "--"
   ) {
     return this.database.query(
       `INSERT INTO ${this.table} (
@@ -27,6 +27,7 @@ class RecipeManager extends AbstractManager {
 
   //  Récupérer toutes les recettes d'un groupe
   getRecipeByGroup(groupId) {
+    console.info("manager", groupId);
     return this.database.query(
       `SELECT r_id, r_name, r_category, u.u_name FROM ${this.table} JOIN user AS u ON u.u_id = r_user_id WHERE r_group_id = ? 
       `,
