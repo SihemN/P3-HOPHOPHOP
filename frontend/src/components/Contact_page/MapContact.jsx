@@ -2,10 +2,12 @@ import { useState } from "react";
 import { FaPhone } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
 import { VscKebabVertical } from "react-icons/vsc";
+import { ImLocation2 } from "react-icons/im";
 import MenuKebabContact from "./MenuKebabContact";
 
 export default function MapContact() {
   const [openMenuContactId, setOpenMenuContactId] = useState(null);
+  // const [contacts, setContacts] = useState([]);
 
   const handleClick = (id) => {
     setOpenMenuContactId(openMenuContactId === id ? null : id);
@@ -17,7 +19,7 @@ export default function MapContact() {
       name: "Anaïs Glorennec",
       email: "anais@gmail.com",
       phone: "0625459875",
-      adress: "1 rue du frontend 69000 hophophop city",
+      address: "1 rue du frontend 69000 hophophop city",
       category: "Ecole",
     },
     {
@@ -25,7 +27,7 @@ export default function MapContact() {
       name: "Sihem Nasri",
       email: "sihem@gmail.com",
       phone: "0652455622",
-      adress: "2 rue du frontend 69000 hophophop city",
+      address: "2 rue du frontend 69000 hophophop city",
       category: "Medecin",
     },
     {
@@ -33,7 +35,7 @@ export default function MapContact() {
       name: "Arthur Vincent-Silvestrini",
       email: "arthur@gmail.com",
       phone: "0652366951",
-      adress: "3 rue du frontend 69000 hophophop city",
+      address: "3 rue du frontend 69000 hophophop city",
       category: "Les fantômes",
     },
     {
@@ -41,7 +43,7 @@ export default function MapContact() {
       name: "Soumia Amar",
       email: "soumia@gmail.com",
       phone: "0656221445",
-      adress: "4 rue du frontend 69000 hophophop city",
+      address: "4 rue du frontend 69000 hophophop city",
       category: "Travail",
     },
   ];
@@ -54,7 +56,7 @@ export default function MapContact() {
         >
           <div>
             <div className="font-bold pb-2">{contact.name}</div>
-            <div className="text-sm text-gray-600">
+            <div>
               <a href={`tel:${contact.phone}`} className="flex">
                 <FaPhone className="mr-2 text-blue-medium" />
                 {contact.phone}
@@ -62,9 +64,13 @@ export default function MapContact() {
             </div>
             <div>
               <a href={`mailto:${contact.email}`} className="flex">
-                <IoIosMail className="mr-2 text-blue-medium" />
+                <IoIosMail className="mr-2 mt-1 text-blue-medium" />
                 {contact.email}
               </a>
+              <div className="flex">
+                <ImLocation2 className="mr-2 text-blue-medium mt-1" />
+                <p>{contact.address}</p>
+              </div>
             </div>
           </div>
           <div>
@@ -77,7 +83,7 @@ export default function MapContact() {
             </button>
             {openMenuContactId === contact.id && (
               <div>
-                <MenuKebabContact />
+                <MenuKebabContact contact={contact} />
               </div>
             )}
           </div>

@@ -3,6 +3,7 @@ import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import contact from "../assets/icons-functionnalities/contact.svg";
 import SelectCategory from "../components/Contact_page/SelectCategory";
 import MapContact from "../components/Contact_page/MapContact";
+import AddContact from "../components/Contact_page/AddContact";
 
 export default function Contact() {
   return (
@@ -20,6 +21,9 @@ export default function Contact() {
           <SelectCategory />
           <MapContact />
         </section>
+        <footer className="fixed w-full bottom-0 shadow-top bg-cream text-red-default pl-5 py-3">
+          <AddContact />
+        </footer>
       </main>
     </div>
   );

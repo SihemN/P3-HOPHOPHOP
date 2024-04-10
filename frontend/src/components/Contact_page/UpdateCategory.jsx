@@ -9,7 +9,7 @@ export default function UpdateCategory() {
         <input
           type="text"
           placeholder="Nom de la catégorie"
-          className="border border-gray pl-2"
+          className="border border-gray pl-2 rounded-lg"
           required
         />
         <div className="flex justify-center flex-col font-semibold">

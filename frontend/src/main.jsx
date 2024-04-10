@@ -24,6 +24,8 @@ import Recipe from "./pages/Recipe";
 import CreateGroup from "./pages/CreateGroup";
 import UserProvider, { UserContext } from "./context/UserContext";
 import RefusedAccess from "./components/Not-Connected/RefusedAccess";
+import CreateContact from "./pages/CreateContact";
+import UpdateContact from "./pages/UpdateContact";
 
 // PrivateApp englobe toutes nos routes privées
 // on y vérifie si le user est connecté
@@ -147,6 +149,14 @@ const router = createBrowserRouter([
       {
         path: "/create-group",
         element: <CreateGroup />,
+      },
+      {
+        path: "/add-contact",
+        element: <CreateContact />,
+      },
+      {
+        path: "/update-contact/:contactId",
+        element: <UpdateContact />,
       },
     ],
   },
