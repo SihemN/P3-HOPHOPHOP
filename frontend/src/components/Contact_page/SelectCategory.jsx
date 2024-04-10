@@ -1,9 +1,11 @@
+/* eslint-disable camelcase */
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { VscKebabVertical } from "react-icons/vsc";
 import UpdateCategory from "./UpdateCategory";
 
-export default function SelectCategory() {
+export default function SelectCategory({ categories }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -18,40 +20,6 @@ export default function SelectCategory() {
     setShowPopup(!showPopup);
   };
 
-  const contacts = [
-    {
-      id: 1,
-      name: "Anaïs",
-      email: "anais@gmail.com",
-      phone: "0625459875",
-      adress: "1 rue du frontend 69000 hophophop city",
-      category: "Ecole",
-    },
-    {
-      id: 2,
-      name: "Sihem",
-      email: "sihem@gmail.com",
-      phone: "0652455622",
-      adress: "2 rue du frontend 69000 hophophop city",
-      category: "Medecin",
-    },
-    {
-      id: 3,
-      name: "Arthur",
-      email: "arthur@gmail.com",
-      phone: "0652366951",
-      adress: "3 rue du frontend 69000 hophophop city",
-      category: "Les fantômes",
-    },
-    {
-      id: 4,
-      name: "Soumia",
-      email: "soumia@gmail.com",
-      phone: "0656221445",
-      adress: "4 rue du frontend 69000 hophophop city",
-      category: "Travail",
-    },
-  ];
   return (
     <div className="pt-4 px-6">
       <button
@@ -64,12 +32,12 @@ export default function SelectCategory() {
       </button>
       <div className="border border-blue-lighter rounded-lg">
         {isOpen &&
-          contacts.map((contact) => (
+          categories.map(({ cc_id, cc_name }) => (
             <div
-              key={contact.id}
+              key={cc_id}
               className="flex items-center justify-between hover:bg-blue-lighter rounded-lg pt-2 px-1"
             >
-              {contact.category}
+              {cc_name}
               <button
                 type="button"
                 aria-label="Modifier ou supprimer la catégorie"
@@ -80,7 +48,7 @@ export default function SelectCategory() {
             </div>
           ))}
       </div>
-      {showPopup && <UpdateCategory contacts={contacts} />}
+      {showPopup && <UpdateCategory categories={categories} />}
     </div>
   );
 }
