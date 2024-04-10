@@ -11,12 +11,9 @@ export default function MapRecipes({ filterSelected }) {
 
   // onClick sur une recette
   const handleClickButton = (recipe) => {
+    localStorage.setItem("recipe", JSON.stringify(recipe));
     // au clic sur le bouton de la recette, on navigate vers la page qui montre le détail de la recette
-    navigate("/recipes/detail", {
-      state: {
-        recipe,
-      },
-    });
+    navigate("/recipes/detail");
   };
 
   // const handleClickDots = (id) => {

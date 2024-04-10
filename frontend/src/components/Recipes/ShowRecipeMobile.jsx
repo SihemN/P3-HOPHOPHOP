@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GoPeople } from "react-icons/go";
 import { IoTimeOutline } from "react-icons/io5";
 import { FaCircleArrowLeft } from "react-icons/fa6";
@@ -7,9 +7,16 @@ import HeaderFunctionnalities from "../HeaderFunctionnalities";
 import icon from "../../assets/icons-functionnalities/recipe.svg";
 
 export default function ShowRecipeMobile() {
-  const location = useLocation();
-  const { recipe } = location.state;
-  const { name, description, time, persons, ingredients, category } = recipe;
+  const navigate = useNavigate();
+  // on destructure l'objet recipe stocké dans localStorage
+  const { id, name, description, time, persons, ingredients, category } =
+    JSON.parse(localStorage.getItem("recipe"));
+
+  const handleClickModify = () => {
+    // au clic sur le bouton modifier (icon crayon), on navigate vers le form de modification de la recette
+
+    navigate("/recipes/update");
+  };
   return (
     <div className="font-Neue-Kabel bg-red-default">
       <header>
@@ -20,7 +27,7 @@ export default function ShowRecipeMobile() {
         />
       </header>
       <main className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream shadow-top flex flex-col items-center">
-        {recipe && (
+        {id && (
           <>
             <div className="bg-red-default text-cream text-xl rounded-[12px] h-fit px-4 my-5">
               {category}
@@ -29,8 +36,9 @@ export default function ShowRecipeMobile() {
               type="button"
               aria-label="bouton modifier la recette"
               className="bg-red-default p-2 rounded-full absolute top-0 right-0 mt-5 mr-5 "
+              onClick={handleClickModify}
             >
-              <FaPen className="text-cream text-xl " />
+              <FaPen className="text-cream text-xl" />
             </button>
             <h1 className="text-2xl font-bold text-center">{name}</h1>
 
