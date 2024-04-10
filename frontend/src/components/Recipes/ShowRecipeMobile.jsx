@@ -11,8 +11,8 @@ import icon from "../../assets/icons-functionnalities/recipe.svg";
 export default function ShowRecipeMobile() {
   const navigate = useNavigate();
   // on destructure l'objet recipe stocké dans localStorage
-  const recipeId = JSON.parse(localStorage.getItem("recipeId"));
-  console.info("recipeId", recipeId);
+  const recipeId = localStorage.getItem("recipeId");
+  // console.info("recipeId", recipeId);
   const [recipe, setRecipe] = useState();
   console.info("recipe", recipe);
 
@@ -21,7 +21,7 @@ export default function ShowRecipeMobile() {
     navigate("/recipes/update", { state: { recipe } });
   };
 
-  // On récupère la recette sélectio
+  // On récupère la recette sélectionnée
 
   if (recipeId) {
     useEffect(() => {

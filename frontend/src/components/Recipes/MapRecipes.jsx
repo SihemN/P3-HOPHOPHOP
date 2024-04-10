@@ -10,36 +10,6 @@ export default function MapRecipes({ filterSelected, recipesGroup }) {
   // const [recipeSelected, setRecipeSelected] = useState();
   const navigate = useNavigate();
 
-  // // State pour gérer les recettes du groupe
-  // const [recipesGroup, setRecipesGroup] = useState([]);
-  // const [group] = useState(JSON.parse(localStorage.getItem("group")));
-
-  // // console.info("group", group);
-  // console.info("recipesGroup", recipesGroup);
-
-  // // On récupère les recettes du groupe côté backend
-  // useEffect(() => {
-  //   fetch(`http://localhost:3310/api/recipes/groups/${group.ug_group_id}`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-  //     },
-  //   })
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((res) => {
-  //       // alert(res);
-  //       // console.info("MapRecipes, res >> ", res.result);
-  //       setRecipesGroup(res.result);
-  //     })
-  //     .catch((err) => console.info("Error fetching recipes data:", err));
-  // }, []);
-
   // onClick sur une recette
   const handleClickButton = (recipeId) => {
     localStorage.setItem("recipeId", JSON.stringify(recipeId));
@@ -62,7 +32,7 @@ export default function MapRecipes({ filterSelected, recipesGroup }) {
     ...new Set(recipesGroup.map((recipe) => recipe.r_category)),
   ];
 
-  console.info("uniqueCategories", uniqueCategories);
+  // console.info("uniqueCategories", uniqueCategories);
 
   return (
     <div className="flex flex-col gap-5 px-5 w-full">

@@ -14,7 +14,7 @@ export default function Recipe() {
   const [group] = useState(JSON.parse(localStorage.getItem("group")));
 
   // console.info("group", group);
-  console.info("recipesGroup", recipesGroup);
+  // console.info("recipesGroup", recipesGroup);
 
   // On récupère les recettes du groupe côté backend
   useEffect(() => {
@@ -32,7 +32,6 @@ export default function Recipe() {
         return res.json();
       })
       .then((res) => {
-        // alert(res);
         // console.info("MapRecipes, res >> ", res.result);
         setRecipesGroup(res.result);
       })
