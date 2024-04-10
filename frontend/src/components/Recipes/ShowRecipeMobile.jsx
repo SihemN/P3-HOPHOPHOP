@@ -59,7 +59,7 @@ export default function ShowRecipeMobile() {
       {recipe && recipe.r_id && (
         <main className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream shadow-top flex flex-col items-center">
           <div className="bg-red-default text-cream text-xl rounded-[12px] h-fit px-4 my-5">
-            {/* {category} */}
+            {recipe.r_category}
           </div>
           <button
             type="button"
@@ -69,7 +69,6 @@ export default function ShowRecipeMobile() {
           >
             <FaPen className="text-cream text-xl" />
           </button>
-          <div>{recipe.r_category}</div>
           <h1 className="text-2xl font-bold text-center">{recipe.r_name}</h1>
 
           {/* section sur le nombre de persons et le temps requis */}
