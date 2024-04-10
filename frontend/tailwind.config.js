@@ -41,6 +41,7 @@ export default {
 
       blue: {
         lighter: "#B9D9F6",
+        medium: "#5f92c1",
         default: "#054B8C",
       },
 
