@@ -31,14 +31,17 @@ const createRecipe = async (req, res) => {
 const getRecipeByGroup = async (req, res) => {
   try {
     const { id } = req.params;
-    const [result] = await tables.recipe.getRecipeByGroup(id);
+    const idParse = parseInt(id, 10);
+    console.info("typeof id", typeof idParse);
+    const [result] = await tables.recipe.getRecipeByGroup(idParse);
+    console.info("back", result);
     if (result.length) {
       res.status(200).json({
         message: "Liste des recettes du groupe",
         result,
       });
     } else {
-      res.status(401).send("Pas de liste!!");
+      res.status(401).json("Vous n'avez pas de recettes :(");
     }
   } catch (error) {
     res.status(500).send(error);

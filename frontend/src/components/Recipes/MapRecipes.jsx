@@ -3,11 +3,41 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { FaCirclePlus } from "react-icons/fa6";
 // import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function MapRecipes({ filterSelected }) {
   // On stocke l'id de la recette cliquée
   // const [recipeSelected, setRecipeSelected] = useState();
   const navigate = useNavigate();
+
+  // State pour gérer les recettes du groupe
+  const [recipesGroup, setRecipesGroup] = useState([]);
+  const [group] = useState(JSON.parse(localStorage.getItem("group")));
+
+  // console.info("group", group);
+  console.info("recipesGroup", recipesGroup);
+
+  useEffect(() => {
+    fetch(`http://localhost:3310/api/recipes/groups/${group.ug_group_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((res) => {
+        // alert(res);
+        // console.info("MapRecipes, res >> ", res.result);
+        setRecipesGroup(res.result);
+      })
+      .catch((err) => console.info("Error fetching recipes data:", err));
+  }, []);
 
   // onClick sur une recette
   const handleClickButton = (recipe) => {
