@@ -159,8 +159,8 @@ CREATE TABLE position_user (
 CREATE TABLE recipe (
     r_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     r_name VARCHAR(50) NOT NULL,
-    r_description VARCHAR(255)  NULL,
-    r_time_preparation TIME NULL,
+    r_description TEXT NULL,
+    r_time_preparation VARCHAR(20) NULL,
     r_nb_persons INT NULL,
     r_list_ingredients VARCHAR(255) NULL,
     r_category VARCHAR(50) NULL,

@@ -2,6 +2,7 @@ import { PiUserFill } from "react-icons/pi";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import ProfilForm from "../components/Profile_params/ProfilForm";
 import ChatNotification from "../components/Profile_params/ChatNotification";
+import ChangePassword from "../components/Profile_params/ChangePassword";
 
 export default function ProfileParams() {
   return (
@@ -14,8 +15,11 @@ export default function ProfileParams() {
           <PiUserFill className="bg-blue-default text-cream w-14 h-14 rounded-full p-2" />
           <ProfilForm />
         </section>
-        <section className="flex flex-col items-center w-84">
+        <section className="flex flex-col items-center">
           <ChatNotification />
+        </section>
+        <section className="flex flex-col items-center">
+          <ChangePassword />
         </section>
       </main>
     </div>
