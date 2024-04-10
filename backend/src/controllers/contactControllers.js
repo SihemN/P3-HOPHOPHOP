@@ -29,8 +29,9 @@ const createContact = async (req, res) => {
 const getContactByGroup = async (req, res) => {
   try {
     const { id } = req.params;
+    // console.log("id", id);
     const [results] = await tables.contact.getContactByGroup(id);
-
+    // console.log("results", results);
     if (results.length) {
       res.status(200).json({
         message: "Liste des contacts du groupe récupérée !",
