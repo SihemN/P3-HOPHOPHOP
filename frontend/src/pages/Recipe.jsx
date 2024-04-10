@@ -32,7 +32,3 @@ export default function Recipe() {
     </div>
   );
 }
-
-// composant Filtres par catégorie
-// Composant Map les recettes existantes
-// Composant ajouter une recette

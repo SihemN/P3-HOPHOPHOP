@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import HeaderFunctionnalities from "../HeaderFunctionnalities";
 import icon from "../../assets/icons-functionnalities/recipe.svg";
 
 export default function ModifyRecipe() {
   // on destructure l'objet recipe stocké dans localStorage
-  const { id, name, description, time, persons, ingredients, category } =
-    JSON.parse(localStorage.getItem("recipe"));
-
+  const location = useLocation();
+  const { recipe } = location.state;
   return (
     <div className="font-Neue-Kabel bg-red-default">
       <header>

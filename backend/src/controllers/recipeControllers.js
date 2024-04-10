@@ -31,9 +31,7 @@ const createRecipe = async (req, res) => {
 const getRecipeByGroup = async (req, res) => {
   try {
     const { id } = req.params;
-    const idParse = parseInt(id, 10);
-    console.info("typeof id", typeof idParse);
-    const [result] = await tables.recipe.getRecipeByGroup(idParse);
+    const [result] = await tables.recipe.getRecipeByGroup(id);
     console.info("back", result);
     if (result.length) {
       res.status(200).json({

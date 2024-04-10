@@ -19,7 +19,7 @@ export default function FilterCategories({
     return setFilterSelected(name);
   };
 
-  console.info("filterSelected", filterSelected);
+  // console.info("filterSelected", filterSelected);
 
   return (
     <div className="flex gap-2 flex-wrap p-6">
