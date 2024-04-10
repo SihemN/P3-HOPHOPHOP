@@ -137,7 +137,7 @@ export default function ModifyRecipe() {
                       name="category"
                       value={category}
                       onClick={() => handleClicNewCat(category)}
-                      className="h-12 py-2 px-5 hover:bg-red-clear "
+                      className="h-12 py-2 px-5 hover:bg-red-clear rounded-lg hover:font-semibold"
                     >
                       {category}
                     </div>
