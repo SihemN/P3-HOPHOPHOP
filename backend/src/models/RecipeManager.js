@@ -10,12 +10,12 @@ class RecipeManager extends AbstractManager {
   createRecipe(
     name,
     description,
-    time,
     persons,
     ingredients,
     category,
     groupId,
-    userId
+    userId,
+    time = "--"
   ) {
     return this.database.query(
       `INSERT INTO ${this.table} (

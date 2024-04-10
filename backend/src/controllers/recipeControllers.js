@@ -10,12 +10,12 @@ const createRecipe = async (req, res) => {
     const [result] = await tables.recipe.createRecipe(
       name,
       description,
-      time,
       persons,
       ingredients,
       category,
       id,
-      userId
+      userId,
+      time
     );
     if (result.affectedRows) {
       res.status(201).send("Votre recette à été créée");
