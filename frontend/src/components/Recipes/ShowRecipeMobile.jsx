@@ -10,11 +10,11 @@ import icon from "../../assets/icons-functionnalities/recipe.svg";
 
 export default function ShowRecipeMobile() {
   const navigate = useNavigate();
+
   // on destructure l'objet recipe stocké dans localStorage
   const recipeId = localStorage.getItem("recipeId");
   // console.info("recipeId", recipeId);
   const [recipe, setRecipe] = useState();
-  console.info("recipe", recipe);
 
   const handleClickModify = () => {
     // au clic sur le bouton modifier (icon crayon), on navigate vers le form de modification de la recette
@@ -40,8 +40,9 @@ export default function ShowRecipeMobile() {
         })
         .then((res) => {
           // alert(res);
-          console.info("ShowRecipe, res >> ", res);
+          // console.info("ShowRecipe, res >> ", res);
           setRecipe(res.result[0]);
+          localStorage.setItem("recipeSelected", JSON.stringify(res.result[0]));
         })
         .catch((err) => console.info("Error fetching recipes data:", err));
     }, [recipeId]);

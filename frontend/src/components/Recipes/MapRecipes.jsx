@@ -10,9 +10,14 @@ export default function MapRecipes({ filterSelected, recipesGroup }) {
   // const [recipeSelected, setRecipeSelected] = useState();
   const navigate = useNavigate();
 
+  // Obtenir une liste des noms de catégories uniques
+  const uniqueCategories = [
+    ...new Set(recipesGroup.map((recipe) => recipe.r_category)),
+  ];
   // onClick sur une recette
   const handleClickButton = (recipeId) => {
     localStorage.setItem("recipeId", JSON.stringify(recipeId));
+    localStorage.setItem("uniqueCategories", JSON.stringify(uniqueCategories));
     // on navigate vers la page Détails de la recette
     navigate("/recipes/detail");
   };
@@ -26,11 +31,6 @@ export default function MapRecipes({ filterSelected, recipesGroup }) {
 
   // console.info("recipeSelected ", recipeSelected);
   // fake data de recettes
-
-  // Obtenir une liste des noms de catégories uniques
-  const uniqueCategories = [
-    ...new Set(recipesGroup.map((recipe) => recipe.r_category)),
-  ];
 
   // console.info("uniqueCategories", uniqueCategories);
 
