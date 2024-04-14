@@ -88,12 +88,12 @@ const deleteRecipe = async (req, res) => {
     const { id } = req.params;
     const [result] = await tables.recipe.deleteRecipe(id);
     if (result.affectedRows) {
-      res.status(200).send("La recette a été supprimée!");
+      res.status(200).json("La recette a été supprimée!");
     } else {
-      res.status(401).send("Suppression de la recette échouée!!");
+      res.status(401).json("Suppression de la recette échouée!!");
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 };
 

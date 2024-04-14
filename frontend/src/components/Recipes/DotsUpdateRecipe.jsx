@@ -10,10 +10,50 @@ export default function DotsUpdateRecipe({
   setRecipeUpdated,
 }) {
   const [newRecipeName, setNewRecipeName] = useState({ name: recipeName });
+  const [deleteRecipe, setDeleteRecipe] = useState(false);
 
   const handleClicClose = () => {
     setShowDotsUpdateRecipe(null);
     setNewRecipeName({ name: recipeName });
+    setDeleteRecipe(false);
+  };
+
+  const handleClicDelete = () => {
+    setDeleteRecipe(!deleteRecipe);
+  };
+
+  const handleConfirmDelete = () => {
+    const fetchDeleteRecipe = async () => {
+      try {
+        const results = await fetch(
+          `http://localhost:3310/api/recipes/${recipeId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
+        if (!results.ok) {
+          const errorResponse = await results.json();
+          throw new Error(
+            errorResponse.message || "Echec pour récupérer les données"
+          );
+        }
+        const { result } = await results.json();
+        setRecipeUpdated(true);
+        setShowDotsUpdateRecipe(null);
+        setNewRecipeName({ name: recipeName });
+        setDeleteRecipe(false);
+        console.info("result", result);
+      } catch (error) {
+        console.info("Error deleting the recipe :", error);
+      }
+    };
+    fetchDeleteRecipe();
   };
 
   const handleChangeRecipeName = (e) => {
@@ -77,13 +117,36 @@ export default function DotsUpdateRecipe({
         >
           Supprimer la recette
         </label>
-        <button
-          type="button"
-          name="delete"
-          className="bg-orange-default  hover:bg-green-default active:bg-green-lighter h-12 w-full py-2 px-5 rounded-lg text-cream font-semibold shadow-md shadow-dark-shadow"
-        >
-          Supprimer
-        </button>
+        {!deleteRecipe && (
+          <button
+            type="button"
+            name="delete"
+            className="bg-orange-default  hover:bg-green-default active:bg-green-lighter h-12 w-full py-2 px-5 rounded-lg text-cream font-semibold shadow-md shadow-dark-shadow"
+            onClick={handleClicDelete}
+          >
+            Supprimer
+          </button>
+        )}
+        {deleteRecipe && (
+          <>
+            <button
+              type="button"
+              name="confirm-delete"
+              className="border border-red-default  hover:border-red-default active:bg-green-lighter h-12 w-full py-2 px-5 rounded-lg text-red-default font-semibold shadow-md shadow-dark-shadow"
+              onClick={handleClicDelete}
+            >
+              Annuler
+            </button>
+            <button
+              type="button"
+              name="confirm-delete"
+              className="bg-red-default  hover:bg-green-default active:bg-green-lighter h-12 w-full py-2 px-5 rounded-lg text-cream font-semibold shadow-md shadow-dark-shadow"
+              onClick={handleConfirmDelete}
+            >
+              Confirmer
+            </button>
+          </>
+        )}
       </div>
     )
   );
