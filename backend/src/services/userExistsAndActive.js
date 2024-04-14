@@ -7,8 +7,9 @@ const userExistsAndActive = async (req, res, next) => {
     // on récupère l'id du groupe dans params
     const { id } = req.params;
     // on récupère la réponse du Manager
-    const [result] =
-      await tables.user.getUserByEmailWithoutHashedPassword(email);
+    const [result] = await tables.user.getUserByEmailWithoutHashedPassword(
+      email
+    );
     const userIsAlreadyInGroup = result.some(
       (element) => element.ug_group_id === parseInt(id, 10)
     );

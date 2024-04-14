@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-unused-vars */
@@ -9,13 +10,20 @@ import HeaderFunctionnalities from "../HeaderFunctionnalities";
 import icon from "../../assets/icons-functionnalities/recipe.svg";
 
 export default function ModifyRecipe() {
-  // on destructure l'objet recipe stocké dans localStorage
-  const location = useLocation();
   // on récupère l'objet recette transmis par le navigate
   const recipe = JSON.parse(localStorage.getItem("recipeSelected"));
+  const {
+    r_name,
+    r_description,
+    r_nb_persons,
+    r_list_ingredients,
+    r_category,
+    r_time_preparation,
+  } = recipe;
+
   // on récupère les catégories existantes dans le localStorage
   const [categories] = useState(
-    JSON.parse(localStorage.getItem("uniqueCategories"))
+    JSON.parse(localStorage.getItem("uniqueRecipesCategories"))
   );
   // On initialise le navigate
   const navigate = useNavigate();
@@ -29,20 +37,18 @@ export default function ModifyRecipe() {
   // state sur l'id de la recette sélectionnée
   const [recipeId] = useState(localStorage.getItem("recipeId"));
   // state sur la catégorie de la recette
-  const [categorySelected, setCategorySelected] = useState(
-    recipe.r_category || ""
-  );
+  const [categorySelected, setCategorySelected] = useState(r_category || "");
   // on gère les données de la recipe
   // on initialise les propriétés avec les valeurs de la recette cliquée
   const [dataRecipe, setDataRecipe] = useState(() => {
     if (recipe) {
       return {
-        name: recipe.r_name || "",
-        description: recipe.r_description || "",
-        nb_persons: recipe.r_nb_persons || "",
-        list_ingredients: recipe.r_list_ingredients || "",
-        category: recipe.r_category || "",
-        time_preparation: recipe.r_time_preparation || "",
+        name: r_name || "",
+        description: r_description || "",
+        nb_persons: r_nb_persons || "",
+        list_ingredients: r_list_ingredients || "",
+        category: r_category || "",
+        time_preparation: r_time_preparation || "",
       };
     }
     return {

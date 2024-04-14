@@ -18,11 +18,10 @@ export default function ShowRecipeMobile() {
 
   const handleClickModify = () => {
     // au clic sur le bouton modifier (icon crayon), on navigate vers le form de modification de la recette
-    navigate("/recipes/update", { state: { recipe } });
+    navigate("/recipes/update");
   };
 
   // On récupère la recette sélectionnée
-
   if (recipeId) {
     useEffect(() => {
       fetch(`http://localhost:3310/api/recipes/${recipeId}`, {
@@ -41,8 +40,8 @@ export default function ShowRecipeMobile() {
         .then((res) => {
           // alert(res);
           // console.info("ShowRecipe, res >> ", res);
-          setRecipe(res.result[0]);
           localStorage.setItem("recipeSelected", JSON.stringify(res.result[0]));
+          setRecipe(JSON.parse(localStorage.getItem("recipeSelected")));
         })
         .catch((err) => console.info("Error fetching recipes data:", err));
     }, [recipeId]);
@@ -50,13 +49,12 @@ export default function ShowRecipeMobile() {
 
   return (
     <div className="font-Neue-Kabel bg-red-default">
-      <header>
-        <HeaderFunctionnalities
-          title="Vos recettes"
-          color="text-red-default"
-          icon={icon}
-        />
-      </header>
+      <HeaderFunctionnalities
+        title="Vos recettes"
+        color="text-red-default"
+        icon={icon}
+      />
+
       {recipe && recipe.r_id && (
         <main className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream shadow-top flex flex-col items-center">
           <div className="bg-red-default text-cream text-xl rounded-[12px] h-fit px-4 my-5">
@@ -98,7 +96,6 @@ export default function ShowRecipeMobile() {
         </main>
       )}
       <footer className="fixed w-full bottom-0 shadow-top bg-cream text-red-default pl-5 py-3">
-        {" "}
         <Link to="/recipes" className="flex items-center gap-3 ">
           <FaCircleArrowLeft className=" text-3xl" />
           <p>Retourner aux recettes</p>

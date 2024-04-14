@@ -1,38 +1,51 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { FaCirclePlus } from "react-icons/fa6";
 // import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DotsUpdateRecipe from "./DotsUpdateRecipe";
 
-export default function MapRecipes({ filterSelected, recipesGroup }) {
+export default function MapRecipes({
+  filterSelected,
+  recipesGroup,
+  setRecipeUpdated,
+}) {
   // On stocke l'id de la recette cliquée
   // const [recipeSelected, setRecipeSelected] = useState();
   const navigate = useNavigate();
 
+  //
+  const [showDotsUpdateRecipe, setShowDotsUpdateRecipe] = useState(null);
+
   // Obtenir une liste des noms de catégories uniques
-  const uniqueCategories = [
+  const uniqueRecipesCategories = [
     ...new Set(recipesGroup.map((recipe) => recipe.r_category)),
   ];
-  // onClick sur une recette
-  const handleClickButton = (recipeId) => {
+
+  //
+  const storeUniqueRecipesCategories = () => {
+    localStorage.setItem(
+      "uniqueRecipesCategories",
+      JSON.stringify(uniqueRecipesCategories)
+    );
+  };
+  storeUniqueRecipesCategories();
+
+  const storeClickedRecipe = (recipeId) => {
     localStorage.setItem("recipeId", JSON.stringify(recipeId));
-    localStorage.setItem("uniqueCategories", JSON.stringify(uniqueCategories));
-    // on navigate vers la page Détails de la recette
+  };
+
+  const handleClicRecipe = (recipeId) => {
+    storeClickedRecipe(recipeId);
     navigate("/recipes/detail");
   };
 
-  // const handleClickDots = (id) => {
-  //   if (id === recipeSelected) {
-  //     return setRecipeSelected();
-  //   }
-  //   return setRecipeSelected(id);
-  // };
+  const handleClickDots = (recipeId) => {
+    setShowDotsUpdateRecipe(recipeId);
+  };
 
-  // console.info("recipeSelected ", recipeSelected);
-  // fake data de recettes
-
-  // console.info("uniqueCategories", uniqueCategories);
+  console.info("showDotsUpdateRecipe", showDotsUpdateRecipe);
 
   return (
     <div className="flex flex-col gap-5 px-5 w-full">
@@ -40,7 +53,7 @@ export default function MapRecipes({ filterSelected, recipesGroup }) {
       / Par défaut, on affiche toutes les catégories de recettes
       / Si clic, On filtre les catégories par la catégorie cliquée
       */}
-      {uniqueCategories
+      {uniqueRecipesCategories
         .filter(
           (category) =>
             filterSelected === "Toutes" || category === filterSelected
@@ -57,26 +70,34 @@ export default function MapRecipes({ filterSelected, recipesGroup }) {
                   category === "Toutes" || r_category === category
               )
               .map(({ r_id, r_name, r_category, u_name }) => (
-                <button
-                  type="button"
-                  key={r_id}
-                  name={r_category}
-                  onClick={() => handleClickButton(r_id)}
-                  className="flex justify-between items-center bg-red-clear hover:border hover:border-red-default border border-red-clear text-dark-default w-full p-3 rounded-xl mb-3"
-                >
-                  <div className="flex flex-col items-start">
+                <div className="flex justify-between items-center bg-red-clear hover:border hover:border-red-default border border-red-clear text-dark-default w-full p-3 rounded-xl mb-3 pr-0">
+                  <button
+                    type="button"
+                    key={r_id}
+                    name={r_category}
+                    onClick={() => handleClicRecipe(r_id)}
+                    className="flex w-full mr-4 flex-col items-start"
+                  >
                     <h2 className="font-bold">{r_name}</h2>
                     <h3 className="font-light">{`Ajoutée par ${u_name}`}</h3>
+                  </button>
+                  <div className="relative flex items-center ">
+                    <HiOutlineDotsVertical
+                      className="text-3xl w-fit text-red-default mt-0 pr-3"
+                      onClick={() => handleClickDots(r_id)}
+                    />
+                    <DotsUpdateRecipe
+                      showDotsUpdateRecipe={showDotsUpdateRecipe}
+                      setShowDotsUpdateRecipe={setShowDotsUpdateRecipe}
+                      recipeId={r_id}
+                      recipeName={r_name}
+                      setRecipeUpdated={setRecipeUpdated}
+                    />
                   </div>
-                  <HiOutlineDotsVertical
-                    className="text-3xl text-red-default"
-                    // onClick={() => handleClickDots(id)}
-                  />
-                </button>
+                </div>
               ))}
           </div>
         ))}
-      <FaCirclePlus className="fixed bottom-5 right-5 text-4xl text-red-default" />
     </div>
   );
 }
