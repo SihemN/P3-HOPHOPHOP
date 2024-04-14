@@ -216,7 +216,7 @@ export default function ModifyRecipe() {
         {" "}
         <Link to="/recipes/detail" className="flex items-center gap-3">
           <FaCircleArrowLeft className=" text-3xl" />
-          <p>Retourner aux recettes</p>
+          <p>Retour</p>
         </Link>
       </footer>
     </div>
