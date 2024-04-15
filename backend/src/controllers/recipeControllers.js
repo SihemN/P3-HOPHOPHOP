@@ -32,7 +32,7 @@ const getRecipeByGroup = async (req, res) => {
   try {
     const { id } = req.params;
     const [result] = await tables.recipe.getRecipeByGroup(id);
-    console.info("back", result);
+    // console.info("back", result);
     if (result.length) {
       res.status(200).json({
         message: "Liste des recettes du groupe",
@@ -50,13 +50,16 @@ const getRecipeByGroup = async (req, res) => {
 const updateRecipe = async (req, res) => {
   try {
     const { id } = req.params;
+
     const [result] = await tables.recipe.updateRecipe(id, req.body);
+    console.info("result Controller >>", result);
     if (result.affectedRows) {
-      res.status(200).send("La recette a été mise à jour");
+      res.status(200).json("La recette a été mise à jour");
     } else {
-      res.status(401).send("Mise à jour échouée!!");
+      res.status(401).json("Mise à jour échouée!!");
     }
   } catch (error) {
+    // console.log('error', error)
     res.status(500).send(error);
   }
 };
@@ -85,12 +88,12 @@ const deleteRecipe = async (req, res) => {
     const { id } = req.params;
     const [result] = await tables.recipe.deleteRecipe(id);
     if (result.affectedRows) {
-      res.status(200).send("La recette a été supprimée!");
+      res.status(200).json("La recette a été supprimée!");
     } else {
-      res.status(401).send("Suppression de la recette échouée!!");
+      res.status(401).json("Suppression de la recette échouée!!");
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 };
 
