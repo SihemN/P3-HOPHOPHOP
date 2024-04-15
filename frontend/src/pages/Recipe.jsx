@@ -20,6 +20,15 @@ export default function Recipe() {
   // state pour re-render si recipe updated
   const [recipeUpdated, setRecipeUpdated] = useState(false);
 
+  const recipesCategories = [
+    { id: 0, name: "Toutes" },
+    { id: 1, name: "Apéritifs" },
+    { id: 2, name: "Entrées" },
+    { id: 3, name: "Plats" },
+    { id: 4, name: "Desserts" },
+    { id: 5, name: "Boissons" },
+    { id: 6, name: "Petits-déjeuners" },
+  ];
   // On récupère les recettes du groupe côté backend
   useEffect(() => {
     const fetchDataRecipesOfGroup = async () => {
@@ -65,12 +74,13 @@ export default function Recipe() {
         <FilterCategories
           filterSelected={filterSelected}
           setFilterSelected={setFilterSelected}
-          recipesGroup={recipesGroup}
+          recipesCategories={recipesCategories}
         />
         <MapRecipes
           recipesGroup={recipesGroup}
           filterSelected={filterSelected}
           setRecipeUpdated={setRecipeUpdated}
+          recipesCategories={recipesCategories}
         />
         <footer className="fixed flex justify-end w-full bottom-0 shadow-top bg-cream text-red-default pr-5 py-3">
           <FaCirclePlus className="text-4xl text-red-default" />

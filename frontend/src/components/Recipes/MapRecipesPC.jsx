@@ -15,8 +15,6 @@ export default function MapRecipes({ filterSelected }) {
     return setRecipeSelected(id);
   };
 
-  // console.log("recipeSelected ", recipeSelected);
-
   // fake data de recettes
   const recipes = [
     {
