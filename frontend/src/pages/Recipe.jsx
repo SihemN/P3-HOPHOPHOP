@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { FaCirclePlus } from "react-icons/fa6";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import icon from "../assets/icons-functionnalities/recipe.svg";
 import FilterCategories from "../components/Recipes/FilterCategories";
 import MapRecipes from "../components/Recipes/MapRecipes";
+import ShowRecipeDetails from "../components/Recipes/ShowRecipeDetails";
 
 export default function Recipe() {
   // On gère le state du filtre de catégorie sélectionné
@@ -61,8 +63,6 @@ export default function Recipe() {
     fetchDataRecipesOfGroup();
   }, [recipeUpdated === true]);
 
-  console.info("recipesGroup", recipesGroup);
-
   return (
     <div className="font-Neue-Kabel bg-red-default">
       <HeaderFunctionnalities
@@ -70,22 +70,30 @@ export default function Recipe() {
         color="text-red-default"
         icon={icon}
       />
-      <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
-        <FilterCategories
-          filterSelected={filterSelected}
-          setFilterSelected={setFilterSelected}
-          recipesCategories={recipesCategories}
-        />
-        <MapRecipes
-          recipesGroup={recipesGroup}
-          filterSelected={filterSelected}
-          setRecipeUpdated={setRecipeUpdated}
-          recipesCategories={recipesCategories}
-        />
-        <footer className="fixed flex justify-end w-full bottom-0 shadow-top bg-cream text-red-default pr-5 py-3">
-          <FaCirclePlus className="text-4xl text-red-default" />
-        </footer>
+      <main className=" lg:flex rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
+        <div className="lg:flex-1 z-10 lg:shadow-lg lg:rounded-tr-[4rem] lg:pt-5 lg:max-w-[800px]">
+          <FilterCategories
+            filterSelected={filterSelected}
+            setFilterSelected={setFilterSelected}
+            recipesCategories={recipesCategories}
+          />
+          <MapRecipes
+            recipesGroup={recipesGroup}
+            filterSelected={filterSelected}
+            setRecipeUpdated={setRecipeUpdated}
+            recipesCategories={recipesCategories}
+          />
+        </div>
+        {/* Version PC: ajouter le composant d'affichage Recette */}
+        <div className="hidden z-0 lg:block lg:flex-1">
+          <ShowRecipeDetails />
+        </div>
       </main>
+      <footer className="fixed z-10 flex justify-end w-full lg:mx-0 lg:w-[50%] lg:max-w-[800px] bottom-0 shadow-top bg-cream text-red-default pr-5 py-3">
+        <Link to="/recipes/create">
+          <FaCirclePlus className="text-4xl text-red-default" />
+        </Link>
+      </footer>
     </div>
   );
 }

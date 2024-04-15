@@ -42,7 +42,7 @@ export default function ShowRecipeDetails() {
   return (
     <>
       {recipe && recipe.r_id && (
-        <main className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream shadow-top flex flex-col items-center">
+        <main className="relative rounded-t-3xl lg:rounded-t-[4rem] lg:mt-5 bg-cream shadow-top lg:shadow-none flex flex-col items-center">
           <div className="bg-red-default text-cream text-xl rounded-[12px] h-fit px-4 my-5">
             {recipe.r_category}
           </div>
@@ -65,7 +65,7 @@ export default function ShowRecipeDetails() {
             />
           </section>
           {/* section sur les ingrédients et instructions */}
-          <section className="px-10 w-full text-lg">
+          <section className="px-10 w-full lg:max-w-[950px] text-lg lg:px-20">
             <ShowRecipeDivInfo
               title="Ingrédients"
               text={recipe.r_list_ingredients}

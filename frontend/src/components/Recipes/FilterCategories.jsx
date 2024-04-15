@@ -15,7 +15,7 @@ export default function FilterCategories({
   };
 
   return (
-    <div className="flex gap-2 flex-wrap p-6">
+    <div className="flex gap-2 flex-wrap p-6 lg:pl-10">
       {filters.map(({ id, name }) => (
         <FilterCategoriesButton
           id={id}

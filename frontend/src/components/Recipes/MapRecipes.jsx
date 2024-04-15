@@ -22,7 +22,7 @@ export default function MapRecipes({
   storeRecipesCategories();
 
   return (
-    <div className="flex flex-col gap-5 px-5 w-full">
+    <div className="flex flex-col gap-5 px-5 lg:px-10 w-full">
       {/* Parcourir les recettes par catégorie
       / Par défaut, on affiche toutes les catégories de recettes
       / Si clic, On filtre les catégories par la catégorie cliquée

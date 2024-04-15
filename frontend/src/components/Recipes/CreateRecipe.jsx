@@ -1,6 +1,7 @@
 import HeaderFunctionnalities from "../HeaderFunctionnalities";
 import icon from "../../assets/icons-functionnalities/recipe.svg";
 import FormUpdateRecipe from "./FormCreateRecipe";
+import FooterBack from "./FooterBack";
 
 export default function CreateRecipe() {
   return (
@@ -16,6 +17,7 @@ export default function CreateRecipe() {
         </h1>
         <FormUpdateRecipe />
       </main>
+      <FooterBack text="Retourner aux recettes" to="/recipes" />
     </div>
   );
 }
