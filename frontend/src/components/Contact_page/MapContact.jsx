@@ -7,7 +7,7 @@ import { VscKebabVertical } from "react-icons/vsc";
 import { ImLocation2 } from "react-icons/im";
 import MenuKebabContact from "./MenuKebabContact";
 
-export default function MapContact({ contacts }) {
+export default function MapContact({ filteredContacts }) {
   const [openMenuContactId, setOpenMenuContactId] = useState(null);
 
   const handleClick = (id) => {
@@ -16,7 +16,7 @@ export default function MapContact({ contacts }) {
 
   return (
     <>
-      {contacts.map(({ c_name, c_phone, c_email, c_address, c_id }) => (
+      {filteredContacts.map(({ c_name, c_phone, c_email, c_address, c_id }) => (
         <div
           key={c_id}
           className="flex items-center justify-between p-4 border-b border-blue-lighter"

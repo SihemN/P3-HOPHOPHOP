@@ -1,17 +1,41 @@
+/* eslint-disable camelcase */
+
 import { useState } from "react";
 
 /* eslint-disable react/prop-types */
-export default function UpdateContactForm({ contact }) {
-  const [name, setName] = useState(contact.name);
-  const [email, setEmail] = useState(contact.email);
-  const [phone, setPhone] = useState(contact.phone);
-  const [address, setAddress] = useState(contact.address);
-  const [category, setCategory] = useState(contact.category);
+export default function UpdateContactForm({ contactToUpdate }) {
+  const [name, setName] = useState(contactToUpdate.name);
+  const [email, setEmail] = useState(contactToUpdate.email);
+  const [phone, setPhone] = useState(contactToUpdate.phone);
+  const [address, setAddress] = useState(contactToUpdate.address);
+  const [category, setCategory] = useState(contactToUpdate.category);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setName();
+    try {
+      const updateData = { name, email, phone, address, category };
+      const response = await fetch(
+        `http://localhost:3310/api/contacts/${contactToUpdate}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
+          body: JSON.stringify(updateData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de la mise à jour du contact");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour:", error);
+    }
   };
+
   return (
     <div className="flex flex-col items-center">
       <form className="pt-8" onSubmit={handleSubmit}>

@@ -9,6 +9,10 @@ import AddContact from "../components/Contact_page/AddContact";
 export default function Contact() {
   const [contacts, setContacts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [categoryUpdated, setCategoryUpdated] = useState(false);
+  const [filteredContacts, setFilteredContacts] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [filterSelected, setFilterSelected] = useState(null);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -36,6 +40,7 @@ export default function Contact() {
         }
         const { results } = await response.json();
         setContacts(results);
+        setFilteredContacts(results);
       } catch (error) {
         console.error(error);
       }
@@ -58,13 +63,10 @@ export default function Contact() {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${JSON.parse(
-                localStorage.getItem("token")
-              )}`,
+              Authorization: `Bearer ${JSON.parse(token)}`,
             },
           }
         );
-        console.info(response);
 
         if (!response.ok) {
           throw new Error(
@@ -73,14 +75,16 @@ export default function Contact() {
         }
         const { results } = await response.json();
         setCategories(results);
-        console.info("results", results);
       } catch (error) {
         console.error(error);
       }
     };
     fetchCategories();
-  }, []);
+  }, [categoryUpdated]);
 
+  const handleCategoriesChange = (newCategories) => {
+    setCategories(newCategories);
+  };
   return (
     <div className="bg-blue-lighter font-Neue-Kabel">
       <header>
@@ -93,8 +97,15 @@ export default function Contact() {
       </header>
       <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
         <section>
-          <SelectCategory categories={categories} />
-          <MapContact contacts={contacts} />
+          <SelectCategory
+            categories={categories}
+            onCategoriesChange={handleCategoriesChange}
+            setCategoryUpdated={setCategoryUpdated}
+            contacts={contacts}
+            setFilteredContacts={setFilteredContacts}
+            setFilterSelected={setFilterSelected}
+          />
+          <MapContact filteredContacts={filteredContacts} />
         </section>
         <footer className="fixed w-full bottom-0 shadow-top bg-cream text-red-default pl-5 py-3">
           <AddContact />
