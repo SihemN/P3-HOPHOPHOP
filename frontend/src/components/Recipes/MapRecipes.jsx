@@ -8,9 +8,23 @@ export default function MapRecipes({
   setRecipeUpdated,
   recipesCategories,
 }) {
+  // On récupère les catégories qui ont des recettes
   const categoriesNotEmpty = [
     ...new Set(recipesGroup.map((recipe) => recipe.r_category)),
   ];
+
+  const customOrder = [
+    "Apéritifs",
+    "Entrées",
+    "Plats",
+    "Desserts",
+    "Boissons",
+    "Petits-déjeuners",
+  ];
+
+  const categoriesNotEmptyAndSorted = categoriesNotEmpty.sort((a, b) => {
+    return customOrder.indexOf(a) - customOrder.indexOf(b);
+  });
 
   const storeRecipesCategories = () => {
     localStorage.setItem(
@@ -22,12 +36,12 @@ export default function MapRecipes({
   storeRecipesCategories();
 
   return (
-    <div className="flex flex-col gap-5 px-5 lg:px-10 w-full">
+    <div className="flex flex-col gap-5 px-5 pb-20 lg:px-10 w-full">
       {/* Parcourir les recettes par catégorie
       / Par défaut, on affiche toutes les catégories de recettes
       / Si clic, On filtre les catégories par la catégorie cliquée
       */}
-      {categoriesNotEmpty
+      {categoriesNotEmptyAndSorted
         .filter(
           (category) =>
             filterSelected === "Toutes" || category === filterSelected
