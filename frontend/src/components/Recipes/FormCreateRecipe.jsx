@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-export default function FormCreateRecipe() {
+export default function FormCreateRecipe({ setRecipeUpdated }) {
   const navigate = useNavigate();
   // Ouverture de l'input catégorie
   const [isOpen, setIsOpen] = useState(false);
@@ -81,6 +82,7 @@ export default function FormCreateRecipe() {
         .then((res) => res.json())
         .then((data) => {
           console.info("data", data);
+          setRecipeUpdated(true);
           navigate("/recipes");
         })
         .catch((err) => console.error("Erreur : ", err));

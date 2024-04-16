@@ -16,6 +16,7 @@ export default function MapRecipesByCategory({
         )
         .map(({ r_id, r_name, r_category, u_name }) => (
           <MapRecipeDiv
+            key={r_id}
             r_id={r_id}
             r_name={r_name}
             r_category={r_category}

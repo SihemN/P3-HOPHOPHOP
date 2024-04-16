@@ -28,7 +28,7 @@ export default function Recipe() {
     currentRecipe ? "details recipe" : null
   );
 
-  console.info("componentToShow", componentToShow);
+  // console.info("componentToShow", componentToShow);
   const recipesCategories = [
     { id: 0, name: "Toutes" },
     { id: 1, name: "Apéritifs" },
@@ -72,13 +72,17 @@ export default function Recipe() {
         }
         const { result } = await results.json();
         setRecipesGroup(result);
-        setRecipeUpdated(false);
+        if (recipeUpdated) {
+          setRecipeUpdated(false);
+          // console.info("if recipeUpdated");
+        }
       } catch (error) {
         console.info("Error fetching recipes data:", error);
       }
     };
     fetchDataRecipesOfGroup();
-  }, [recipeUpdated === true]);
+    // console.info("useEffect render");
+  }, [recipeUpdated]);
 
   return (
     <div className="font-Neue-Kabel bg-red-default">
@@ -104,7 +108,9 @@ export default function Recipe() {
         {/* Version PC: ajouter le composant d'affichage Recette */}
         <div className="hidden z-0 lg:block lg:flex-1 lg:overflow-auto">
           {componentToShow === "details recipe" && <ShowRecipeDetails />}
-          {componentToShow === "create recipe" && <CreateRecipe />}
+          {componentToShow === "create recipe" && (
+            <CreateRecipe setRecipeUpdated={setRecipeUpdated} />
+          )}
         </div>
       </main>
       <FooterRecipe handleClicCreateRecipe={handleClicCreateRecipe} />

@@ -44,7 +44,7 @@ export default function DotsUpdateRecipe({
           );
         }
         const { result } = await results.json();
-        setRecipeUpdated(true);
+        setRecipeUpdated((prev) => !prev);
         setShowDotsUpdateRecipe(null);
         setNewRecipeName({ name: recipeName });
         setDeleteRecipe(false);

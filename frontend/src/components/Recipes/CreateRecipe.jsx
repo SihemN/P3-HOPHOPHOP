@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import HeaderFunctionnalities from "../HeaderFunctionnalities";
 import icon from "../../assets/icons-functionnalities/recipe.svg";
 import FooterBack from "./FooterBack";
 import FormCreateRecipe from "./FormCreateRecipe";
 
-export default function CreateRecipe() {
+export default function CreateRecipe({ setRecipeUpdated }) {
   return (
     <div className="font-Neue-Kabel bg-red-default lg:bg-opacity-0">
       <div className="lg:hidden">
@@ -17,7 +18,7 @@ export default function CreateRecipe() {
         <h1 className="bg-red-default mx-auto text-cream text-xl rounded-[12px] h-fit w-fit px-4 my-5">
           Ajouter une nouvelle recette
         </h1>
-        <FormCreateRecipe />
+        <FormCreateRecipe setRecipeUpdated={setRecipeUpdated} />
       </main>
       <div className="lg:hidden">
         <FooterBack text="Retourner aux recettes" to="/recipes" />
