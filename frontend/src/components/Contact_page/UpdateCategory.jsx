@@ -10,6 +10,7 @@ export default function UpdateCategory({
 }) {
   const [categoryName, setCategoryName] = useState(category.cc_name || "");
 
+  // mise à jour du nom de la catégorie avec le formulaire et le ferme
   const handleUpdate = (e) => {
     e.preventDefault();
     onUpdate(category.cc_id, categoryName);

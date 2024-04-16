@@ -20,10 +20,12 @@ export default function SelectCategory({
     setIsOpen(!isOpen);
   };
 
+  // récupèrer la catégorie selectionnée pour la modifier
   const handleKebabClick = (category) => {
     setSelectedCategory(category);
   };
 
+  // filtrer les contacts par leur catégorie + màj des contacts filtrés
   const handleCategoryClick = (categoryId) => {
     setFilterSelected(categoryId);
     const filteredContacts = contacts.filter(
@@ -32,6 +34,7 @@ export default function SelectCategory({
     setFilteredContacts(filteredContacts);
   };
 
+  // màj des catégories de contact
   const handleUpdateCategory = async (categoryId, categoryName) => {
     try {
       const token = localStorage.getItem("token");
@@ -65,6 +68,7 @@ export default function SelectCategory({
     }
   };
 
+  // supprimer une catégorie de contact
   const handleDeleteCategory = async (categoryId) => {
     try {
       const token = localStorage.getItem("token");

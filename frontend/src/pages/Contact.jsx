@@ -14,6 +14,7 @@ export default function Contact() {
   // eslint-disable-next-line no-unused-vars
   const [filterSelected, setFilterSelected] = useState(null);
 
+  // récupérer les contacts depuis l'api
   useEffect(() => {
     const fetchContacts = async () => {
       try {
@@ -48,6 +49,7 @@ export default function Contact() {
     fetchContacts();
   }, []);
 
+  // récupérer les catégories de contact depuis l'api
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -82,6 +84,7 @@ export default function Contact() {
     fetchCategories();
   }, [categoryUpdated]);
 
+  // màj des carégories quand il y a des modifications
   const handleCategoriesChange = (newCategories) => {
     setCategories(newCategories);
   };

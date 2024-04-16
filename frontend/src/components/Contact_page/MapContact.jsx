@@ -10,6 +10,7 @@ import MenuKebabContact from "./MenuKebabContact";
 export default function MapContact({ filteredContacts }) {
   const [openMenuContactId, setOpenMenuContactId] = useState(null);
 
+  // ouvrir le menu du contact sur lequel on clique
   const handleClick = (id) => {
     setOpenMenuContactId(openMenuContactId === id ? null : id);
   };
