@@ -27,6 +27,8 @@ export default function Recipe() {
   const [componentToShow, setComponentToShow] = useState(
     currentRecipe ? "details recipe" : null
   );
+  console.info("currentRecipe", currentRecipe);
+  console.info("componentToShow", componentToShow);
 
   // console.info("componentToShow", componentToShow);
   const recipesCategories = [
@@ -109,7 +111,10 @@ export default function Recipe() {
         <div className="hidden z-0 lg:block lg:flex-1 lg:overflow-auto">
           {componentToShow === "details recipe" && <ShowRecipeDetails />}
           {componentToShow === "create recipe" && (
-            <CreateRecipe setRecipeUpdated={setRecipeUpdated} />
+            <CreateRecipe
+              setRecipeUpdated={setRecipeUpdated}
+              setComponentToShow={setComponentToShow}
+            />
           )}
         </div>
       </main>

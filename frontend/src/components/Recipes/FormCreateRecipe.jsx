@@ -4,7 +4,10 @@ import { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-export default function FormCreateRecipe({ setRecipeUpdated }) {
+export default function FormCreateRecipe({
+  setRecipeUpdated,
+  setComponentToShow,
+}) {
   const navigate = useNavigate();
   // Ouverture de l'input catégorie
   const [isOpen, setIsOpen] = useState(false);
@@ -83,6 +86,16 @@ export default function FormCreateRecipe({ setRecipeUpdated }) {
         .then((data) => {
           console.info("data", data);
           setRecipeUpdated(true);
+          setDataRecipe({
+            name: "",
+            description: "",
+            nb_persons: "",
+            list_ingredients: "",
+            category: "",
+            time_preparation: "",
+          });
+          setComponentToShow("details recipe");
+          setCategorySelected(null);
           navigate("/recipes");
         })
         .catch((err) => console.error("Erreur : ", err));
@@ -90,6 +103,9 @@ export default function FormCreateRecipe({ setRecipeUpdated }) {
 
     if (categorySelected !== null) {
       fetchCreateRecipe();
+    } else if (categorySelected === null) {
+      // eslint-disable-next-line no-alert
+      alert("Choisissez une catégorie");
     }
   };
   // fetch route CREATE recipe
@@ -111,7 +127,7 @@ export default function FormCreateRecipe({ setRecipeUpdated }) {
         className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
         onChange={handlChange}
       />
-      <label htmlFor="category" className="relative w-full">
+      <label htmlFor="category" className="relative w-full bg-white">
         <p className="font-bold mt-4">Catégorie</p>
         <button
           type="button"
