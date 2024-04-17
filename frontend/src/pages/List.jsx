@@ -1,9 +1,8 @@
 import React from "react";
-
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import todolist from "../assets/icons-functionnalities/todolist.svg";
-// import TodoList from "../components/TodoList/TodoList";
 import ListOfTaskList from "../components/TodoList/ListOfTaskList";
+import FooterAdd from "../components/TodoList/FooterAdd";
 
 export default function List() {
   return (
@@ -21,6 +20,9 @@ export default function List() {
           <ListOfTaskList />
         </div>
       </main>
+      <footer>
+        <FooterAdd />
+      </footer>
     </div>
   );
 }
