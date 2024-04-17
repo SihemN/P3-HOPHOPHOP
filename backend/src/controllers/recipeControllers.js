@@ -18,12 +18,12 @@ const createRecipe = async (req, res) => {
       time
     );
     if (result.affectedRows) {
-      res.status(201).send("Votre recette à été créée");
+      res.status(201).json("Votre recette à été créée");
     } else {
-      res.status(401).send("Problème dans la création !!!");
+      res.status(401).json("Problème dans la création !!!");
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 };
 

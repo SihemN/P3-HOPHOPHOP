@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FaCirclePlus } from "react-icons/fa6";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import icon from "../assets/icons-functionnalities/recipe.svg";
 import FilterCategories from "../components/Recipes/FilterCategories";
 import MapRecipes from "../components/Recipes/MapRecipes";
+import ShowRecipeDetails from "../components/Recipes/ShowRecipeDetails";
+import CreateRecipe from "../components/Recipes/CreateRecipe";
+import FooterRecipe from "../components/Recipes/FooterRecipe";
 
 export default function Recipe() {
   // On gère le state du filtre de catégorie sélectionné
@@ -20,6 +22,15 @@ export default function Recipe() {
   // state pour re-render si recipe updated
   const [recipeUpdated, setRecipeUpdated] = useState(false);
 
+  // state pour gérer si on affiche les composents afficher la recette, modifier la recette ou créer une recette
+  const currentRecipe = JSON.parse(localStorage.getItem("recipeSelected"));
+  const [componentToShow, setComponentToShow] = useState(
+    currentRecipe ? "details recipe" : null
+  );
+  console.info("currentRecipe", currentRecipe);
+  console.info("componentToShow", componentToShow);
+
+  // console.info("componentToShow", componentToShow);
   const recipesCategories = [
     { id: 0, name: "Toutes" },
     { id: 1, name: "Apéritifs" },
@@ -29,6 +40,16 @@ export default function Recipe() {
     { id: 5, name: "Boissons" },
     { id: 6, name: "Petits-déjeuners" },
   ];
+
+  const handleClicCreateRecipe = () => {
+    if (componentToShow !== "create recipe") {
+      setComponentToShow("create recipe");
+    } else if (currentRecipe) {
+      setComponentToShow("details recipe");
+    } else {
+      setComponentToShow(null);
+    }
+  };
   // On récupère les recettes du groupe côté backend
   useEffect(() => {
     const fetchDataRecipesOfGroup = async () => {
@@ -53,15 +74,13 @@ export default function Recipe() {
         }
         const { result } = await results.json();
         setRecipesGroup(result);
-        setRecipeUpdated(false);
       } catch (error) {
         console.info("Error fetching recipes data:", error);
       }
     };
     fetchDataRecipesOfGroup();
-  }, [recipeUpdated === true]);
-
-  console.info("recipesGroup", recipesGroup);
+    // console.info("useEffect render");
+  }, [recipeUpdated]);
 
   return (
     <div className="font-Neue-Kabel bg-red-default">
@@ -70,22 +89,32 @@ export default function Recipe() {
         color="text-red-default"
         icon={icon}
       />
-      <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
-        <FilterCategories
-          filterSelected={filterSelected}
-          setFilterSelected={setFilterSelected}
-          recipesCategories={recipesCategories}
-        />
-        <MapRecipes
-          recipesGroup={recipesGroup}
-          filterSelected={filterSelected}
-          setRecipeUpdated={setRecipeUpdated}
-          recipesCategories={recipesCategories}
-        />
-        <footer className="fixed flex justify-end w-full bottom-0 shadow-top bg-cream text-red-default pr-5 py-3">
-          <FaCirclePlus className="text-4xl text-red-default" />
-        </footer>
+      <main className=" lg:flex rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
+        <div className="lg:flex-1 z-10 lg:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] lg:overflow-auto lg:pr-10">
+          <FilterCategories
+            filterSelected={filterSelected}
+            setFilterSelected={setFilterSelected}
+            recipesCategories={recipesCategories}
+          />
+          <MapRecipes
+            recipesGroup={recipesGroup}
+            filterSelected={filterSelected}
+            setRecipeUpdated={setRecipeUpdated}
+            recipesCategories={recipesCategories}
+          />
+        </div>
+        {/* Version PC: ajouter le composant d'affichage Recette */}
+        <div className="hidden z-0 lg:block lg:flex-1 lg:overflow-auto">
+          {componentToShow === "details recipe" && <ShowRecipeDetails />}
+          {componentToShow === "create recipe" && (
+            <CreateRecipe
+              setRecipeUpdated={setRecipeUpdated}
+              setComponentToShow={setComponentToShow}
+            />
+          )}
+        </div>
       </main>
+      <FooterRecipe handleClicCreateRecipe={handleClicCreateRecipe} />
     </div>
   );
 }

@@ -44,7 +44,7 @@ export default function DotsUpdateRecipe({
           );
         }
         const { result } = await results.json();
-        setRecipeUpdated(true);
+        setRecipeUpdated((prev) => !prev);
         setShowDotsUpdateRecipe(null);
         setNewRecipeName({ name: recipeName });
         setDeleteRecipe(false);
@@ -81,7 +81,7 @@ export default function DotsUpdateRecipe({
 
   return (
     showDotsUpdateRecipe === recipeId && (
-      <div className="absolute right-0 -top-5 z-10 flex flex-col items-end h-fit w-80 px-5 pt-2 pb-5 bg-cream border-[1px] border-red-default text-cream gap-3 shadow-md rounded-xl rounded-tr-none">
+      <div className="absolute right-0 -top-5 z-10 flex flex-col items-end h-fit w-80 px-5 pt-2 pb-20 bg-cream border-[1px] border-red-default text-cream gap-3 shadow-md rounded-xl rounded-tr-none">
         <IoCloseOutline
           className="bg-red-default hover:bg-orange-default active:bg-orange-default text-cream text-2xl mt-2 rounded-full"
           onClick={handleClicClose}
