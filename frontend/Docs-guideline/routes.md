@@ -1,4 +1,4 @@
-# Les routes `Backend :c`
+# Les routes `Backend `
 
 | route                                         | Verbe  | Front | Back | Description                                                           | status          |
 | --------------------------------------------- | ------ | ----- | ---- | --------------------------------------------------------------------- | --------------- |
@@ -78,7 +78,7 @@
 | /positions/:id                                | GET    | NO    | yes  | Récupérer une position par son ID                                     | NOT OK          |
 | ????????/positions                            | GET    | NO    | yes  | Récupérer toutes les positions                                        | NOT OK ???????? |
 
-# Les routes `Frontend :D :D :D`
+# Les routes `Frontend`
 
 # Routes publiques
 
@@ -95,14 +95,13 @@
 
 | route         | Verbe | Front | Back | Description                        | status        |
 | ------------- | ----- | ----- | ---- | ---------------------------------- | ------------- |
-| /home         |       | YES   | NO   | Page d'accueil (une fois connecté) | not ok        |
-| ????? /logout |       | YES   | NO   | Page d'accueil (landing page)      | not ok ?????? |
+| /home         |       | YES   | NO   | Page d'accueil (une fois connecté) | not ok     
+| /documents    |       | YES   | NO   | Page de documents                  | not ok        |
+| /recipes      |       | YES   | NO   | Page de recettes                   | not ok        |
+| /todolist     |       | YES   | NO   | Page de la todolist                | not ok        |
+| /contacts     |       | YES   | NO   | Page de contacts                   | not ok        |
 | /calendar     |       | YES   | NO   | Page du calendrier                 | not ok        |
 | /budget       |       | YES   | NO   | Page du budget                     | not ok        |
-| /todolist     |       | YES   | NO   | Page de la todolist                | not ok        |
-| /recipes      |       | YES   | NO   | Page de recettes                   | not ok        |
-| /contacts     |       | YES   | NO   | Page de contacts                   | not ok        |
-| /documents    |       | YES   | NO   | Page de documents                  | not ok        |
 | /chat         |       | YES   | NO   | Page du chat                       | not ok        |
 | /settings     |       | YES   | NO   | Page de paramètres                 | not ok        |
 | /settings     |       | YES   | NO   | Page de paramètres                 | not ok        |

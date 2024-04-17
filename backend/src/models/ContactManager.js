@@ -16,7 +16,7 @@ class ContactManager extends AbstractManager {
   // Récupérer les contacts d'un groupe
   getContactByGroup(groupId) {
     return this.database.query(
-      `SELECT c_id, c_name, c_cat_contact_id, c_user_id FROM ${this.table} WHERE c_group_id = ?`,
+      `SELECT * FROM ${this.table} WHERE c_group_id = ?`,
       [groupId]
     );
   }
