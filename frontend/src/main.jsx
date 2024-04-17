@@ -26,11 +26,9 @@ import UserProvider, { UserContext } from "./context/UserContext";
 import RefusedAccess from "./components/Not-Connected/RefusedAccess";
 import CreateContact from "./pages/CreateContact";
 import UpdateContact from "./pages/UpdateContact";
-import ShowRecipeMobile from "./components/Recipes/ShowRecipeMobile";
 import ModifyRecipe from "./components/Recipes/ModifyRecipe";
-
 import CreateRecipe from "./components/Recipes/CreateRecipe";
-
+import ShowRecipeDetailsMobile from "./components/Recipes/ShowRecipeDetailsMobile";
 
 // PrivateApp englobe toutes nos routes privées
 // on y vérifie si le user est connecté
@@ -125,7 +123,7 @@ const router = createBrowserRouter([
 
       {
         path: "/recipes/detail",
-        element: <ShowRecipeMobile />,
+        element: <ShowRecipeDetailsMobile />,
       },
       {
         path: "/recipes/update",

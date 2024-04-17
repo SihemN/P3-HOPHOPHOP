@@ -1,9 +1,14 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-export default function FormUpdateRecipe() {
+export default function FormUpdateRecipe({
+  setRecipeUpdated,
+  desktopOrMobile,
+  setComponentToShow,
+}) {
   const navigate = useNavigate();
   // Ouverture de l'input catégorie
   const [isOpen, setIsOpen] = useState(false);
@@ -43,9 +48,15 @@ export default function FormUpdateRecipe() {
     };
   });
 
-  const recipesCategories = JSON.parse(
-    localStorage.getItem("recipesCategories")
-  );
+  const recipesCategories = [
+    { id: 0, name: "Toutes" },
+    { id: 1, name: "Apéritifs" },
+    { id: 2, name: "Entrées" },
+    { id: 3, name: "Plats" },
+    { id: 4, name: "Desserts" },
+    { id: 5, name: "Boissons" },
+    { id: 6, name: "Petits-déjeuners" },
+  ];
 
   const filteredCategories = recipesCategories.filter(
     (category) => category.name !== "Toutes"
@@ -85,7 +96,12 @@ export default function FormUpdateRecipe() {
       .then((res) => res.json())
       .then((data) => {
         console.info("data", data);
-        navigate("/recipes/detail");
+        if (desktopOrMobile === "mobile") {
+          navigate("/recipes/detail");
+        } else if (desktopOrMobile === "desktop") {
+          setComponentToShow("details recipe");
+          setRecipeUpdated((prev) => !prev);
+        }
       })
       .catch((err) => console.error("Erreur : ", err));
   };

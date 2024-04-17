@@ -20,9 +20,8 @@ export default function CreateRecipe({ setRecipeUpdated }) {
         </h1>
         <FormCreateRecipe setRecipeUpdated={setRecipeUpdated} />
       </main>
-      <div className="lg:hidden">
-        <FooterBack text="Retourner aux recettes" to="/recipes" />
-      </div>
+
+      <FooterBack text="Retourner aux recettes" to="/recipes" />
     </div>
   );
 }

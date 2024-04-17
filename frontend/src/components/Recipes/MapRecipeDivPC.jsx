@@ -28,7 +28,6 @@ export default function MapRecipeDivPC({
     storeClickedRecipe(recipeId);
     setRecipeId(recipeId);
     setComponentToShow("details recipe");
-    console.info("handleclic, recipeId", recipeId);
   };
 
   return (

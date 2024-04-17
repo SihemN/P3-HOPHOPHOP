@@ -1,22 +1,26 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ButtonPenModify from "./ButtonPenModify";
 import ShowRecipeDivInfo from "./ShowRecipeDivInfo";
 import ShowRecipeIconsDetails from "./ShowRecipeIconsDetails";
+import FooterBack from "./FooterBack";
+import HeaderFunctionnalities from "../HeaderFunctionnalities";
+import icon from "../../assets/icons-functionnalities/recipe.svg";
+
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-no-useless-fragment */
 
-export default function ShowRecipeDetails({ recipeId, setComponentToShow }) {
-  // const navigate = useNavigate();
+export default function ShowRecipeDetailsMobile() {
+  const navigate = useNavigate();
 
+  const recipeId = localStorage.getItem("recipeId") || null;
+  console.info("recipeId details mob >>", recipeId);
   const [recipe, setRecipe] = useState();
 
   const handleClickModify = () => {
-    setComponentToShow("modify recipe");
-    // navigate("/recipes/update");
+    navigate("/recipes/update");
   };
-
   useEffect(() => {
     if (recipeId) {
       fetch(`http://localhost:3310/api/recipes/${recipeId}`, {
@@ -41,24 +45,23 @@ export default function ShowRecipeDetails({ recipeId, setComponentToShow }) {
   }, [recipeId]);
 
   return (
-    <>
+    <div className="font-Neue-Kabel bg-red-default">
+      <HeaderFunctionnalities
+        title="Vos recettes"
+        color="text-red-default"
+        icon={icon}
+      />
       {recipe && recipe.r_id && (
-        <main className="relative rounded-t-3xl lg:mt-5 bg-cream shadow-top lg:shadow-none flex flex-col items-center lg:rounded-t-[4rem] lg:bg-none lg:bg-opacity-0">
+        <main className="relative rounded-t-3xl bg-cream shadow-top flex flex-col items-center">
           <div className=" bg-red-default text-cream text-xl rounded-[12px] h-fit px-4 my-5">
             {recipe.r_category}
           </div>
 
-          {/* <ButtonPenModify
-            label="bouton modifier la recette"
-            colorBg="bg-red-default"
-            onClick={() => handleClickModify(recipe)}
-          /> */}
           <ButtonPenModify
             label="bouton modifier la recette"
             colorBg="bg-red-default"
             onClick={() => handleClickModify(recipe)}
           />
-
           <h1 className="text-2xl font-bold text-center">{recipe.r_name}</h1>
           {/* section sur le nombre de persons et le temps requis */}
           <section className="bg-red-clear w-full flex justify-center my-4 py-4 gap-10">
@@ -84,6 +87,7 @@ export default function ShowRecipeDetails({ recipeId, setComponentToShow }) {
           </section>
         </main>
       )}
-    </>
+      <FooterBack to="/recipes" text="Retourner aux recettes" />
+    </div>
   );
 }

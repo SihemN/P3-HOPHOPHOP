@@ -16,26 +16,28 @@ export default function FormCreateRecipe({
   const [categorySelected, setCategorySelected] = useState(null);
 
   // on initialise les propriétés avec les valeurs de la recette cliquée
-  const [dataRecipe, setDataRecipe] = useState(() => {
-    return {
-      name: "",
-      description: "",
-      nb_persons: "",
-      list_ingredients: "",
-      category: "",
-      time_preparation: "",
-    };
+  const [dataRecipe, setDataRecipe] = useState({
+    name: "",
+    description: "",
+    nb_persons: "",
+    list_ingredients: "",
+    category: "",
+    time_preparation: "",
   });
 
-  console.info("dataRecipe", dataRecipe);
+  // console.info("dataRecipe", dataRecipe);
 
-  const recipesCategories = JSON.parse(
-    localStorage.getItem("recipesCategories")
-  );
+  const recipesCategories = [
+    { id: 0, name: "Toutes" },
+    { id: 1, name: "Apéritifs" },
+    { id: 2, name: "Entrées" },
+    { id: 3, name: "Plats" },
+    { id: 4, name: "Desserts" },
+    { id: 5, name: "Boissons" },
+    { id: 6, name: "Petits-déjeuners" },
+  ];
 
   const currentGroup = JSON.parse(localStorage.getItem("group"));
-
-  console.info("currentGroup", currentGroup);
 
   const filteredCategories = recipesCategories.filter(
     (category) => category.name !== "Toutes"

@@ -6,6 +6,7 @@ import MapRecipes from "../components/Recipes/MapRecipes";
 import ShowRecipeDetails from "../components/Recipes/ShowRecipeDetails";
 import CreateRecipe from "../components/Recipes/CreateRecipe";
 import FooterRecipe from "../components/Recipes/FooterRecipe";
+import ModifyRecipe from "../components/Recipes/ModifyRecipe";
 
 export default function Recipe() {
   // On gère le state du filtre de catégorie sélectionné
@@ -14,7 +15,6 @@ export default function Recipe() {
 
   // State pour gérer les recettes du groupe
   const [recipesGroup, setRecipesGroup] = useState([]);
-  // console.info("recipesGroup>>", recipesGroup);
 
   // State pour récupérer le group en cours
   const [group] = useState(JSON.parse(localStorage.getItem("group")));
@@ -22,8 +22,11 @@ export default function Recipe() {
   // state pour re-render si recipe updated
   const [recipeUpdated, setRecipeUpdated] = useState(false);
 
-  //
-  const [recipeId, setRecipeId] = useState(null);
+  // state pour gérer l'id de la recette cliquée
+
+  const [recipeId, setRecipeId] = useState(
+    localStorage.getItem("recipeId") || null
+  );
 
   console.info("recipeId", recipeId);
   // state pour gérer si on affiche les composents afficher la recette, modifier la recette ou créer une recette
@@ -31,10 +34,7 @@ export default function Recipe() {
   const [componentToShow, setComponentToShow] = useState(
     currentRecipe ? "details recipe" : null
   );
-  console.info("currentRecipe", currentRecipe);
-  console.info("componentToShow", componentToShow);
 
-  // console.info("componentToShow", componentToShow);
   const recipesCategories = [
     { id: 0, name: "Toutes" },
     { id: 1, name: "Apéritifs" },
@@ -54,6 +54,7 @@ export default function Recipe() {
       setComponentToShow(null);
     }
   };
+
   // On récupère les recettes du groupe côté backend
   useEffect(() => {
     const fetchDataRecipesOfGroup = async () => {
@@ -83,7 +84,6 @@ export default function Recipe() {
       }
     };
     fetchDataRecipesOfGroup();
-    // console.info("useEffect render");
   }, [recipeUpdated]);
 
   return (
@@ -94,7 +94,7 @@ export default function Recipe() {
         icon={icon}
       />
       <main className=" lg:flex rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
-        <div className="lg:flex-1 z-10 lg:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] lg:overflow-auto lg:pr-10">
+        <div className="lg:flex-1 z-10 lg:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] lg:overflow-y-auto lg:no-scrollbar">
           <FilterCategories
             filterSelected={filterSelected}
             recipesCategories={recipesCategories}
@@ -110,12 +110,21 @@ export default function Recipe() {
           />
         </div>
         {/* Version PC: ajouter le composant d'affichage Recette */}
-        <div className="hidden z-0 lg:block lg:flex-1 lg:overflow-auto">
+        <div className="hidden z-0 lg:block lg:flex-1 lg:overflow-y-auto">
           {componentToShow === "details recipe" && (
-            <ShowRecipeDetails recipeId={recipeId} setRecipeId={setRecipeId} />
+            <ShowRecipeDetails
+              recipeId={recipeId}
+              setComponentToShow={setComponentToShow}
+            />
           )}
           {componentToShow === "create recipe" && (
             <CreateRecipe
+              setRecipeUpdated={setRecipeUpdated}
+              setComponentToShow={setComponentToShow}
+            />
+          )}
+          {componentToShow === "modify recipe" && (
+            <ModifyRecipe
               setRecipeUpdated={setRecipeUpdated}
               setComponentToShow={setComponentToShow}
             />
