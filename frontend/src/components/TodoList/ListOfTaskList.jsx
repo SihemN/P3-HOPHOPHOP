@@ -1,5 +1,5 @@
 import React from "react";
-import { HiDotsVertical } from "react-icons/hi";
+import HiDotsMenu from "./HiDotsMenu";
 
 const taskList = [
   {
@@ -41,7 +41,7 @@ export default function TaskList() {
                 <div className="flex justify-between items-center text-center p-2">
                   <div>{task.title}</div>
                   <div>
-                    <HiDotsVertical className="text-orange-default text-lg" />
+                    <HiDotsMenu className="text-orange-default text-lg" />
                   </div>
                 </div>
               </div>
@@ -59,7 +59,7 @@ export default function TaskList() {
                 <div className="flex justify-between items-center text-center p-2">
                   <div>{task.title}</div>
                   <div>
-                    <HiDotsVertical className="text-orange-default text-lg" />
+                    <HiDotsMenu className="text-orange-default text-lg" />
                   </div>
                 </div>
               </div>
