@@ -20,9 +20,7 @@ export default function List() {
           <ListOfTaskList />
         </div>
       </main>
-      <footer>
-        <FooterAdd />
-      </footer>
+      <FooterAdd />
     </div>
   );
 }
