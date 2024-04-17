@@ -1,6 +1,7 @@
 /* eslint-disable radix */
 /* eslint-disable no-shadow */
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import contact from "../assets/icons-functionnalities/contact.svg";
@@ -9,43 +10,37 @@ import UpdateContactForm from "../components/Contact_page/UpdateContactForm";
 
 export default function UpdateContact() {
   const { contactId } = useParams();
-  const contacts = [
-    {
-      id: 1,
-      name: "Anaïs Glorennec",
-      email: "anais@gmail.com",
-      phone: "0625459875",
-      address: "1 rue du frontend 69000 hophophop city",
-      category: "Ecole",
-    },
-    {
-      id: 2,
-      name: "Sihem Nasri",
-      email: "sihem@gmail.com",
-      phone: "0652455622",
-      address: "2 rue du frontend 69000 hophophop city",
-      category: "Medecin",
-    },
-    {
-      id: 3,
-      name: "Arthur Vincent-Silvestrini",
-      email: "arthur@gmail.com",
-      phone: "0652366951",
-      address: "3 rue du frontend 69000 hophophop city",
-      category: "Les fantômes",
-    },
-    {
-      id: 4,
-      name: "Soumia Amar",
-      email: "soumia@gmail.com",
-      phone: "0656221445",
-      address: "4 rue du frontend 69000 hophophop city",
-      category: "Travail",
-    },
-  ];
-  const contactToUpdata = contacts.find(
-    (contact) => contact.id === parseInt(contactId)
-  );
+  const [contactToUpdate, setContactToUpdate] = useState(null);
+
+  useEffect(() => {
+    const fetchContactData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/contacts/${contactId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error(
+            "Erreur lors de la récupération des données du contact"
+          );
+        }
+        const { results } = await response.json();
+        setContactToUpdate(results);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchContactData();
+  }, [contactId]);
+
   return (
     <div className="bg-blue-lighter font-Neue-Kabel">
       <header>
@@ -57,8 +52,8 @@ export default function UpdateContact() {
         />
       </header>
       <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
-        {contactToUpdata ? (
-          <UpdateContactForm contact={contactToUpdata} />
+        {contactToUpdate ? (
+          <UpdateContactForm contact={contactToUpdate} />
         ) : (
           <p>Contact non trouvé</p>
         )}
