@@ -85,7 +85,7 @@ export default function FormCreateRecipe({
         .then((res) => res.json())
         .then((data) => {
           console.info("data", data);
-          setRecipeUpdated(true);
+          setRecipeUpdated((prev) => !prev);
           setDataRecipe({
             name: "",
             description: "",

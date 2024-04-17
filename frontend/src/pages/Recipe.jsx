@@ -74,10 +74,6 @@ export default function Recipe() {
         }
         const { result } = await results.json();
         setRecipesGroup(result);
-        if (recipeUpdated) {
-          setRecipeUpdated(false);
-          // console.info("if recipeUpdated");
-        }
       } catch (error) {
         console.info("Error fetching recipes data:", error);
       }
