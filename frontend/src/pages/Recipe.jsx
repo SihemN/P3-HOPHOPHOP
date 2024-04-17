@@ -93,8 +93,8 @@ export default function Recipe() {
         color="text-red-default"
         icon={icon}
       />
-      <main className=" lg:flex rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
-        <div className="lg:flex-1 z-10 lg:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] lg:overflow-y-auto lg:no-scrollbar">
+      <main className=" lg:flex rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top overflow-y-auto no-scrollbar">
+        <div className="lg:flex-1 z-10 lg:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] lg:overflow-y-auto lg:no-scrollbar ">
           <FilterCategories
             filterSelected={filterSelected}
             recipesCategories={recipesCategories}
