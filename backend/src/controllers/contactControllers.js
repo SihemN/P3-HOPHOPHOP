@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const tables = require("../tables");
 
 // Créer un contact
@@ -29,8 +30,9 @@ const createContact = async (req, res) => {
 const getContactByGroup = async (req, res) => {
   try {
     const { id } = req.params;
+    // console.log("id", id);
     const [results] = await tables.contact.getContactByGroup(id);
-
+    // console.log("results", results);
     if (results.length) {
       res.status(200).json({
         message: "Liste des contacts du groupe récupérée !",
@@ -133,12 +135,12 @@ const getCategoriesByGroup = async (req, res) => {
 const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name } = req.body;
-    const [result] = await tables.contact.updateCategory(name, id);
+    const { cc_name } = req.body;
+    const [result] = await tables.contact.updateCategory(cc_name, id);
     if (result.affectedRows) {
-      res.status(200).send("Catégorie mise à jour avec succès !");
+      res.status(200).json({ message: "Catégorie mise à jour avec succès !" });
     } else {
-      res.status(401).send("Problème pour mettre à jour la catégorie");
+      res.status(404).json({ message: "Catégorie non trouvée" });
     }
   } catch (error) {
     res.status(500).send(error);

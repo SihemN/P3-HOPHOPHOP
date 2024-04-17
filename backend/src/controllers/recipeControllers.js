@@ -10,20 +10,20 @@ const createRecipe = async (req, res) => {
     const [result] = await tables.recipe.createRecipe(
       name,
       description,
-      time,
       persons,
       ingredients,
       category,
       id,
-      userId
+      userId,
+      time
     );
     if (result.affectedRows) {
-      res.status(201).send("Votre recette à été créée");
+      res.status(201).json("Votre recette à été créée");
     } else {
-      res.status(401).send("Problème dans la création !!!");
+      res.status(401).json("Problème dans la création !!!");
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 };
 
@@ -32,13 +32,14 @@ const getRecipeByGroup = async (req, res) => {
   try {
     const { id } = req.params;
     const [result] = await tables.recipe.getRecipeByGroup(id);
+    // console.info("back", result);
     if (result.length) {
       res.status(200).json({
         message: "Liste des recettes du groupe",
         result,
       });
     } else {
-      res.status(401).send("Pas de liste!!");
+      res.status(401).json("Vous n'avez pas de recettes :(");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -49,13 +50,16 @@ const getRecipeByGroup = async (req, res) => {
 const updateRecipe = async (req, res) => {
   try {
     const { id } = req.params;
+
     const [result] = await tables.recipe.updateRecipe(id, req.body);
+    console.info("result Controller >>", result);
     if (result.affectedRows) {
-      res.status(200).send("La recette a été mise à jour");
+      res.status(200).json("La recette a été mise à jour");
     } else {
-      res.status(401).send("Mise à jour échouée!!");
+      res.status(401).json("Mise à jour échouée!!");
     }
   } catch (error) {
+    // console.log('error', error)
     res.status(500).send(error);
   }
 };
@@ -84,12 +88,12 @@ const deleteRecipe = async (req, res) => {
     const { id } = req.params;
     const [result] = await tables.recipe.deleteRecipe(id);
     if (result.affectedRows) {
-      res.status(200).send("La recette a été supprimée!");
+      res.status(200).json("La recette a été supprimée!");
     } else {
-      res.status(401).send("Suppression de la recette échouée!!");
+      res.status(401).json("Suppression de la recette échouée!!");
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 };
 

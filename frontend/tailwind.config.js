@@ -32,6 +32,7 @@ export default {
       red: {
         lighter: "#FFC5BF",
         default: "#F86151",
+        clear: " #FEEFED",
       },
       orange: {
         light: "#FFF0E3",
@@ -41,6 +42,7 @@ export default {
 
       blue: {
         lighter: "#B9D9F6",
+        medium: "#5f92c1",
         default: "#054B8C",
       },
 
