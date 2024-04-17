@@ -35,7 +35,7 @@ export default function ModifyRecipe({ setRecipeUpdated, setComponentToShow }) {
                 desktopOrMobile="mobile"
               />
             </div>
-            <div className="hidden lg:block">
+            <div className="hidden lg:block w-3/4">
               <FormUpdateRecipe
                 setRecipeUpdated={setRecipeUpdated}
                 setComponentToShow={setComponentToShow}
