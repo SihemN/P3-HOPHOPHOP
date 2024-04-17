@@ -7,6 +7,38 @@ const taskList = [
     type: "private",
   },
   {
+    title: "Courses scolaire",
+    type: "private",
+  },
+  {
+    title: "Courses scolaire",
+    type: "private",
+  },
+  {
+    title: "Courses scolaire",
+    type: "private",
+  },
+  {
+    title: "Courses scolaire",
+    type: "private",
+  },
+  {
+    title: "Courses scolaire",
+    type: "private",
+  },
+  {
+    title: "Courses scolaire",
+    type: "private",
+  },
+  {
+    title: "Courses scolaire",
+    type: "private",
+  },
+  {
+    title: "Courses scolaire",
+    type: "private",
+  },
+  {
     title: "Administratif",
     type: "private",
   },
