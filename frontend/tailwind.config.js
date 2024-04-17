@@ -34,6 +34,7 @@ export default {
         default: "#F86151",
       },
       orange: {
+        light: "#FFF0E3",
         lighter: "#FFD1A8",
         default: "#F8A75D",
       },
