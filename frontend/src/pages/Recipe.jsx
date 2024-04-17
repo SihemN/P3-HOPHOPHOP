@@ -22,6 +22,10 @@ export default function Recipe() {
   // state pour re-render si recipe updated
   const [recipeUpdated, setRecipeUpdated] = useState(false);
 
+  //
+  const [recipeId, setRecipeId] = useState(null);
+
+  console.info("recipeId", recipeId);
   // state pour gérer si on affiche les composents afficher la recette, modifier la recette ou créer une recette
   const currentRecipe = JSON.parse(localStorage.getItem("recipeSelected"));
   const [componentToShow, setComponentToShow] = useState(
@@ -93,19 +97,23 @@ export default function Recipe() {
         <div className="lg:flex-1 z-10 lg:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] lg:overflow-auto lg:pr-10">
           <FilterCategories
             filterSelected={filterSelected}
-            setFilterSelected={setFilterSelected}
             recipesCategories={recipesCategories}
+            setFilterSelected={setFilterSelected}
           />
           <MapRecipes
             recipesGroup={recipesGroup}
             filterSelected={filterSelected}
-            setRecipeUpdated={setRecipeUpdated}
             recipesCategories={recipesCategories}
+            setRecipeUpdated={setRecipeUpdated}
+            setComponentToShow={setComponentToShow}
+            setRecipeId={setRecipeId}
           />
         </div>
         {/* Version PC: ajouter le composant d'affichage Recette */}
         <div className="hidden z-0 lg:block lg:flex-1 lg:overflow-auto">
-          {componentToShow === "details recipe" && <ShowRecipeDetails />}
+          {componentToShow === "details recipe" && (
+            <ShowRecipeDetails recipeId={recipeId} setRecipeId={setRecipeId} />
+          )}
           {componentToShow === "create recipe" && (
             <CreateRecipe
               setRecipeUpdated={setRecipeUpdated}

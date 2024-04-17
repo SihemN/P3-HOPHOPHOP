@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonPenModify from "./ButtonPenModify";
@@ -6,10 +7,10 @@ import ShowRecipeIconsDetails from "./ShowRecipeIconsDetails";
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-no-useless-fragment */
 
-export default function ShowRecipeDetails() {
+export default function ShowRecipeDetails({ recipeId }) {
   const navigate = useNavigate();
+  // console.info("Recipe Details; recipeId >>", recipeId);
 
-  const recipeId = localStorage.getItem("recipeId");
   const [recipe, setRecipe] = useState();
 
   const handleClickModify = () => {

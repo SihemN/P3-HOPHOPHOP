@@ -1,12 +1,14 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
-import MapRecipesByCategory from "./MapRecipesList";
+import MapRecipesByCategory from "./MapRecipesByCategory";
 
 export default function MapRecipes({
   filterSelected,
   recipesGroup,
   setRecipeUpdated,
   recipesCategories,
+  setComponentToShow,
+  setRecipeId,
 }) {
   // On récupère les catégories qui ont des recettes
   const categoriesNotEmpty = [
@@ -53,6 +55,8 @@ export default function MapRecipes({
               recipesGroup={recipesGroup}
               category={category}
               setRecipeUpdated={setRecipeUpdated}
+              setComponentToShow={setComponentToShow}
+              setRecipeId={setRecipeId}
             />
           </div>
         ))}
