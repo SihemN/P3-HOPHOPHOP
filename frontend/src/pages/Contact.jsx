@@ -100,15 +100,17 @@ export default function Contact() {
       </header>
       <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
         <section>
-          <SelectCategory
-            categories={categories}
-            onCategoriesChange={handleCategoriesChange}
-            setCategoryUpdated={setCategoryUpdated}
-            contacts={contacts}
-            setFilteredContacts={setFilteredContacts}
-            setFilterSelected={setFilterSelected}
-          />
-          <MapContact filteredContacts={filteredContacts} />
+          <div>
+            <SelectCategory
+              categories={categories}
+              onCategoriesChange={handleCategoriesChange}
+              setCategoryUpdated={setCategoryUpdated}
+              contacts={contacts}
+              setFilteredContacts={setFilteredContacts}
+              setFilterSelected={setFilterSelected}
+            />
+            <MapContact filteredContacts={filteredContacts} />
+          </div>
         </section>
         <footer className="fixed w-full bottom-0 shadow-top bg-cream text-red-default pl-5 py-3">
           <AddContact />

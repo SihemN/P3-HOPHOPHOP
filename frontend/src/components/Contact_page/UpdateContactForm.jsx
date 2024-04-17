@@ -3,19 +3,26 @@
 import { useState } from "react";
 
 /* eslint-disable react/prop-types */
-export default function UpdateContactForm({ contactToUpdate }) {
-  const [name, setName] = useState(contactToUpdate.name);
-  const [email, setEmail] = useState(contactToUpdate.email);
-  const [phone, setPhone] = useState(contactToUpdate.phone);
-  const [address, setAddress] = useState(contactToUpdate.address);
-  const [category, setCategory] = useState(contactToUpdate.category);
+export default function UpdateContactForm({ contact }) {
+  const storedCategory = JSON.parse(localStorage.getItem("category"));
 
+  const [dataForm, setDataForm] = useState({
+    name: contact.c_name,
+    phone: contact.c_phone,
+    email: contact.c_email,
+    address: contact.c_address,
+    category: storedCategory,
+  });
+
+  const handlChange = (e) => {
+    const { name, value } = e.target;
+    setDataForm({ ...dataForm, [name]: value });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const updateData = { name, email, phone, address, category };
       const response = await fetch(
-        `http://localhost:3310/api/contacts/${contactToUpdate}`,
+        `http://localhost:3310/api/contacts/${contact.c_id}`,
         {
           method: "PATCH",
           headers: {
@@ -24,7 +31,7 @@ export default function UpdateContactForm({ contactToUpdate }) {
               localStorage.getItem("token")
             )}`,
           },
-          body: JSON.stringify(updateData),
+          body: JSON.stringify(dataForm),
         }
       );
 
@@ -35,19 +42,19 @@ export default function UpdateContactForm({ contactToUpdate }) {
       console.error("Erreur lors de la mise à jour:", error);
     }
   };
-
   return (
     <div className="flex flex-col items-center">
       <form className="pt-8" onSubmit={handleSubmit}>
         <label htmlFor="name" className="font-semibold">
-          Nom entier
+          Nom et prénom
         </label>
         <div>
           <input
             type="text"
-            defaultValue={name}
+            name="name"
+            defaultValue={contact.c_name}
             className="border h-12 w-80 rounded-lg pl-2"
-            onChange={(e) => setName(e.target.value)}
+            onChange={handlChange}
           />
         </div>
         <div className="mt-4">
@@ -57,9 +64,10 @@ export default function UpdateContactForm({ contactToUpdate }) {
           <div>
             <input
               type="email"
-              defaultValue={email}
+              name="email"
+              defaultValue={contact.c_email}
               className="border h-12 w-80 rounded-lg pl-2"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handlChange}
             />
           </div>
         </div>
@@ -70,9 +78,10 @@ export default function UpdateContactForm({ contactToUpdate }) {
           <div className="mt-4">
             <input
               type="text"
-              defaultValue={phone}
+              name="phone"
+              defaultValue={contact.c_phone}
               className="border h-12 w-80 rounded-lg pl-2"
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlChange}
             />
           </div>
         </div>
@@ -84,9 +93,10 @@ export default function UpdateContactForm({ contactToUpdate }) {
           <div>
             <input
               type="text"
-              defaultValue={address}
+              name="address"
+              defaultValue={contact.c_address}
               className="border h-12 w-80 rounded-lg pl-2"
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={handlChange}
             />
           </div>
         </div>
@@ -97,9 +107,9 @@ export default function UpdateContactForm({ contactToUpdate }) {
           <div>
             <input
               type="text"
-              defaultValue={category}
+              defaultValue={contact.cc_name}
               className="border h-12 w-80 rounded-lg pl-2"
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={handlChange}
             />
           </div>
         </div>
