@@ -20,6 +20,9 @@ const localizer = dateFnsLocalizer({
 export default function MyCalendar() {
   // state pour stocker les events du group
   const [events, setEvents] = useState([]);
+  // state pour gérer l'event cliqué à afficher
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
   // On récupère le groupe en cours
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
 
@@ -54,6 +57,11 @@ export default function MyCalendar() {
     fetchEventsOfGroup();
   }, []);
 
+  const handleEventClick = (event) => setSelectedEvent(event);
+  console.info("selectedEvent >>", selectedEvent);
+
+  const handleCloseModal = () => setSelectedEvent(null);
+
   // Convertir les dates au format timestamp en objet Date
   const eventsGroup = events.map((event) => ({
     title: event.e_title,
@@ -72,81 +80,47 @@ export default function MyCalendar() {
         color="text-blue-default"
         icon={icon}
       />
-      <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
-        <p className="text-center">Hello</p>
+      <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top p-10">
         <Calendar
           localizer={localizer}
           events={eventsGroup}
           startAccessor="start"
           endAccessor="end"
+          onSelectEvent={handleEventClick}
           views={["month", "week", "day"]}
           defaultView="month"
         />
+        {selectedEvent && (
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 bg-cream p-5 border-[1px] border-blue-default rounded-2xl shadow-2xl w-fit">
+            <div>
+              <button
+                type="button"
+                className="close"
+                onClick={handleCloseModal}
+              >
+                &times;
+              </button>
+              <section name="infos-event">
+                <div className="bg-blue-default w-fit px-2 rounded-lg text-cream">
+                  {selectedEvent.private ? "Personnel" : "Groupe"}
+                </div>
+                <h2 className="text-xl font-bold">{selectedEvent.title}</h2>
+                <p>{selectedEvent.description}</p>
+                <p>Du {selectedEvent.start.toLocaleString()}</p>
+                <p>Au {selectedEvent.end.toLocaleString()}</p>
+              </section>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
 }
 
-/* 
- import { Calendar, momentLocalizer } from 'react-big-calendar';
- import moment from 'moment';
- import 'react-big-calendar/lib/css/react-big-calendar.css';
-
- const localizer = momentLocalizer(moment);
-
-const MyCalendar = (props) => {
-
-const [selectedEvent, setSelectedEvent] = useState(null); 
-
- const handleEventClick = (event) => 
-setSelectedEvent(event); };
-
- const handleCloseModal = () =>
-   setSelectedEvent(null);
- };
-    Convertir les dates au format timestamp en objet Date
-   const events = props.events.map(event => ({
-    title: event.title,
-    description: event.text,
-    start: new Date(event.date_start),
-    end: new Date(event.date_end),
-    private: event.private,
-    user_id: event.user_id,
-    group_id: event.group_id
-  }));
-
-  return (
-    <div>
-      <Calendar
-        localizer={localizer}
-        events={events} // Liste des événements à afficher
-        startAccessor="start" // Nom de la clé pour la date de début
-        endAccessor="end" // Nom de la clé pour la date de fin
-        onSelectEvent={handleEventClick} // Gestionnaire de clic sur un événement
-        views={['month', 'week', 'day']} // Types de vue disponibles
-        defaultView="month" // Vue par défaut au chargement
-      />
-{
-Modal pour afficher les détails de l'événement
-}
-{
-  selectedEvent && (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={handleCloseModal}>
-          &times;
-        </span>
-        <h2>{selectedEvent.title}</h2>
-        <p>{selectedEvent.text}</p>
-        <p>Date de début: {selectedEvent.date_start}</p>
-        <p>Date de fin: {selectedEvent.date_end}</p>
-        <p>{selectedEvent.private ? "Privé" : "Public"}</p>
-      </div>
-    </div>
-  );
-}
-    </div>
-  );
-};
-
-export default MyCalendar; */
+// title
+// start: Date
+// end: Date
+// description
+// private
+// userId
+// groupId
