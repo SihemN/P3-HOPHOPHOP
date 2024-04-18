@@ -70,7 +70,6 @@ const updateContact = async (req, res) => {
   try {
     const { id } = req.params;
     const [result] = await tables.contact.updateContact(id, req.body);
-
     if (result.affectedRows) {
       res.status(200).send("Contact mis à jour avec succès !");
     } else {
@@ -86,7 +85,6 @@ const deleteContact = async (req, res) => {
   try {
     const { id } = req.params;
     const [result] = await tables.contact.deleteContact(id);
-
     if (result.affectedRows) {
       res.status(200).send("Contact supprimé !");
     } else {

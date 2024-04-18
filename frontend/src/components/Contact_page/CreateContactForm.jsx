@@ -1,6 +1,6 @@
 export default function CreateContactForm() {
   return (
-    <div className="flex flex-col items-center text-blue-default">
+    <div className="flex flex-col items-center text-dark-default">
       <form className="pt-10">
         <label htmlFor="Name" className="font-bold">
           Nom et prénom

@@ -47,8 +47,7 @@ export default function Contact() {
       }
     };
     fetchContacts();
-  }, []);
-
+  }, [contacts, setFilteredContacts]);
   // récupérer les catégories de contact depuis l'api
   useEffect(() => {
     const fetchCategories = async () => {
@@ -100,7 +99,7 @@ export default function Contact() {
       </header>
       <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
         <section>
-          <div>
+          <div className="pb-24">
             <SelectCategory
               categories={categories}
               onCategoriesChange={handleCategoriesChange}
@@ -109,10 +108,14 @@ export default function Contact() {
               setFilteredContacts={setFilteredContacts}
               setFilterSelected={setFilterSelected}
             />
-            <MapContact filteredContacts={filteredContacts} />
+            <MapContact
+              filteredContacts={filteredContacts}
+              setContacts={setContacts}
+              contacts={contacts}
+            />
           </div>
         </section>
-        <footer className="fixed w-full bottom-0 shadow-top bg-cream text-red-default pl-5 py-3">
+        <footer>
           <AddContact />
         </footer>
       </main>

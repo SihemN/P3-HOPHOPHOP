@@ -1,15 +1,21 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import { useState } from "react";
 import { FaPhone } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
-import { VscKebabVertical } from "react-icons/vsc";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import { ImLocation2 } from "react-icons/im";
 import MenuKebabContact from "./MenuKebabContact";
 
-export default function MapContact({ filteredContacts }) {
+export default function MapContact({
+  filteredContacts,
+  contacts,
+  setContacts,
+}) {
   const [openMenuContactId, setOpenMenuContactId] = useState(null);
-
+  const [filteredContact, setFilteredContacts] = useState([]);
+  const [newContacts, setNewContacts] = useState([]);
   // ouvrir le menu du contact sur lequel on clique
   const handleClick = (id) => {
     setOpenMenuContactId(openMenuContactId === id ? null : id);
@@ -47,7 +53,7 @@ export default function MapContact({ filteredContacts }) {
               aria-label="Modifier ou supprimer un contact"
               onClick={() => handleClick(c_id)}
             >
-              <VscKebabVertical className="text-blue-medium cursor-pointer" />
+              <HiOutlineDotsVertical className="text-blue-medium cursor-pointer text-3xl" />
             </button>
             {openMenuContactId === c_id && (
               <div>
@@ -59,6 +65,10 @@ export default function MapContact({ filteredContacts }) {
                     email: c_email,
                     address: c_address,
                   }}
+                  setContacts={setContacts}
+                  contacts={contacts}
+                  setFilteredContacts={setFilteredContacts}
+                  newContacts={newContacts}
                 />
               </div>
             )}
