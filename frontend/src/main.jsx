@@ -24,11 +24,16 @@ import Recipe from "./pages/Recipe";
 import CreateGroup from "./pages/CreateGroup";
 import UserProvider, { UserContext } from "./context/UserContext";
 import RefusedAccess from "./components/Not-Connected/RefusedAccess";
+
+import EditTask from "./components/TodoList/EditTask";
+
 import CreateContact from "./pages/CreateContact";
 import UpdateContact from "./pages/UpdateContact";
 import ModifyRecipe from "./components/Recipes/ModifyRecipe";
 import CreateRecipe from "./components/Recipes/CreateRecipe";
+
 import ShowRecipeDetailsMobile from "./components/Recipes/ShowRecipeDetailsMobile";
+
 
 // PrivateApp englobe toutes nos routes privées
 // on y vérifie si le user est connecté
@@ -114,6 +119,11 @@ const router = createBrowserRouter([
       {
         path: "/todolist",
         element: <List />,
+      },
+
+      {
+        path: "/todolist/edittask",
+        element: <EditTask />,
       },
 
       {
