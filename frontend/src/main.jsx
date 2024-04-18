@@ -34,7 +34,6 @@ import CreateRecipe from "./components/Recipes/CreateRecipe";
 
 import ShowRecipeDetailsMobile from "./components/Recipes/ShowRecipeDetailsMobile";
 
-
 // PrivateApp englobe toutes nos routes privées
 // on y vérifie si le user est connecté
 // sinon on renvoie à la page de connexion
@@ -180,7 +179,7 @@ const router = createBrowserRouter([
         element: <CreateContact />,
       },
       {
-        path: "/update-contact/:contactId",
+        path: "/update-contact/:id",
         element: <UpdateContact />,
       },
     ],

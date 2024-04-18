@@ -24,7 +24,7 @@ class ContactManager extends AbstractManager {
   // Récupérer un contact par id
   getContactById(contactId) {
     return this.database.query(
-      `SELECT c_id, c_name, c_email, c_phone, c_address, c_cat_contact_id FROM ${this.table} WHERE c_id = ?`,
+      `SELECT c_id, c_name, c_email, c_phone, c_address, c_cat_contact_id, cc.cc_name FROM ${this.table} INNER JOIN category_contact as cc ON c_cat_contact_id = cc.cc_id WHERE c_id = ?`,
       [contactId]
     );
   }

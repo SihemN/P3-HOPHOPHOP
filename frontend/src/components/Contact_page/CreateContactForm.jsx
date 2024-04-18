@@ -96,6 +96,7 @@ export default function CreateContactForm() {
   };
 
   return (
+
     <div className="flex flex-col items-center text-blue-default">
       <form className="pt-10" onSubmit={handleSubmit}>
         <label htmlFor="Name" className="font-bold">

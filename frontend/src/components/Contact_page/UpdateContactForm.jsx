@@ -1,21 +1,93 @@
 /* eslint-disable camelcase */
-
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { IoChevronDownSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 /* eslint-disable react/prop-types */
-export default function UpdateContactForm({ contactToUpdate }) {
-  const [name, setName] = useState(contactToUpdate.name);
-  const [email, setEmail] = useState(contactToUpdate.email);
-  const [phone, setPhone] = useState(contactToUpdate.phone);
-  const [address, setAddress] = useState(contactToUpdate.address);
-  const [category, setCategory] = useState(contactToUpdate.category);
+
+export default function UpdateContactForm({ contact }) {
+  const storedCategory = JSON.parse(localStorage.getItem("category"));
+  const [categorySelected, setCategorySelected] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [category, setCategory] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [filteredCategories, setFilteredCategories] = useState([]);
+
+  // stocker les données du contact à modifier dans un state pour préremplir le formulaire
+  const [dataForm, setDataForm] = useState({
+    name: contact.c_name,
+    phone: contact.c_phone,
+    email: contact.c_email,
+    address: contact.c_address,
+    category: storedCategory,
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Token manquant");
+        }
+        const response = await fetch(
+          `http://localhost:3310/api/contacts-categories/groups/${ug_group_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${JSON.parse(token)}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error(
+            "Erreur lors de la récupération des catégories de contacts"
+          );
+        }
+        const { results } = await response.json();
+        setCategory(results);
+        setFilteredCategories(results);
+
+        const contactCategory = results.find(
+          (cat) => cat.cc_id === contact.c_cat_contact_id
+        );
+        if (contactCategory) {
+          setCategorySelected({
+            name: contactCategory.cc_name,
+            id: contactCategory.cc_id,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCategories();
+  }, [contact]);
+
+  const handlChange = (e) => {
+    const { name, value } = e.target;
+    setDataForm({ ...dataForm, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!categorySelected) {
+      // eslint-disable-next-line no-alert
+      alert("Veuillez sélectionner une catégorie");
+      return;
+    }
+
+    const updatedDataForm = {
+      ...dataForm,
+      cat_contact_id: categorySelected.id,
+    };
+    delete updatedDataForm.category;
+
     try {
-      const updateData = { name, email, phone, address, category };
       const response = await fetch(
-        `http://localhost:3310/api/contacts/${contactToUpdate}`,
+        `http://localhost:3310/api/contacts/${contact.c_id}`,
         {
           method: "PATCH",
           headers: {
@@ -24,89 +96,127 @@ export default function UpdateContactForm({ contactToUpdate }) {
               localStorage.getItem("token")
             )}`,
           },
-          body: JSON.stringify(updateData),
+          body: JSON.stringify(updatedDataForm),
         }
       );
 
       if (!response.ok) {
         throw new Error("Erreur lors de la mise à jour du contact");
       }
+      navigate("/contacts");
     } catch (error) {
       console.error("Erreur lors de la mise à jour:", error);
     }
   };
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
 
+  const handleClickNewCat = ({ name, id }) => {
+    setCategorySelected({ name, id });
+    setIsOpen(false);
+  };
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center text-dark-default">
       <form className="pt-8" onSubmit={handleSubmit}>
-        <label htmlFor="name" className="font-semibold">
-          Nom entier
+        <label htmlFor="name" className="font-bold">
+          Nom et prénom
         </label>
         <div>
           <input
             type="text"
-            defaultValue={name}
-            className="border h-12 w-80 rounded-lg pl-2"
-            onChange={(e) => setName(e.target.value)}
+            name="name"
+            defaultValue={contact.c_name}
+            className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
+            onChange={handlChange}
+            required
           />
         </div>
         <div className="mt-4">
-          <label htmlFor="email" className="font-semibold">
+          <label htmlFor="email" className="font-bold">
             Adresse e-mail
           </label>
           <div>
             <input
               type="email"
-              defaultValue={email}
-              className="border h-12 w-80 rounded-lg pl-2"
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              defaultValue={contact.c_email}
+              className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
+              onChange={handlChange}
+              required
             />
           </div>
         </div>
-        <div>
-          <label htmlFor="Téléphone" className="font-semibold">
+        <div className="mt-4">
+          <label htmlFor="Téléphone" className="font-bold">
             Téléphone
           </label>
-          <div className="mt-4">
+          <div>
             <input
               type="text"
-              defaultValue={phone}
-              className="border h-12 w-80 rounded-lg pl-2"
-              onChange={(e) => setPhone(e.target.value)}
+              name="phone"
+              defaultValue={contact.c_phone}
+              className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
+              onChange={handlChange}
+              required
             />
           </div>
         </div>
 
         <div className="mt-4">
-          <label htmlFor="address" className="font-semibold">
+          <label htmlFor="address" className="font-bold">
             Adresse
           </label>
           <div>
             <input
               type="text"
-              defaultValue={address}
-              className="border h-12 w-80 rounded-lg pl-2"
-              onChange={(e) => setAddress(e.target.value)}
+              name="address"
+              defaultValue={contact.c_address}
+              className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
+              onChange={handlChange}
+              required
             />
           </div>
         </div>
         <div className="mt-4">
-          <label htmlFor="category" className="font-semibold">
+          <label htmlFor="Category" className="relative font-bold">
             Catégorie
+            <button
+              type="button"
+              className="w-full border border-solid border-blue-medium h-12 mt-1 py-2 px-5 rounded-lg flex justify-start"
+              onClick={handleClick}
+            >
+              {categorySelected === null
+                ? storedCategory
+                : categorySelected.name}
+              <IoChevronDownSharp className="absolute left-64 mt-1 text-dark-default" />
+            </button>
+            <div>
+              {isOpen && (
+                <div className=" flex flex-col justify-start  border border-dark-default rounded-lg ">
+                  {category.map(({ cc_id, cc_name }) => (
+                    <button
+                      type="button"
+                      key={cc_id}
+                      name="category"
+                      value={cc_name}
+                      onClick={() =>
+                        handleClickNewCat({ name: cc_name, id: cc_id })
+                      }
+                      className="h-12 py-2 px-5 hover:bg-blue-lighter text-left rounded-lg hover:font-semibold border border-blue-lighter"
+                    >
+                      {cc_name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </label>
-          <div>
-            <input
-              type="text"
-              defaultValue={category}
-              className="border h-12 w-80 rounded-lg pl-2"
-              onChange={(e) => setCategory(e.target.value)}
-            />
-          </div>
         </div>
 
         <button
           type="submit"
-          className="bg-blue-medium w-80 py-1 rounded-lg text-dark-default shadow-lg mt-4"
+          className="bg-blue-medium w-80 py-1 rounded-lg text-dark-default shadow-lg mt-4 font-bold hover:bg-green-lighter"
         >
           Enregistrer
         </button>

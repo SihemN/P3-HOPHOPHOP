@@ -15,7 +15,6 @@ export default function SelectCategory({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
@@ -28,9 +27,16 @@ export default function SelectCategory({
   // filtrer les contacts par leur catégorie + màj des contacts filtrés
   const handleCategoryClick = (categoryId) => {
     setFilterSelected(categoryId);
-    const filteredContacts = contacts.filter(
-      (contact) => contact.c_cat_contact_id === categoryId
-    );
+    let filteredContacts;
+    if (categoryId === null) {
+      // Si l'utilisateur a sélectionné "Toutes", ne filtrez pas les contacts
+      filteredContacts = contacts;
+    } else {
+      // Sinon, filtrez les contacts par catégorie
+      filteredContacts = contacts.filter(
+        (contact) => contact.c_cat_contact_id === categoryId
+      );
+    }
     setFilteredContacts(filteredContacts);
   };
 
@@ -117,30 +123,38 @@ export default function SelectCategory({
         <IoChevronDownSharp className="mt-1" />
       </button>
       <div className="border border-blue-lighter rounded-lg">
-        {isOpen &&
-          categories.map((category) => (
-            <div
-              key={category.cc_id}
-              className="flex items-center justify-between hover:bg-blue-lighter rounded-lg pt-2 px-1"
-            >
-              <button
-                type="button"
-                onClick={() => handleCategoryClick(category.cc_id)}
-              >
-                {category.cc_name}
-              </button>
-              <button
-                type="button"
-                aria-label="Modifier ou supprimer la catégorie"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleKebabClick(category);
-                }}
-              >
-                <VscKebabVertical className="text-blue-medium" />
+        {isOpen && (
+          <>
+            <div className="flex items-center justify-between hover:bg-blue-lighter rounded-lg pt-2 px-1">
+              <button type="button" onClick={() => handleCategoryClick(null)}>
+                Toutes
               </button>
             </div>
-          ))}
+            {categories.map((category) => (
+              <div
+                key={category.cc_id}
+                className="flex items-center justify-between hover:bg-blue-lighter rounded-lg pt-2 px-1"
+              >
+                <button
+                  type="button"
+                  onClick={() => handleCategoryClick(category.cc_id)}
+                >
+                  {category.cc_name}
+                </button>
+                <button
+                  type="button"
+                  aria-label="Modifier ou supprimer la catégorie"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleKebabClick(category);
+                  }}
+                >
+                  <VscKebabVertical className="text-blue-medium" />
+                </button>
+              </div>
+            ))}
+          </>
+        )}
       </div>
       {selectedCategory && (
         <UpdateCategory

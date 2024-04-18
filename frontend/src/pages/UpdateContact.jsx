@@ -9,14 +9,15 @@ import FooterContact from "../components/Contact_page/FooterContact";
 import UpdateContactForm from "../components/Contact_page/UpdateContactForm";
 
 export default function UpdateContact() {
-  const { contactId } = useParams();
+  const { id } = useParams();
   const [contactToUpdate, setContactToUpdate] = useState(null);
 
+  // récupérer les données du contact
   useEffect(() => {
     const fetchContactData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3310/api/contacts/${contactId}`,
+          `http://localhost:3310/api/contacts/${id}`,
           {
             method: "GET",
             headers: {
@@ -32,14 +33,14 @@ export default function UpdateContact() {
             "Erreur lors de la récupération des données du contact"
           );
         }
-        const { results } = await response.json();
-        setContactToUpdate(results);
+        const data = await response.json();
+        setContactToUpdate(data.result[0]);
       } catch (error) {
         console.error(error);
       }
     };
     fetchContactData();
-  }, [contactId]);
+  }, [id]);
 
   return (
     <div className="bg-blue-lighter font-Neue-Kabel">
