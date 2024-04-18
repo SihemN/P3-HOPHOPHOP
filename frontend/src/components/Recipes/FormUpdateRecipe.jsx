@@ -1,9 +1,15 @@
+/* eslint-disable no-alert */
+/* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-export default function FormUpdateRecipe() {
+export default function FormUpdateRecipe({
+  setRecipeUpdated,
+  desktopOrMobile,
+  setComponentToShow,
+}) {
   const navigate = useNavigate();
   // Ouverture de l'input catégorie
   const [isOpen, setIsOpen] = useState(false);
@@ -43,9 +49,15 @@ export default function FormUpdateRecipe() {
     };
   });
 
-  const recipesCategories = JSON.parse(
-    localStorage.getItem("recipesCategories")
-  );
+  const recipesCategories = [
+    { id: 0, name: "Toutes" },
+    { id: 1, name: "Apéritifs" },
+    { id: 2, name: "Entrées" },
+    { id: 3, name: "Plats" },
+    { id: 4, name: "Desserts" },
+    { id: 5, name: "Boissons" },
+    { id: 6, name: "Petits-déjeuners" },
+  ];
 
   const filteredCategories = recipesCategories.filter(
     (category) => category.name !== "Toutes"
@@ -72,22 +84,49 @@ export default function FormUpdateRecipe() {
   // Au submit du form, on envoie dataUserUpdate avec la route PATCH
   const handleSubmit = (e) => {
     e.preventDefault();
-    // fetch route PATCH profile
-    fetch(`http://localhost:3310/api/recipes/${recipeId}`, {
-      method: "PATCH",
-      headers: {
-        // eslint-disable-next-line prettier/prettier
-        "Content-type": "application/json",
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-      },
-      body: JSON.stringify(dataRecipe),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.info("data", data);
-        navigate("/recipes/detail");
-      })
-      .catch((err) => console.error("Erreur : ", err));
+    const fetchUpdateRecipe = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/recipes/${recipeId}`,
+          {
+            method: "PATCH",
+            headers: {
+              // eslint-disable-next-line prettier/prettier
+              "Content-type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+            body: JSON.stringify(dataRecipe),
+          }
+        );
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message || "Vérifiez vos données");
+        }
+
+        const message = await response.json();
+        console.info("message", message);
+        if (desktopOrMobile === "mobile") {
+          navigate("/recipes/detail");
+        } else if (desktopOrMobile === "desktop") {
+          setComponentToShow("details recipe");
+          setRecipeUpdated((prev) => !prev);
+        }
+      } catch (error) {
+        console.info("Erreur pour modifier la recette >>", error);
+      }
+    };
+    // Gestion d'inputs inattendus :
+    if (dataRecipe.name.length > 50) {
+      alert("Nom de la recette : limite de caractères dépassée");
+    } else if (dataRecipe.time_preparation.length > 20) {
+      alert("Temps de préparation : limite de caractères dépassée");
+    } else if (dataRecipe.list_ingredients.length > 255) {
+      alert("Ingrédients : limite de caractères dépassée");
+    } else {
+      fetchUpdateRecipe();
+    }
   };
 
   return (

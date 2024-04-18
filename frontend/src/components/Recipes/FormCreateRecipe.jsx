@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import { useState } from "react";
@@ -16,26 +17,26 @@ export default function FormCreateRecipe({
   const [categorySelected, setCategorySelected] = useState(null);
 
   // on initialise les propriétés avec les valeurs de la recette cliquée
-  const [dataRecipe, setDataRecipe] = useState(() => {
-    return {
-      name: "",
-      description: "",
-      nb_persons: "",
-      list_ingredients: "",
-      category: "",
-      time_preparation: "",
-    };
+  const [dataRecipe, setDataRecipe] = useState({
+    name: "",
+    description: "",
+    nb_persons: "",
+    list_ingredients: "",
+    category: "",
+    time_preparation: "",
   });
 
-  console.info("dataRecipe", dataRecipe);
-
-  const recipesCategories = JSON.parse(
-    localStorage.getItem("recipesCategories")
-  );
+  const recipesCategories = [
+    { id: 0, name: "Toutes" },
+    { id: 1, name: "Apéritifs" },
+    { id: 2, name: "Entrées" },
+    { id: 3, name: "Plats" },
+    { id: 4, name: "Desserts" },
+    { id: 5, name: "Boissons" },
+    { id: 6, name: "Petits-déjeuners" },
+  ];
 
   const currentGroup = JSON.parse(localStorage.getItem("group"));
-
-  console.info("currentGroup", currentGroup);
 
   const filteredCategories = recipesCategories.filter(
     (category) => category.name !== "Toutes"
@@ -64,51 +65,61 @@ export default function FormCreateRecipe({
     setDataRecipe({ ...dataRecipe, [name]: value });
   };
 
-  // Au submit du form, on envoie dataUserUpdate avec la route PATCH
+  // Au submit du form, on envoie dataRecipe avec la route PATCH
   const handleSubmit = (e) => {
     e.preventDefault();
-    const fetchCreateRecipe = () => {
-      fetch(
-        `http://localhost:3310/api/recipes/groups/${currentGroup.ug_group_id}`,
-        {
-          method: "POST",
-          headers: {
-            // eslint-disable-next-line prettier/prettier
-            "Content-type": "application/json",
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("token")
-            )}`,
-          },
-          body: JSON.stringify(dataRecipe),
+    const fetchCreateRecipe = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/recipes/groups/${currentGroup.ug_group_id}`,
+          {
+            method: "POST",
+            headers: {
+              // eslint-disable-next-line prettier/prettier
+              "Content-type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+            body: JSON.stringify(dataRecipe),
+          }
+        );
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message || "Vérifiez vos données");
         }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          console.info("data", data);
-          setRecipeUpdated((prev) => !prev);
-          setDataRecipe({
-            name: "",
-            description: "",
-            nb_persons: "",
-            list_ingredients: "",
-            category: "",
-            time_preparation: "",
-          });
-          setComponentToShow("details recipe");
-          setCategorySelected(null);
-          navigate("/recipes");
-        })
-        .catch((err) => console.error("Erreur : ", err));
-    };
 
-    if (categorySelected !== null) {
-      fetchCreateRecipe();
-    } else if (categorySelected === null) {
-      // eslint-disable-next-line no-alert
+        const message = await response.json();
+        console.info("message", message);
+        setRecipeUpdated((prev) => !prev);
+        setComponentToShow("details recipe");
+        setDataRecipe({
+          name: "",
+          description: "",
+          nb_persons: "",
+          list_ingredients: "",
+          category: "",
+          time_preparation: "",
+        });
+        setCategorySelected(null);
+        navigate("/recipes");
+      } catch (error) {
+        console.info("Erreur pour créer la recette >>", error);
+      }
+    };
+    // Gestion d'inputs inattendus :
+    if (categorySelected === null) {
       alert("Choisissez une catégorie");
+    } else if (dataRecipe.name.length > 50) {
+      alert("Nom de la recette : limite de caractères dépassée");
+    } else if (dataRecipe.time_preparation.length > 20) {
+      alert("Temps de préparation : limite de caractères dépassée");
+    } else if (dataRecipe.list_ingredients.length > 255) {
+      alert("Ingrédients : limite de caractères dépassée");
+    } else {
+      fetchCreateRecipe();
     }
   };
-  // fetch route CREATE recipe
 
   return (
     <form

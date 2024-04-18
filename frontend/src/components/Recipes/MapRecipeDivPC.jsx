@@ -1,19 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import DotsUpdateRecipe from "./DotsUpdateRecipe";
 
-export default function MapRecipeDiv({
+export default function MapRecipeDivPC({
   r_id,
   r_name,
   r_category,
   u_name,
   setRecipeUpdated,
+  setComponentToShow,
+  setRecipeId,
 }) {
-  const navigate = useNavigate();
-
   const [showDotsUpdateRecipe, setShowDotsUpdateRecipe] = useState(null);
 
   const handleClickDots = (recipeId) => {
@@ -22,10 +21,13 @@ export default function MapRecipeDiv({
 
   const storeClickedRecipe = (recipeId) => {
     localStorage.setItem("recipeId", JSON.stringify(recipeId));
+    // console.info("store() recipeId", recipeId);
   };
+
   const handleClicRecipe = (recipeId) => {
     storeClickedRecipe(recipeId);
-    navigate("/recipes/detail");
+    setRecipeId(recipeId);
+    setComponentToShow("details recipe");
   };
 
   return (
