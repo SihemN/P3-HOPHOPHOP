@@ -74,7 +74,7 @@ export default function DotsUpdateRecipe({
       .then((data) => {
         console.info("data", data);
         setShowDotsUpdateRecipe(null);
-        setRecipeUpdated(true);
+        setRecipeUpdated((prev) => !prev);
       })
       .catch((err) => console.error("Erreur : ", err));
   };

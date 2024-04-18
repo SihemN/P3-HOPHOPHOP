@@ -35,6 +35,7 @@ export default {
         clear: " #FEEFED",
       },
       orange: {
+        light: "#FFF0E3",
         lighter: "#FFD1A8",
         default: "#F8A75D",
       },
@@ -92,7 +93,6 @@ export default {
           transformOrigin: "top right",
           opacity: 1,
         },
-        plugins: [],
       },
 
       menuSlideDown: {
@@ -101,6 +101,22 @@ export default {
       },
     },
   },
+  plugins: [
+    // eslint-disable-next-line func-names
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+        },
+        ".no-scrollbar": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+        },
+      };
+
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    },
+  ],
 };
 // Librairie d'Icons : Phosphor Icons
 // https://github.com/phosphor-icons/core
