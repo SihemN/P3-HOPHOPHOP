@@ -28,7 +28,6 @@ export default function Recipe() {
     localStorage.getItem("recipeId") || null
   );
 
-  console.info("recipeId", recipeId);
   // state pour gérer si on affiche les composents afficher la recette, modifier la recette ou créer une recette
   const currentRecipe = JSON.parse(localStorage.getItem("recipeSelected"));
   const [componentToShow, setComponentToShow] = useState(
