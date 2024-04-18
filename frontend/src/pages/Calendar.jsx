@@ -1,12 +1,25 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from "react";
+// Importez Calendar sous un nom différent, par exemple MyCalendar
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { format, parse, startOfWeek, getDay } from "date-fns";
+import frFR from "date-fns/locale/fr";
+import { useState, useEffect } from "react";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import icon from "../assets/icons-functionnalities/calendar.svg";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
-export default function Calendar() {
+// Initialisez localizer avec date-fns
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales: frFR,
+});
+
+export default function MyCalendar() {
   // state pour stocker les events du group
   const [events, setEvents] = useState([]);
-  console.info("events >>", events);
   // On récupère le groupe en cours
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
 
@@ -41,6 +54,17 @@ export default function Calendar() {
     fetchEventsOfGroup();
   }, []);
 
+  // Convertir les dates au format timestamp en objet Date
+  const eventsGroup = events.map((event) => ({
+    title: event.e_title,
+    start: new Date(event.e_date_start),
+    end: new Date(event.e_date_end),
+    description: event.e_text,
+    private: event.e_private,
+    userId: event.e_user_id,
+    groupId: event.e_group_id,
+  }));
+  console.info("eventsGroup >>", eventsGroup);
   return (
     <div className="font-Neue-Kabel bg-blue-default">
       <HeaderFunctionnalities
@@ -50,6 +74,14 @@ export default function Calendar() {
       />
       <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
         <p className="text-center">Hello</p>
+        <Calendar
+          localizer={localizer}
+          events={eventsGroup}
+          startAccessor="start"
+          endAccessor="end"
+          views={["month", "week", "day"]}
+          defaultView="month"
+        />
       </main>
     </div>
   );
