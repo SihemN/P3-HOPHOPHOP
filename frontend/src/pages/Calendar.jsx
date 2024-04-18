@@ -1,11 +1,46 @@
-import React from "react";
+/* eslint-disable camelcase */
+import React, { useEffect, useState } from "react";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import icon from "../assets/icons-functionnalities/calendar.svg";
 
 export default function Calendar() {
-  // eslint-disable-next-line camelcase
-  const { ug_group_id } = localStorage.getItem("group");
-  console.info("ug_group_id >>", ug_group_id);
+  // state pour stocker les events du group
+  const [events, setEvents] = useState([]);
+  console.info("events >>", events);
+  // On récupère le groupe en cours
+  const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
+
+  // on récupère les events du group
+  useEffect(() => {
+    const fetchEventsOfGroup = async () => {
+      try {
+        const results = await fetch(
+          `http://localhost:3310/api/events/groups/${ug_group_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
+        if (!results.ok) {
+          const errorResponse = await results.json();
+          throw new Error(
+            errorResponse.message || "Echec pour récupérer les données"
+          );
+        }
+        const { result } = await results.json();
+        setEvents(result);
+      } catch (error) {
+        console.info("Error fetching recipes data:", error);
+      }
+    };
+    fetchEventsOfGroup();
+  }, []);
+
   return (
     <div className="font-Neue-Kabel bg-blue-default">
       <HeaderFunctionnalities
