@@ -12,7 +12,7 @@ export default function MapRecipesByCategory({
 }) {
   return (
     <>
-      <div className="lg:hidden">
+      <div className="md:hidden">
         {recipesGroup
           // on filtre les recettes correspondantes et on map pour créer un button chacune
           .filter(
@@ -29,7 +29,7 @@ export default function MapRecipesByCategory({
             />
           ))}
       </div>
-      <div className="lg:block">
+      <div className="md:block">
         {recipesGroup
           // on filtre les recettes correspondantes et on map pour créer un button chacune
           .filter(
