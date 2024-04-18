@@ -92,8 +92,9 @@ export default function Recipe() {
         color="text-red-default"
         icon={icon}
       />
-      <main className=" lg:flex rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top overflow-y-auto no-scrollbar">
-        <div className="lg:flex-1 z-10 lg:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] lg:overflow-y-auto lg:no-scrollbar ">
+      {/* en cours ici media query tablette */}
+      <main className=" md:flex rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top overflow-y-auto no-scrollbar">
+        <div className="md:flex-1 z-10 md:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] md:overflow-y-auto md:no-scrollbar ">
           <FilterCategories
             filterSelected={filterSelected}
             recipesCategories={recipesCategories}
@@ -109,7 +110,9 @@ export default function Recipe() {
           />
         </div>
         {/* Version PC: ajouter le composant d'affichage Recette */}
-        <div className="hidden z-0 lg:block lg:flex-1 lg:overflow-y-auto">
+        {/* en cours ici media query tablette */}
+
+        <div className="hidden z-0 md:block md:flex-1 md:overflow-y-auto">
           {componentToShow === "details recipe" && (
             <ShowRecipeDetails
               recipeId={recipeId}

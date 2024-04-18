@@ -13,29 +13,29 @@ export default function ModifyRecipe({ setRecipeUpdated, setComponentToShow }) {
   const recipe = JSON.parse(localStorage.getItem("recipeSelected"));
 
   return (
-    <div className="font-Neue-Kabel bg-red-default lg:bg-opacity-0">
-      <header className="lg:hidden">
+    <div className="font-Neue-Kabel bg-red-default md:bg-opacity-0">
+      <header className="md:hidden">
         <HeaderFunctionnalities
           title="Vos recettes"
           color="text-red-default"
           icon={icon}
         />
       </header>
-      <main className="lg:pt-5 rounded-t-3xl lg:rounded-none bg-cream lg:bg-opacity-0  shadow-top flex flex-col items-center min-h-screen">
+      <main className="lg:pt-5 rounded-t-3xl md:rounded-none bg-cream md:bg-opacity-0 shadow-top flex flex-col items-center min-h-screen">
         <h1 className="bg-red-default mx-auto text-cream text-xl rounded-[12px] h-fit w-fit px-4 my-5">
           Modifier la recette
         </h1>
 
         {recipe && (
           <>
-            <div className="lg:hidden">
+            <div className="md:hidden">
               <FormUpdateRecipe
                 setRecipeUpdated={setRecipeUpdated}
                 setComponentToShow={setComponentToShow}
                 desktopOrMobile="mobile"
               />
             </div>
-            <div className="hidden lg:block w-3/4">
+            <div className="hidden md:block  md:w-11/12 w-3/4">
               <FormUpdateRecipe
                 setRecipeUpdated={setRecipeUpdated}
                 setComponentToShow={setComponentToShow}
