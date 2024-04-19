@@ -9,12 +9,11 @@ export default function SelectCategory({
   categories,
   onCategoriesChange,
   setCategoryUpdated,
-  contacts,
-  setFilteredContacts,
   setFilterSelected,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
@@ -23,21 +22,10 @@ export default function SelectCategory({
   const handleKebabClick = (category) => {
     setSelectedCategory(category);
   };
-
   // filtrer les contacts par leur catégorie + màj des contacts filtrés
   const handleCategoryClick = (categoryId) => {
     setFilterSelected(categoryId);
-    let filteredContacts;
-    if (categoryId === null) {
-      // Si l'utilisateur a sélectionné "Toutes", ne filtrez pas les contacts
-      filteredContacts = contacts;
-    } else {
-      // Sinon, filtrez les contacts par catégorie
-      filteredContacts = contacts.filter(
-        (contact) => contact.c_cat_contact_id === categoryId
-      );
-    }
-    setFilteredContacts(filteredContacts);
+    setIsOpen(!isOpen);
   };
 
   // màj des catégories de contact

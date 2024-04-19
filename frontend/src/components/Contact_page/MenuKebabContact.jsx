@@ -1,12 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
-export default function MenuKebabContact({
-  contact,
-  setContacts,
-  contacts,
-  setFilteredContacts,
-}) {
+export default function MenuKebabContact({ contact, setCategoryUpdated }) {
   const deleteContact = async (id) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
@@ -23,9 +18,7 @@ export default function MenuKebabContact({
       if (!response.ok) {
         throw new Error("Erreur lors de la suppression du contact");
       }
-      const newContacts = contacts.filter((c) => c.id !== id);
-      setContacts(newContacts);
-      setFilteredContacts(newContacts);
+      setCategoryUpdated((prev) => !prev);
     } catch (error) {
       console.error(error);
     }

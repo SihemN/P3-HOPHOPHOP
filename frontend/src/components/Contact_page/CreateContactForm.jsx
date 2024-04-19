@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import { useEffect, useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
@@ -11,9 +12,10 @@ export default function CreateContactForm() {
     address: "",
   });
   const [category, setCategory] = useState([]);
+  // stocke id de catégorie et la met à jour si une est sélectionnée
   const [categorySelected, setCategorySelected] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+  // stocke une liste filtrée de catégories et met à jour si le filtre est appliqué
   const [filteredCategories, setFilteredCategories] = useState([]);
   const navigate = useNavigate();
 
@@ -96,7 +98,6 @@ export default function CreateContactForm() {
   };
 
   return (
-
     <div className="flex flex-col items-center text-blue-default">
       <form className="pt-10" onSubmit={handleSubmit}>
         <label htmlFor="Name" className="font-bold">
