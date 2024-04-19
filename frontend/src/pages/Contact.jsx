@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from "react";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
@@ -7,11 +8,15 @@ import MapContact from "../components/Contact_page/MapContact";
 import AddContact from "../components/Contact_page/AddContact";
 
 export default function Contact() {
+  // stocke la liste de contact et la met à jour
   const [contacts, setContacts] = useState([]);
+  // stocke liste de catégories et la met à jour
   const [categories, setCategories] = useState([]);
+  // suit si les catégories ont été modifiées et passe a true si c'est le cas
   const [categoryUpdated, setCategoryUpdated] = useState(false);
+  // liste filtrées de contacts et la met à jour
   const [filteredContacts, setFilteredContacts] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+  // stocke catégorie et met à jour si une catégorie est sélectionnée
   const [filterSelected, setFilterSelected] = useState(null);
 
   // récupérer les contacts depuis l'api
@@ -41,13 +46,13 @@ export default function Contact() {
         }
         const { results } = await response.json();
         setContacts(results);
-        setFilteredContacts(results);
       } catch (error) {
         console.error(error);
       }
     };
     fetchContacts();
-  }, [contacts, setFilteredContacts]);
+  }, [categoryUpdated]);
+
   // récupérer les catégories de contact depuis l'api
   useEffect(() => {
     const fetchCategories = async () => {
@@ -112,6 +117,8 @@ export default function Contact() {
               filteredContacts={filteredContacts}
               setContacts={setContacts}
               contacts={contacts}
+              filterSelected={filterSelected}
+              setCategoryUpdated={setCategoryUpdated}
             />
           </div>
         </section>
