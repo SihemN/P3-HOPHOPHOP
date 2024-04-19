@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-// Importez Calendar sous un nom différent, par exemple MyCalendar
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import frFR from "date-fns/locale/fr";
