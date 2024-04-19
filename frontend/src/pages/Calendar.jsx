@@ -7,6 +7,8 @@ import { useState, useEffect } from "react";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import icon from "../assets/icons-functionnalities/calendar.svg";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import DisplayEventInfo from "../components/Calendar/DisplayEventInfo";
+import AddEvent from "../components/Calendar/AddEvent";
 
 // Initialisez localizer avec date-fns
 const localizer = dateFnsLocalizer({
@@ -22,10 +24,8 @@ export default function MyCalendar() {
   const [events, setEvents] = useState([]);
   // state pour gérer l'event cliqué à afficher
   const [selectedEvent, setSelectedEvent] = useState(null);
-
   // On récupère le groupe en cours
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
-
   // on récupère les events du group
   useEffect(() => {
     const fetchEventsOfGroup = async () => {
@@ -57,22 +57,40 @@ export default function MyCalendar() {
     fetchEventsOfGroup();
   }, []);
 
-  const handleEventClick = (event) => setSelectedEvent(event);
-  console.info("selectedEvent >>", selectedEvent);
+  // Convertir les dates format timestamp en objet Date
+  const eventsGroup = events.map(
+    ({
+      e_id,
+      e_title,
+      e_date_start,
+      e_date_end,
+      e_text,
+      e_private,
+      e_user_id,
+      e_group_id,
+    }) => ({
+      eventId: e_id,
+      title: e_title,
+      start: new Date(e_date_start),
+      end: new Date(e_date_end),
+      description: e_text,
+      private: e_private,
+      userId: e_user_id,
+      groupId: e_group_id,
+    })
+  );
 
-  const handleCloseModal = () => setSelectedEvent(null);
+  // Pour récupérer les infos de l'event cliqué
+  const handleEventClick = (event) => {
+    if (!selectedEvent) {
+      setSelectedEvent(event);
+    } else if (event.eventId === selectedEvent.eventId) {
+      setSelectedEvent(null);
+    } else {
+      setSelectedEvent(event);
+    }
+  };
 
-  // Convertir les dates au format timestamp en objet Date
-  const eventsGroup = events.map((event) => ({
-    title: event.e_title,
-    start: new Date(event.e_date_start),
-    end: new Date(event.e_date_end),
-    description: event.e_text,
-    private: event.e_private,
-    userId: event.e_user_id,
-    groupId: event.e_group_id,
-  }));
-  console.info("eventsGroup >>", eventsGroup);
   return (
     <div className="font-Neue-Kabel bg-blue-default">
       <HeaderFunctionnalities
@@ -81,6 +99,8 @@ export default function MyCalendar() {
         icon={icon}
       />
       <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top p-10">
+        {/* Ajouter un événement */}
+        <AddEvent />
         <Calendar
           localizer={localizer}
           events={eventsGroup}
@@ -89,38 +109,13 @@ export default function MyCalendar() {
           onSelectEvent={handleEventClick}
           views={["month", "week", "day"]}
           defaultView="month"
+          // className={selectedEvent ? "blur-2xl" : ""}
         />
-        {selectedEvent && (
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 bg-cream p-5 border-[1px] border-blue-default rounded-2xl shadow-2xl w-fit">
-            <div>
-              <button
-                type="button"
-                className="close"
-                onClick={handleCloseModal}
-              >
-                &times;
-              </button>
-              <section name="infos-event">
-                <div className="bg-blue-default w-fit px-2 rounded-lg text-cream">
-                  {selectedEvent.private ? "Personnel" : "Groupe"}
-                </div>
-                <h2 className="text-xl font-bold">{selectedEvent.title}</h2>
-                <p>{selectedEvent.description}</p>
-                <p>Du {selectedEvent.start.toLocaleString()}</p>
-                <p>Au {selectedEvent.end.toLocaleString()}</p>
-              </section>
-            </div>
-          </div>
-        )}
+        <DisplayEventInfo
+          selectedEvent={selectedEvent}
+          setSelectedEvent={setSelectedEvent}
+        />
       </main>
     </div>
   );
 }
-
-// title
-// start: Date
-// end: Date
-// description
-// private
-// userId
-// groupId
