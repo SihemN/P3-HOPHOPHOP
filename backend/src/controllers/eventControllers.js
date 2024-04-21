@@ -23,9 +23,9 @@ const create = async (req, res) => {
       isPrivate
     );
     if (result.affectedRows) {
-      res.status(201).send("Event créé avec succès!!");
+      res.status(201).json("événenement créé avec succès !");
     } else {
-      res.status(401).send("Erreur lors de la création !!");
+      res.status(401).json("Erreur lors de la création !");
     }
   } catch (error) {
     res.status(500).send(error);

@@ -25,6 +25,30 @@ export default function MyCalendar() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   // On récupère le groupe en cours
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
+  // Fonction pour convertir les dates format timestamp en objet Date
+  const convertEvents = (eventsToConvert) => {
+    return eventsToConvert.map(
+      ({
+        e_id,
+        e_title,
+        e_date_start,
+        e_date_end,
+        e_text,
+        e_private,
+        e_user_id,
+        e_group_id,
+      }) => ({
+        eventId: e_id,
+        title: e_title,
+        start: new Date(e_date_start),
+        end: new Date(e_date_end),
+        description: e_text,
+        private: e_private,
+        userId: e_user_id,
+        groupId: e_group_id,
+      })
+    );
+  };
   // on récupère les events du group
   useEffect(() => {
     const fetchEventsOfGroup = async () => {
@@ -48,36 +72,18 @@ export default function MyCalendar() {
           );
         }
         const { result } = await results.json();
-        setEvents(result);
+        // Convertir les dates format timestamp en objet Date
+        // format timestamp 2024-02-20 00:00:00
+        // Sinon pas utilisables dans l'app
+        const convertedEvents = convertEvents(result);
+        // On maj events avec les events reçus et convertis au bon format
+        setEvents(convertedEvents);
       } catch (error) {
         console.info("Error fetching recipes data:", error);
       }
     };
     fetchEventsOfGroup();
   }, []);
-
-  // Convertir les dates format timestamp en objet Date
-  const eventsGroup = events.map(
-    ({
-      e_id,
-      e_title,
-      e_date_start,
-      e_date_end,
-      e_text,
-      e_private,
-      e_user_id,
-      e_group_id,
-    }) => ({
-      eventId: e_id,
-      title: e_title,
-      start: new Date(e_date_start),
-      end: new Date(e_date_end),
-      description: e_text,
-      private: e_private,
-      userId: e_user_id,
-      groupId: e_group_id,
-    })
-  );
 
   // Pour récupérer les infos de l'event cliqué
   const handleEventClick = (event) => {
@@ -101,7 +107,7 @@ export default function MyCalendar() {
         <AddEvent />
         <Calendar
           localizer={localizer}
-          events={eventsGroup}
+          events={events}
           startAccessor="start"
           endAccessor="end"
           onSelectEvent={handleEventClick}

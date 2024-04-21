@@ -1,24 +1,118 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import Checkbox from "@mui/material/Checkbox";
 import AddEventFormButton from "./AddEventFormButton";
 
 export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
-  const [dataEvent] = useState({
+  const [dataEvent, setDataEvent] = useState({
     title: "",
     text: "",
     dateStart: "",
+    timeStart: "",
     dateEnd: "",
-    isPrivate: "",
+    timeEnd: "",
+    isPrivate: false,
   });
+  console.info("dataEvent >>", dataEvent);
+  // Concaténer date et time au bon format
+  // "2024-04-22" et "18:00" >> "2024-04-22 18:00:00"
 
+  const concatenateDateTime = () => {
+    // Concaténer la date et l'heure de début
+    const startDate = `${dataEvent.dateStart} ${dataEvent.timeStart}:00`;
+
+    // Concaténer la date et l'heure de fin
+    const endDate = `${dataEvent.dateEnd} ${dataEvent.timeEnd}:00`;
+
+    // Mettre à jour les valeurs de dateStart et dateEnd dans dataEvent
+    setDataEvent((prevData) => ({
+      ...prevData,
+      dateStart: startDate,
+      dateEnd: endDate,
+    }));
+  };
   const handleClickButtonCancel = () => {
     setFormIsOpen((prev) => !prev);
+  };
+
+  const handleChange = (e) => {
+    // on déstructure notre target
+    const { name, value, type, checked } = e.target;
+    // si l'input est de type "checkbox", on récupère une valeur checked true ou false
+    // sinon on récupère juste la valeur de l'input qui n'est pas une checkbox
+    const newValue = type === "checkbox" ? checked : value;
+    setDataEvent((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }));
+  };
+
+  const handleCheckboxChange = (e) => {
+    setDataEvent((prevData) => ({
+      ...prevData,
+      isPrivate: e.target.checked, // Met à jour isPrivate en fonction de si la case à cocher est cochée ou non
+    }));
+  };
+
+  // submit et fetch la route backend
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const fetchCreateEvent = async () => {
+      const currentGroup = JSON.parse(localStorage.getItem("group"));
+
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/events/groups/${currentGroup.ug_group_id}`,
+          {
+            method: "POST",
+            headers: {
+              // eslint-disable-next-line prettier/prettier
+              "Content-type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+            body: JSON.stringify(dataEvent),
+          }
+        );
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(errorResponse.message || "Vérifiez vos données");
+        }
+        const message = await response.json();
+        console.info("message", message);
+        setDataEvent({
+          title: "",
+          text: "",
+          dateStartToConvert: "",
+          dateStart: "",
+          timeStart: "",
+          dateEndToConvert: "",
+          dateEnd: "",
+          timeEnd: "",
+          isPrivate: false,
+        });
+        setFormIsOpen((prev) => !prev);
+        // eslint-disable-next-line no-alert
+        alert(message);
+      } catch (error) {
+        console.info("Erreur pour créer la recette >>", error);
+      }
+      // Envoyer les données à votre backend avec les timestamps
+      console.info(dataEvent);
+    };
+    // ICI AJOUTER CONTROLE FORM
+    concatenateDateTime();
+    fetchCreateEvent();
   };
 
   return (
     formIsOpen && (
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 lg:w-1/2 max-w-[600px]">
-        <form className="flex flex-col text-dark-default text-xl m-5  bg-cream p-5 pt-2 border-[1px] border-blue-default rounded-2xl shadow-2xl">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col text-dark-default text-xl m-5  bg-cream p-5 pt-2 border-[1px] border-blue-default rounded-2xl shadow-2xl"
+        >
           <label htmlFor="name" className="font-bold mt-4">
             Nom de l'événement
           </label>
@@ -28,8 +122,8 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
             value={dataEvent.title}
             placeholder="Ex : anniv chez Jojo"
             required
-            className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-            //   onChange={handlChange}
+            className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default "
+            onChange={handleChange}
           />
           <label htmlFor="name" className="font-bold mt-4">
             Description
@@ -40,42 +134,64 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
             placeholder="Lieu de l'événement, description, etc."
             required
             className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-            //   onChange={handlChange}
+            onChange={handleChange}
           />
-          <label htmlFor="name" className="font-bold mt-4">
+          <label htmlFor="dateStart" className="font-bold mt-4">
             Date de début
           </label>
-          <input
-            type="date"
-            name="dateStart"
-            value={dataEvent.dateStart}
-            required
-            className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-            //   onChange={handlChange}
-          />
-          <label htmlFor="name" className="font-bold mt-4">
+          <div className="flex">
+            <input
+              type="date"
+              name="dateStart"
+              value={dataEvent.dateStart}
+              required
+              className="w-full border border-solid border-dark-default h-12 mt-1 mr-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
+              onChange={handleChange}
+            />
+            <input
+              type="time"
+              name="timeStart"
+              value={dataEvent.timeStart}
+              required
+              className="w-fit border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
+              onChange={handleChange}
+            />
+          </div>
+          <label htmlFor="dateEnd" className="font-bold mt-4">
             Date de fin
           </label>
-          <input
-            type="date"
-            name="dateStart"
-            value={dataEvent.dateStart}
-            required
-            className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-            //   onChange={handlChange}
-          />
-          <label htmlFor="name" className="font-bold mt-4">
-            Visibilité dans le calendrier
+          <div className="flex">
+            <input
+              type="date"
+              name="dateEnd"
+              value={dataEvent.dateEnd}
+              required
+              className="w-full border border-solid border-dark-default h-12 mt-1 mr-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
+              onChange={handleChange}
+            />
+            <input
+              type="time"
+              name="timeEnd"
+              value={dataEvent.timeEnd}
+              required
+              className="w-fit border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
+              onChange={handleChange}
+            />
+          </div>
+          <label
+            htmlFor="isPrivate"
+            className="flex items-center gap-5 font-bold mt-4"
+          >
+            Masquer aux membres du groupe ?
+            <Checkbox
+              name="isPrivate"
+              checked={dataEvent.isPrivate}
+              onChange={handleCheckboxChange}
+              color="success"
+            />
           </label>
-          <input
-            type="date"
-            name="dateStart"
-            value={dataEvent.dateStart}
-            required
-            className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-            //   onChange={handlChange}
-          />
-          <div className="flex justify-center items-center pt-5 gap-5">
+
+          <div className="flex justify-center items-center pt-5  gap-2">
             <AddEventFormButton
               onClick={handleClickButtonCancel}
               label="Annuler"

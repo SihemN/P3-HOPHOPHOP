@@ -24,7 +24,7 @@ export default function AddEventFormButton({
       onClick={onClick}
       // eslint-disable-next-line react/button-has-type
       type={type}
-      className={`flex flex-1 justify-around rounded-md ${bgColour} ${textColour} border-[1px] ${borderColour} px-10 py-2  ${hoverColour} ${hoverBorderColour} ${hoverTextColour} ${activeBgColour}`}
+      className={`flex  w-[50%] justify-around rounded-md ${bgColour} ${textColour} border-[1px] ${borderColour} px-10 py-2  ${hoverColour} ${hoverBorderColour} ${hoverTextColour} ${activeBgColour} `}
     >
       {label}
     </button>
