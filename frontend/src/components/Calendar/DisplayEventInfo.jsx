@@ -40,10 +40,7 @@ export default function DisplayEventInfo({ selectedEvent, setSelectedEvent }) {
   };
   return (
     selectedEvent && (
-      <div
-        className="fixed m-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-cream p-5 pt-2 border-[1px] border-blue-default rounded-2xl shadow-2xl w-fit modal-container"
-        // className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-cream p-5 border-[1px] border-blue-default rounded-2xl shadow-2xl w-fit modal-container"
-      >
+      <div className="fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-cream p-5 pt-2 border-[1px] border-blue-default rounded-2xl shadow-2xl w-fit modal-container">
         <div className="flex justify-end">
           <CloseBox
             onClick={handleCloseModal}

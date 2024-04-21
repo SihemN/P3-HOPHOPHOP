@@ -6,7 +6,7 @@ export default function AddEvent() {
   const [formIsOpen, setFormIsOpen] = useState(false);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center pt-5">
       <AddEventButtonOpen setFormIsOpen={setFormIsOpen} />
       <AddEventForm formIsOpen={formIsOpen} setFormIsOpen={setFormIsOpen} />
     </div>

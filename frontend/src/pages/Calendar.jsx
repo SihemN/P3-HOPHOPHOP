@@ -97,8 +97,7 @@ export default function MyCalendar() {
         color="text-blue-default"
         icon={icon}
       />
-      <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top p-10">
-        {/* Ajouter un événement */}
+      <main className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top lg:p-5">
         <AddEvent />
         <Calendar
           localizer={localizer}
@@ -108,7 +107,6 @@ export default function MyCalendar() {
           onSelectEvent={handleEventClick}
           views={["month", "week", "day"]}
           defaultView="month"
-          // className={selectedEvent ? "blur-2xl" : ""}
         />
         <DisplayEventInfo
           selectedEvent={selectedEvent}
