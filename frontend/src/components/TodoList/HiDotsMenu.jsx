@@ -18,7 +18,6 @@ export default function HiDotsMenu() {
   return (
     <div className="flex justify-center">
       {" "}
-      {/* Center the button horizontally */}
       <button
         type="button"
         aria-label="more"
