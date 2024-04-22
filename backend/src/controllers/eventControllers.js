@@ -42,8 +42,12 @@ const getEventByGroup = async (req, res) => {
       res
         .status(200)
         .json({ message: "Liste des events récupérée avec succès!!", result });
+    } else if (result.length === 0) {
+      res
+        .status(200)
+        .json({ message: "Vous n'avez pas encore d'événements", result });
     } else {
-      res.status(401).send("Erreur lors de la récupération de la liste !!");
+      res.status(401).json("Erreur lors de la récupération de la liste !!");
     }
   } catch (error) {
     res.status(500).send(error);

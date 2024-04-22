@@ -1,9 +1,15 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import AddEventFormButton from "./AddEventFormButton";
+import RedStarForRequiredInput from "../to-reuse/RedStarForRequiredInput";
 
-export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
+export default function AddEventForm({
+  formIsOpen,
+  setFormIsOpen,
+  setEventUpdated,
+}) {
   const [dataEvent, setDataEvent] = useState({
     title: "",
     text: "",
@@ -13,11 +19,10 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
     timeEnd: "",
     isPrivate: false,
   });
-  console.info("dataEvent >>", dataEvent);
-  // Concaténer date et time au bon format
-  // "2024-04-22" et "18:00" >> "2024-04-22 18:00:00"
 
   const concatenateDateTime = () => {
+    // Concaténer date et time au bon format
+    // "2024-04-22" et "18:00" >> "2024-04-22 18:00:00"
     // Concaténer la date et l'heure de début
     const startDate = `${dataEvent.dateStart} ${dataEvent.timeStart}:00`;
 
@@ -31,6 +36,7 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
       dateEnd: endDate,
     }));
   };
+
   const handleClickButtonCancel = () => {
     setFormIsOpen((prev) => !prev);
   };
@@ -41,6 +47,7 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
     // si l'input est de type "checkbox", on récupère une valeur checked true ou false
     // sinon on récupère juste la valeur de l'input qui n'est pas une checkbox
     const newValue = type === "checkbox" ? checked : value;
+
     setDataEvent((prevData) => ({
       ...prevData,
       [name]: newValue,
@@ -92,6 +99,7 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
           timeEnd: "",
           isPrivate: false,
         });
+        setEventUpdated((prev) => !prev);
         setFormIsOpen((prev) => !prev);
         // eslint-disable-next-line no-alert
         alert(message);
@@ -103,7 +111,14 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
     };
     // ICI AJOUTER CONTROLE FORM
     concatenateDateTime();
-    fetchCreateEvent();
+    // Gestion d'inputs inattendus :
+    if (dataEvent.title.length > 50) {
+      alert("Titre de l'événement : limite de caractères dépassée");
+    } else if (dataEvent.text.length > 250) {
+      alert("Description de l'événement : limite de caractères dépassée");
+    } else {
+      fetchCreateEvent();
+    }
   };
 
   return (
@@ -114,7 +129,7 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
           className="flex flex-col text-dark-default text-xl m-5  bg-cream p-5 pt-2 border-[1px] border-blue-default rounded-2xl shadow-2xl"
         >
           <label htmlFor="name" className="font-bold mt-4">
-            Nom de l'événement
+            Nom de l'événement <RedStarForRequiredInput />
           </label>
           <input
             type="text"
@@ -132,12 +147,12 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
             name="text"
             value={dataEvent.text}
             placeholder="Lieu de l'événement, description, etc."
-            required
+            // required
             className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
             onChange={handleChange}
           />
           <label htmlFor="dateStart" className="font-bold mt-4">
-            Date de début
+            Date de début <RedStarForRequiredInput />
           </label>
           <div className="flex">
             <input
@@ -158,7 +173,7 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
             />
           </div>
           <label htmlFor="dateEnd" className="font-bold mt-4">
-            Date de fin
+            Date de fin <RedStarForRequiredInput />
           </label>
           <div className="flex">
             <input
@@ -180,9 +195,15 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
           </div>
           <label
             htmlFor="isPrivate"
+            aria-label="Checkbox pour masquer ou rendre visible un événement"
             className="flex items-center gap-5 font-bold mt-4"
           >
-            Masquer aux membres du groupe ?
+            <div>
+              <p>Masquer aux membres du groupe ?</p>
+              <p className="font-normal italic text-base ">
+                Cocher pour masquer
+              </p>
+            </div>
             <Checkbox
               name="isPrivate"
               checked={dataEvent.isPrivate}
@@ -194,24 +215,24 @@ export default function AddEventForm({ formIsOpen, setFormIsOpen }) {
           <div className="flex justify-center items-center pt-5  gap-2">
             <AddEventFormButton
               onClick={handleClickButtonCancel}
+              type="button"
               label="Annuler"
               bgColor="cream"
               borderColor="blue-default"
               textColor="blue-default"
-              hoverBgColor="orange-default"
+              hoverColor="orange-default"
               hoverBorderColor="orange-default"
-              hoverTextColor="cream"
               activeBgColor="orange-lighter"
             />
+
             <AddEventFormButton
               label="Enregistrer"
               type="submit"
               bgColor="blue-default"
               borderColor="blue-default"
               textColor="cream"
-              hoverBgColor="green-default"
+              hoverColor="green-default"
               hoverBorderColor="green-default"
-              hoverTextColor="cream"
               activeBgColor="green-lighter"
             />
           </div>

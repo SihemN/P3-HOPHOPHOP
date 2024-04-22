@@ -23,6 +23,8 @@ export default function MyCalendar() {
   const [events, setEvents] = useState([]);
   // state pour gérer l'event cliqué à afficher
   const [selectedEvent, setSelectedEvent] = useState(null);
+  // state pour refetcher les events si un event est modifié/supprimé
+  const [eventUpdated, setEventUpdated] = useState(false);
   // On récupère le groupe en cours
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
   // Fonction pour convertir les dates format timestamp en objet Date
@@ -83,7 +85,7 @@ export default function MyCalendar() {
       }
     };
     fetchEventsOfGroup();
-  }, []);
+  }, [eventUpdated]);
 
   // Pour récupérer les infos de l'event cliqué
   const handleEventClick = (event) => {
@@ -104,7 +106,7 @@ export default function MyCalendar() {
         icon={icon}
       />
       <main className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top lg:p-5">
-        <AddEvent />
+        <AddEvent setEventUpdated={setEventUpdated} />
         <Calendar
           localizer={localizer}
           events={events}
