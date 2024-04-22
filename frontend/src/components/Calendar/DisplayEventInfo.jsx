@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import CloseBox from "../Recipes/CloseBox";
+import DeleteEvent from "./DeleteEvent";
+import UpdateEvent from "./UpdateEvent";
 
 export default function DisplayEventInfo({ selectedEvent, setSelectedEvent }) {
   // Pour fermer la box de détails de l'event
@@ -41,7 +43,11 @@ export default function DisplayEventInfo({ selectedEvent, setSelectedEvent }) {
   return (
     selectedEvent && (
       <div className="fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-cream p-5 pt-2 border-[1px] border-blue-default rounded-2xl shadow-2xl w-fit modal-container">
-        <div className="flex justify-end">
+        <div className="flex justify-between my-2">
+          <div className="flex justify-center items-center gap-1">
+            <UpdateEvent />
+            <DeleteEvent />
+          </div>
           <CloseBox
             onClick={handleCloseModal}
             bgColor="blue-default"

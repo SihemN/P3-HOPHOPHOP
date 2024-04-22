@@ -12,7 +12,7 @@ export default function CloseBox({
   const activeColour = `active:bg-${activeColor}`;
   return (
     <IoCloseOutline
-      className={`${bgColour} ${hoverColour} ${activeColour} text-cream text-2xl mt-2 text-center rounded-full`}
+      className={`${bgColour} ${hoverColour} ${activeColour} text-cream text-2xl h-full text-center rounded-full`}
       onClick={onClick}
     />
   );
