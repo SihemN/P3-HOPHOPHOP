@@ -56,12 +56,6 @@ export default function SelectCategory({
       if (!response.ok) {
         throw new Error("Erreur lors de la mise à jour de la catégorie");
       }
-
-      const updatedCategory = await response.json();
-      const newCategories = categories.map((cat) =>
-        cat.cc_id === updatedCategory.cc_id ? updatedCategory : cat
-      );
-      onCategoriesChange(newCategories);
       setCategoryUpdated((prev) => !prev);
     } catch (error) {
       console.error(error);
