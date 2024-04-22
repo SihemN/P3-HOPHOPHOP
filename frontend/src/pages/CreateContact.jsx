@@ -22,7 +22,7 @@ export default function CreateContact() {
           text="Retourner à la page contacts"
           to="/contacts"
           // eslint-disable-next-line react/jsx-curly-brace-presence
-          color={`blue-medium`}
+          color="text-blue-medium"
         />
       </footer>
     </div>

@@ -38,8 +38,10 @@ const getContactByGroup = async (req, res) => {
         message: "Liste des contacts du groupe récupérée !",
         results,
       });
+    } else if (results.length === 0) {
+      res.status(200).json({ message: "Pas de contacts", results });
     } else {
-      res.status(401).send("Pas de contacts");
+      res.status(401).json("Problème pour récupérer les contacts");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -57,7 +59,7 @@ const getContactById = async (req, res) => {
         message: "Contact récupéré avec susccès !",
         result,
       });
-    } else {
+    } else if (result.length === 0) {
       res.status(401).send("Pas de contact");
     }
   } catch (error) {
@@ -102,7 +104,7 @@ const createCategory = async (req, res) => {
     const { name } = req.body;
     const [result] = await tables.contact.createCategory(name, id);
     if (result.affectedRows) {
-      res.status(201).send("Catégorie créée avec succès !");
+      res.status(201).json({ message: "Catégorie créée avec succès !" });
     } else {
       res.status(401).send("Problème pour créer la catégorie");
     }

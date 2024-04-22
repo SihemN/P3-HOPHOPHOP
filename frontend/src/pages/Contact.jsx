@@ -18,7 +18,6 @@ export default function Contact() {
   const [filteredContacts, setFilteredContacts] = useState([]);
   // stocke catégorie et met à jour si une catégorie est sélectionnée
   const [filterSelected, setFilterSelected] = useState(null);
-
   // récupérer les contacts depuis l'api
   useEffect(() => {
     const fetchContacts = async () => {
@@ -42,7 +41,10 @@ export default function Contact() {
           }
         );
         if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des contacts");
+          const errorResponse = await response.json();
+          throw new Error(
+            errorResponse || "Erreur lors de la récupération des contacts"
+          );
         }
         const { results } = await response.json();
         setContacts(results);
@@ -89,9 +91,11 @@ export default function Contact() {
   }, [categoryUpdated]);
 
   // màj des carégories quand il y a des modifications
-  const handleCategoriesChange = (newCategories) => {
-    setCategories(newCategories);
+  const handleCategoriesChange = (newCategory) => {
+    setCategories((prevCategories) => [...prevCategories, newCategory]);
+    setCategoryUpdated((prev) => !prev);
   };
+
   return (
     <div className="bg-blue-lighter font-Neue-Kabel">
       <header>
@@ -123,7 +127,7 @@ export default function Contact() {
           </div>
         </section>
         <footer>
-          <AddContact />
+          <AddContact onAddCategory={handleCategoriesChange} />
         </footer>
       </main>
     </div>

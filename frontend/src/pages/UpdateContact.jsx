@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import contact from "../assets/icons-functionnalities/contact.svg";
-import FooterContact from "../components/Contact_page/FooterContact";
 import UpdateContactForm from "../components/Contact_page/UpdateContactForm";
+import FooterBack from "../components/Recipes/FooterBack";
 
 export default function UpdateContact() {
   const { id } = useParams();
@@ -60,7 +60,11 @@ export default function UpdateContact() {
         )}
       </main>
       <footer>
-        <FooterContact to="/contacts" color="text-blue-medium" />
+        <FooterBack
+          to="/contacts"
+          color="text-blue-medium"
+          text="Retourner aux contacts"
+        />
       </footer>
     </div>
   );

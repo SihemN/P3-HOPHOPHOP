@@ -4,6 +4,7 @@ import { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { VscKebabVertical } from "react-icons/vsc";
 import UpdateCategory from "./UpdateCategory";
+import AddContactCatButton from "./AddContactCatButton";
 
 export default function SelectCategory({
   categories,
@@ -22,10 +23,14 @@ export default function SelectCategory({
   const handleKebabClick = (category) => {
     setSelectedCategory(category);
   };
-  // filtrer les contacts par leur catégorie + màj des contacts filtrés
+  // filtrer les contacts par leur catégorie + màj des contacts filtrés + refermer la fenêtre
   const handleCategoryClick = (categoryId) => {
     setFilterSelected(categoryId);
     setIsOpen(!isOpen);
+  };
+
+  const onAddCategory = (newCategory) => {
+    onCategoriesChange(newCategory);
   };
 
   // màj des catégories de contact
@@ -51,6 +56,7 @@ export default function SelectCategory({
       if (!response.ok) {
         throw new Error("Erreur lors de la mise à jour de la catégorie");
       }
+
       const updatedCategory = await response.json();
       const newCategories = categories.map((cat) =>
         cat.cc_id === updatedCategory.cc_id ? updatedCategory : cat
@@ -78,7 +84,7 @@ export default function SelectCategory({
         return;
       }
       const response = await fetch(
-        `http://localhost:3310/api/contacts?categories/${categoryId}`,
+        `http://localhost:3310/api/contacts-categories/${categoryId}`,
         {
           method: "DELETE",
           headers: {
@@ -90,16 +96,12 @@ export default function SelectCategory({
       if (!response.ok) {
         throw new Error("Erreur lors de la suppression de la catégorie");
       }
-      const newCategories = categories.filter(
-        (cat) => cat.cc_id !== categoryId
-      );
-      onCategoriesChange(newCategories);
+
       setCategoryUpdated((prev) => !prev);
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <div className="pt-4 px-6">
       <button
@@ -141,6 +143,9 @@ export default function SelectCategory({
                 </button>
               </div>
             ))}
+            <div>
+              <AddContactCatButton onAddCategory={onAddCategory} />
+            </div>
           </>
         )}
       </div>

@@ -16,6 +16,11 @@ export default function UpdateCategory({
     onUpdate(category.cc_id, categoryName);
     onClose();
   };
+  const handleDelete = (e) => {
+    e.preventDefault();
+    onDelete(category.cc_id);
+    onClose();
+  };
 
   return (
     <div className="border border-blue-lighter mt-2 rounded-lg py-4">
@@ -39,7 +44,7 @@ export default function UpdateCategory({
           <button
             type="button"
             className="bg-orange-lighter py-1 rounded-lg text-dark-default shadow-lg mt-4 hover:bg-red-default"
-            onClick={onDelete}
+            onClick={handleDelete}
           >
             Supprimer la catégorie
           </button>
