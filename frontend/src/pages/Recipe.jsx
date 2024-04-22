@@ -109,9 +109,7 @@ export default function Recipe() {
             setRecipeId={setRecipeId}
           />
         </div>
-        {/* Version PC: ajouter le composant d'affichage Recette */}
-        {/* en cours ici media query tablette */}
-
+        {/* Version PC et Tablette */}
         <div className="hidden z-0 md:block md:flex-1 md:overflow-y-auto">
           {componentToShow === "details recipe" && (
             <ShowRecipeDetails

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { IoCloseOutline } from "react-icons/io5";
+import CloseBox from "./CloseBox";
 
 export default function DotsUpdateRecipe({
   showDotsUpdateRecipe,
@@ -82,9 +82,11 @@ export default function DotsUpdateRecipe({
   return (
     showDotsUpdateRecipe === recipeId && (
       <div className="absolute right-0 -top-5 z-10 flex flex-col items-end h-fit w-80 px-5 pt-2 pb-20 bg-cream border-[1px] border-red-default text-cream gap-3 shadow-md rounded-xl rounded-tr-none">
-        <IoCloseOutline
-          className="bg-red-default hover:bg-orange-default active:bg-orange-default text-cream text-2xl mt-2 rounded-full"
+        <CloseBox
           onClick={handleClicClose}
+          bgColor="red-default"
+          hoverColor="orange-default"
+          activeColor="orange-lighter"
         />
         <form
           className="w-full flex flex-col"

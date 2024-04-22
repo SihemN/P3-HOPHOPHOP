@@ -32,20 +32,18 @@ export default {
       red: {
         lighter: "#FFC5BF",
         default: "#F86151",
-        clear: " #FEEFED",
+        clear: "#FEEFED",
       },
       orange: {
         light: "#FFF0E3",
         lighter: "#FFD1A8",
         default: "#F8A75D",
       },
-
       blue: {
         lighter: "#B9D9F6",
         medium: "#5f92c1",
         default: "#054B8C",
       },
-
       dark: {
         default: "#1D1F21",
         shadow: "#B4B4B4",
