@@ -111,6 +111,7 @@ export default function AddEventForm({
     };
     // ICI AJOUTER CONTROLE FORM
     concatenateDateTime();
+    console.info("dataEvent", dataEvent);
     // Gestion d'inputs inattendus :
     if (dataEvent.title.length > 50) {
       alert("Titre de l'événement : limite de caractères dépassée");
