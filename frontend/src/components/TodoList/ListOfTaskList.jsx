@@ -6,50 +6,12 @@ const taskList = [
     title: "Courses scolaire",
     type: "private",
   },
-  {
-    title: "Courses scolaire",
-    type: "private",
-  },
-  {
-    title: "Courses scolaire",
-    type: "private",
-  },
-  {
-    title: "Courses scolaire",
-    type: "private",
-  },
-  {
-    title: "Courses scolaire",
-    type: "private",
-  },
-  {
-    title: "Courses scolaire",
-    type: "private",
-  },
-  {
-    title: "Courses scolaire",
-    type: "private",
-  },
-  {
-    title: "Courses scolaire",
-    type: "private",
-  },
-  {
-    title: "Courses scolaire",
-    type: "private",
-  },
-  {
-    title: "Administratif",
-    type: "private",
-  },
+
   {
     title: "Goals week",
     type: "private",
   },
-  {
-    title: "Ménage de la semaine",
-    type: "public",
-  },
+
   {
     title: "Courses semaine",
     type: "public",

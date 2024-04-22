@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 
-const options = ["Modifier", "Supprimer"];
+const options = ["Renommer", "Supprimer"];
 
 export default function HiDotsMenu() {
   const [anchorEl, setAnchorEl] = useState(null);

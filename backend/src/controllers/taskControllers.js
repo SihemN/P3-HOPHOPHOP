@@ -88,10 +88,14 @@ const createCategory = async (req, res) => {
       userId,
       id
     );
+
     if (result.affectedRows) {
-      res.status(201).send("La catégorie task a été créée");
+      const { insertId } = result;
+      res
+        .status(201)
+        .json({ message: "La catégorie task a été créée", insertId });
     } else {
-      res.status(401).send("la création de la catégorie task a échoué!!");
+      res.status(401).json("la création de la catégorie task a échoué!!");
     }
   } catch (error) {
     res.status(500).send(error);
