@@ -51,6 +51,7 @@ export default function MyCalendar() {
       })
     );
   };
+
   // on récupère les events du group
   useEffect(() => {
     const fetchEventsOfGroup = async () => {
@@ -119,6 +120,7 @@ export default function MyCalendar() {
         <DisplayEventInfo
           selectedEvent={selectedEvent}
           setSelectedEvent={setSelectedEvent}
+          setEventUpdated={setEventUpdated}
         />
       </main>
     </div>
