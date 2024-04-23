@@ -42,7 +42,7 @@ const create = async (req, res) => {
       }
     }
     if (resultsIsValid) {
-      res.status(201).send("Group created");
+      res.status(201).json("Group created");
     } else {
       res.status(401).send("Error during the group's creation");
     }

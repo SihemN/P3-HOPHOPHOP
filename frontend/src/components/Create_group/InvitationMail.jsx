@@ -1,3 +1,4 @@
+/* slint-disable no-alert */
 import { IoIosMail } from "react-icons/io";
 
 export default function InvitationMail() {
