@@ -5,16 +5,17 @@ export default function ButtonPenModify({
   label,
   colorBg,
   onClick,
-  className = "text-xl absolute top-0 right-0 lg:mr-10 mt-5 mr-5  p-2",
+  className = "rounded-full absolute top-0 right-0 lg:mr-10 mt-5 mr-5  p-2",
+  iconSize = "text-xl",
 }) {
   return (
     <button
       type="button"
       aria-label={label}
-      className={`${colorBg} rounded-full ${className}`}
+      className={`${colorBg} ${className}`}
       onClick={onClick}
     >
-      <FaPen className="text-cream" />
+      <FaPen className={`text-cream ${iconSize}`} />
     </button>
   );
 }

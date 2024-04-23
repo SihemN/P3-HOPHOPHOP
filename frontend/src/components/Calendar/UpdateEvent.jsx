@@ -2,12 +2,10 @@ import ButtonPenModify from "../Recipes/ButtonPenModify";
 
 export default function UpdateEvent() {
   return (
-    <div className="text-sm">
-      <ButtonPenModify
-        label="ouvrir le formulaire pour modifier l'événement"
-        colorBg="bg-blue-default"
-        className="text-md p-1 h-6 w-6 text-center rounded-full hover:bg-green-default active:bg-green-lighter"
-      />
-    </div>
+    <ButtonPenModify
+      label="ouvrir le formulaire pour modifier l'événement"
+      className="bg-blue-default h-7 w-7 rounded-full hover:bg-green-default active:bg-green-lighter flex justify-center items-center"
+      iconSize="text-md"
+    />
   );
 }

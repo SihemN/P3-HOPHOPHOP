@@ -2,6 +2,12 @@ import { BsTrashFill } from "react-icons/bs";
 
 export default function DeleteEvent() {
   return (
-    <BsTrashFill className="bg-blue-default hover:bg-orange-default active:bg-orange-lighter p-1 h-6 w-6 text-cream flex items-center justify-center rounded-full" />
+    <button
+      type="button"
+      aria-label="supprimer l'événénement"
+      className="bg-blue-default hover:bg-orange-default active:bg-orange-lighter h-7 w-7 rounded-full flex justify-center items-center"
+    >
+      <BsTrashFill className="text-cream text-md" />
+    </button>
   );
 }
