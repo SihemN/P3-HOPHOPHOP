@@ -35,8 +35,9 @@ const create = async (req, res) => {
 const getEventByGroup = async (req, res) => {
   try {
     const { id } = req.params;
+    const userId = req.payload;
 
-    const [result] = await tables.event.getByGroup(id);
+    const [result] = await tables.event.getByGroup(id, userId);
 
     if (result.length) {
       res
@@ -63,7 +64,7 @@ const getEventById = async (req, res) => {
     if (result.length) {
       res.status(200).json({ message: "Event récupéré avec succès!!", result });
     } else {
-      res.status(401).send("Erreur lors de la récupération de l'event !!");
+      res.status(401).json("Erreur lors de la récupération de l'event !!");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -76,9 +77,9 @@ const updateEvent = async (req, res) => {
 
     const [result] = await tables.event.updateEvent(id, req.body);
     if (result.affectedRows) {
-      res.status(200).send("Event updated avec succès!!");
+      res.status(200).json("événement mis à jour");
     } else {
-      res.status(401).send("Erreur lors de la mise à jour de l'event !!");
+      res.status(401).json("Erreur pour mettre à jour l'événement");
     }
   } catch (error) {
     res.status(500).send(error);
