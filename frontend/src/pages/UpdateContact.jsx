@@ -11,7 +11,8 @@ import FooterBack from "../components/Recipes/FooterBack";
 export default function UpdateContact() {
   const { id } = useParams();
   const [contactToUpdate, setContactToUpdate] = useState(null);
-
+  console.info("id", id);
+  console.info("contactToUpdate", contactToUpdate);
   // récupérer les données du contact
   useEffect(() => {
     const fetchContactData = async () => {

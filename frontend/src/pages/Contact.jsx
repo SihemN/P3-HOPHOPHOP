@@ -107,23 +107,34 @@ export default function Contact() {
         />
       </header>
       <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
-        <section>
-          <div className="pb-24">
-            <SelectCategory
-              categories={categories}
-              onCategoriesChange={handleCategoriesChange}
-              setCategoryUpdated={setCategoryUpdated}
-              contacts={contacts}
-              setFilteredContacts={setFilteredContacts}
-              setFilterSelected={setFilterSelected}
-            />
-            <MapContact
-              filteredContacts={filteredContacts}
-              setContacts={setContacts}
-              contacts={contacts}
-              filterSelected={filterSelected}
-              setCategoryUpdated={setCategoryUpdated}
-            />
+        <section className="pb-24">
+          <SelectCategory
+            categories={categories}
+            onCategoriesChange={handleCategoriesChange}
+            setCategoryUpdated={setCategoryUpdated}
+            contacts={contacts}
+            setFilteredContacts={setFilteredContacts}
+            setFilterSelected={setFilterSelected}
+          />
+          <div className="border flex">
+            <div className="flex-grow flex-basis-1/2 border">
+              <MapContact
+                filteredContacts={filteredContacts}
+                setContacts={setContacts}
+                contacts={contacts}
+                filterSelected={filterSelected}
+                setCategoryUpdated={setCategoryUpdated}
+              />
+            </div>
+            <div className="hidden lg:block flex-grow flex-basis-1/2 border">
+              <MapContact
+                filteredContacts={filteredContacts}
+                setContacts={setContacts}
+                contacts={contacts}
+                filterSelected={filterSelected}
+                setCategoryUpdated={setCategoryUpdated}
+              />
+            </div>
           </div>
         </section>
         <footer>
