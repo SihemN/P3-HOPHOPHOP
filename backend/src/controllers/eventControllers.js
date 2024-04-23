@@ -90,9 +90,9 @@ const deleteEvent = async (req, res) => {
     const { id } = req.params;
     const [result] = await tables.event.deleteEvent(id);
     if (result.affectedRows) {
-      res.status(200).send("Event supprimé avec succès!!");
+      res.status(200).json("évenement supprimé avec succès !");
     } else {
-      res.status(401).send("Erreur lors de la suppression de l'event !!");
+      res.status(401).json("Erreur lors de la suppression de l'événement !");
     }
   } catch (error) {
     res.status(500).send(error);
