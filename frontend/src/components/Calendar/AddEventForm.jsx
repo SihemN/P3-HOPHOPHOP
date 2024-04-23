@@ -10,35 +10,57 @@ export default function AddEventForm({
   setFormIsOpen,
   setEventUpdated,
 }) {
+  // On initialise les données de l'event à créer
   const [dataEvent, setDataEvent] = useState({
     title: "",
     text: "",
     dateStart: "",
-    timeStart: "",
+    dateStartToConvert: "",
     dateEnd: "",
-    timeEnd: "",
+    dateEndToConvert: "",
     isPrivate: false,
   });
 
-  const concatenateDateTime = () => {
-    // Concaténer date et time au bon format
-    // "2024-04-22" et "18:00" >> "2024-04-22 18:00:00"
-    // Concaténer la date et l'heure de début
-    const startDate = `${dataEvent.dateStart} ${dataEvent.timeStart}:00`;
-
-    // Concaténer la date et l'heure de fin
-    const endDate = `${dataEvent.dateEnd} ${dataEvent.timeEnd}:00`;
-
-    // Mettre à jour les valeurs de dateStart et dateEnd dans dataEvent
-    setDataEvent((prevData) => ({
-      ...prevData,
-      dateStart: startDate,
-      dateEnd: endDate,
-    }));
-  };
-
   const handleClickButtonCancel = () => {
     setFormIsOpen((prev) => !prev);
+  };
+
+  const handleChangeAndConvertDate = (value, name) => {
+    // Gérer les dates start et end et les convertir au bon format
+    // "2024-05-04T18:00" >> "2024-05-04 18:00:00"
+    const formattedDate = `${value.replace("T", " ")}:00`;
+    if (name === "dateStartToConvert") {
+      // Mettre à jour la date de début
+      setDataEvent((prevData) => ({
+        ...prevData,
+        dateStart: formattedDate,
+      }));
+    } else if (name === "dateEndToConvert") {
+      // Mettre à jour la date de fin
+      setDataEvent((prevData) => ({
+        ...prevData,
+        dateEnd: formattedDate,
+      }));
+    }
+  };
+
+  const validateDates = () => {
+    const { dateStart, dateEnd } = dataEvent;
+    const dateRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+
+    if (!dateRegex.test(dateStart) || !dateRegex.test(dateEnd)) {
+      alert("Les dates doivent être au format YYYY-MM-DD HH:MM:SS");
+      return false;
+    }
+    const startDate = new Date(dateStart);
+    const endDate = new Date(dateEnd);
+
+    if (endDate <= startDate) {
+      alert("La date de fin doit être après la date de début");
+      return false;
+    }
+
+    return true;
   };
 
   const handleChange = (e) => {
@@ -52,13 +74,10 @@ export default function AddEventForm({
       ...prevData,
       [name]: newValue,
     }));
-  };
 
-  const handleCheckboxChange = (e) => {
-    setDataEvent((prevData) => ({
-      ...prevData,
-      isPrivate: e.target.checked, // Met à jour isPrivate en fonction de si la case à cocher est cochée ou non
-    }));
+    if (name === "dateStartToConvert" || name === "dateEndToConvert") {
+      handleChangeAndConvertDate(value, name);
+    }
   };
 
   // submit et fetch la route backend
@@ -66,7 +85,6 @@ export default function AddEventForm({
     e.preventDefault();
     const fetchCreateEvent = async () => {
       const currentGroup = JSON.parse(localStorage.getItem("group"));
-
       try {
         const response = await fetch(
           `http://localhost:3310/api/events/groups/${currentGroup.ug_group_id}`,
@@ -93,10 +111,8 @@ export default function AddEventForm({
           text: "",
           dateStartToConvert: "",
           dateStart: "",
-          timeStart: "",
           dateEndToConvert: "",
           dateEnd: "",
-          timeEnd: "",
           isPrivate: false,
         });
         setEventUpdated((prev) => !prev);
@@ -110,12 +126,15 @@ export default function AddEventForm({
       console.info(dataEvent);
     };
     // ICI AJOUTER CONTROLE FORM
-    concatenateDateTime();
+    console.info("dataEvent dans useEffect", dataEvent);
     // Gestion d'inputs inattendus :
     if (dataEvent.title.length > 50) {
       alert("Titre de l'événement : limite de caractères dépassée");
     } else if (dataEvent.text.length > 250) {
       alert("Description de l'événement : limite de caractères dépassée");
+    } else if (!validateDates()) {
+      // eslint-disable-next-line no-useless-return
+      return;
     } else {
       fetchCreateEvent();
     }
@@ -154,45 +173,28 @@ export default function AddEventForm({
           <label htmlFor="dateStart" className="font-bold mt-4">
             Date de début <RedStarForRequiredInput />
           </label>
-          <div className="flex">
-            <input
-              type="date"
-              name="dateStart"
-              value={dataEvent.dateStart}
-              required
-              className="w-full border border-solid border-dark-default h-12 mt-1 mr-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-              onChange={handleChange}
-            />
-            <input
-              type="time"
-              name="timeStart"
-              value={dataEvent.timeStart}
-              required
-              className="w-fit border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-              onChange={handleChange}
-            />
-          </div>
+          <input
+            type="datetime-local"
+            name="dateStartToConvert"
+            value={dataEvent.dateStartToConvert}
+            required
+            className="w-full border border-solid border-dark-default h-12 mt-1 mr-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
+            onChange={handleChange}
+          />
+
           <label htmlFor="dateEnd" className="font-bold mt-4">
             Date de fin <RedStarForRequiredInput />
           </label>
-          <div className="flex">
-            <input
-              type="date"
-              name="dateEnd"
-              value={dataEvent.dateEnd}
-              required
-              className="w-full border border-solid border-dark-default h-12 mt-1 mr-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-              onChange={handleChange}
-            />
-            <input
-              type="time"
-              name="timeEnd"
-              value={dataEvent.timeEnd}
-              required
-              className="w-fit border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-              onChange={handleChange}
-            />
-          </div>
+
+          <input
+            type="datetime-local"
+            name="dateEndToConvert"
+            value={dataEvent.dateEndToConvert}
+            required
+            className="w-full border border-solid border-dark-default h-12 mt-1 mr-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
+            onChange={handleChange}
+          />
+
           <label
             htmlFor="isPrivate"
             aria-label="Checkbox pour masquer ou rendre visible un événement"
@@ -207,7 +209,7 @@ export default function AddEventForm({
             <Checkbox
               name="isPrivate"
               checked={dataEvent.isPrivate}
-              onChange={handleCheckboxChange}
+              onChange={handleChange}
               color="success"
             />
           </label>
@@ -221,7 +223,6 @@ export default function AddEventForm({
               borderColor="blue-default"
               textColor="blue-default"
               hoverColor="orange-default"
-              hoverBorderColor="orange-default"
               activeBgColor="orange-lighter"
             />
 
@@ -232,7 +233,6 @@ export default function AddEventForm({
               borderColor="blue-default"
               textColor="cream"
               hoverColor="green-default"
-              hoverBorderColor="green-default"
               activeBgColor="green-lighter"
             />
           </div>
