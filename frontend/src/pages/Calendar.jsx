@@ -122,6 +122,15 @@ export default function MyCalendar() {
           onSelectEvent={handleEventClick}
           views={["month", "week", "day"]}
           defaultView="month"
+          messages={{
+            allDay: "Toute la journée",
+            previous: "Précédent",
+            next: "Suivant",
+            today: "Aujourd'hui",
+            month: "Mois",
+            week: "Semaine",
+            day: "Jour",
+          }}
         />
         <DisplayEventInfo
           selectedEvent={selectedEvent}
