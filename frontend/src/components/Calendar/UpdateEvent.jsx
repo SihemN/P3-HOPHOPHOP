@@ -18,6 +18,7 @@ export default function UpdateEvent({
   // Formater les dates existantes pour remplir l'input dateStart et dateEnd
   // On reçoit >>> Wed Apr 10 2024 10:00:00 GMT+0200 (heure d’été d’Europe centrale)
   // On veut >>> 2024-04-10T10:00
+
   const formatDateForInput = (date) => {
     const year = date.getFullYear();
     let month = (date.getMonth() + 1).toString();
