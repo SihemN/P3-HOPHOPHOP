@@ -45,7 +45,7 @@ export default function MyCalendar() {
         start: new Date(e_date_start),
         end: new Date(e_date_end),
         description: e_text,
-        private: e_private,
+        e_private,
         userId: e_user_id,
         groupId: e_group_id,
       })
@@ -82,7 +82,7 @@ export default function MyCalendar() {
         // On maj events avec les events reçus et convertis au bon format
         setEvents(convertedEvents);
       } catch (error) {
-        console.info("Error fetching recipes data:", error);
+        console.info("Erreur pour récupérer les événements:", error);
       }
     };
     fetchEventsOfGroup();
@@ -90,14 +90,20 @@ export default function MyCalendar() {
 
   // Pour récupérer les infos de l'event cliqué
   const handleEventClick = (event) => {
+    // console.log("event clic", event);
     if (!selectedEvent) {
+      localStorage.setItem("eventIdSelected", JSON.stringify(event.eventId));
       setSelectedEvent(event);
     } else if (event.eventId === selectedEvent.eventId) {
       setSelectedEvent(null);
     } else {
-      setSelectedEvent(event);
+      setSelectedEvent(
+        localStorage.setItem("eventIdSelected", JSON.stringify(event.eventId))
+      );
     }
   };
+
+  console.info("parent >> selectedEvent >>", selectedEvent);
 
   return (
     <div className="font-Neue-Kabel bg-blue-default">
@@ -116,10 +122,20 @@ export default function MyCalendar() {
           onSelectEvent={handleEventClick}
           views={["month", "week", "day"]}
           defaultView="month"
+          messages={{
+            allDay: "Toute la journée",
+            previous: "Précédent",
+            next: "Suivant",
+            today: "Aujourd'hui",
+            month: "Mois",
+            week: "Semaine",
+            day: "Jour",
+          }}
         />
         <DisplayEventInfo
           selectedEvent={selectedEvent}
           setSelectedEvent={setSelectedEvent}
+          eventUpdated={eventUpdated}
           setEventUpdated={setEventUpdated}
         />
       </main>

@@ -14,10 +14,12 @@ class EventManager extends AbstractManager {
   }
 
   // récupérer les événements d'un groupe
-  getByGroup(groupId) {
+  getByGroup(groupId, userId) {
+    const falsy = false;
+    const truly = true;
     return this.database.query(
-      `SELECT * FROM ${this.table} WHERE e_group_id = ?`,
-      [groupId]
+      `SELECT * FROM ${this.table} WHERE (e_group_id = ? AND e_private = ?) OR (e_group_id = ? AND e_private = true AND e_user_id = ?)`,
+      [groupId, falsy, groupId, truly, userId]
     );
   }
 

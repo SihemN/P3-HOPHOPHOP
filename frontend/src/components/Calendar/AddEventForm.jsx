@@ -5,6 +5,55 @@ import Checkbox from "@mui/material/Checkbox";
 import AddEventFormButton from "./AddEventFormButton";
 import RedStarForRequiredInput from "../to-reuse/RedStarForRequiredInput";
 
+export const handleChangeAndConvertDate = (value, name, setDataEvent) => {
+  // Gérer les dates start et end et les convertir au bon format
+  // "2024-05-04T18:00" >> "2024-05-04 18:00:00"
+  const formattedDate = `${value.replace("T", " ")}:00`;
+  if (name === "dateStartToConvert") {
+    // Mettre à jour la date de début
+    setDataEvent((prevData) => {
+      const updatedData = {
+        ...prevData,
+        dateStart: formattedDate,
+      };
+      if (prevData.date_start) {
+        updatedData.date_start = formattedDate;
+      }
+      return updatedData;
+    });
+  } else if (name === "dateEndToConvert") {
+    // Mettre à jour la date de fin
+    setDataEvent((prevData) => {
+      const updatedData = {
+        ...prevData,
+        dateEnd: formattedDate,
+      };
+      if (prevData.date_end) {
+        updatedData.date_end = formattedDate;
+      }
+      return updatedData;
+    });
+  }
+};
+
+export const validateDates = (dateStart, dateEnd) => {
+  const dateRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+
+  if (!dateRegex.test(dateStart) || !dateRegex.test(dateEnd)) {
+    alert("Les dates doivent être au format YYYY-MM-DD HH:MM:SS");
+    return false;
+  }
+  const startDate = new Date(dateStart);
+  const endDate = new Date(dateEnd);
+
+  if (endDate <= startDate) {
+    alert("La date de fin doit être après la date de début");
+    return false;
+  }
+
+  return true;
+};
+
 export default function AddEventForm({
   formIsOpen,
   setFormIsOpen,
@@ -25,44 +74,6 @@ export default function AddEventForm({
     setFormIsOpen((prev) => !prev);
   };
 
-  const handleChangeAndConvertDate = (value, name) => {
-    // Gérer les dates start et end et les convertir au bon format
-    // "2024-05-04T18:00" >> "2024-05-04 18:00:00"
-    const formattedDate = `${value.replace("T", " ")}:00`;
-    if (name === "dateStartToConvert") {
-      // Mettre à jour la date de début
-      setDataEvent((prevData) => ({
-        ...prevData,
-        dateStart: formattedDate,
-      }));
-    } else if (name === "dateEndToConvert") {
-      // Mettre à jour la date de fin
-      setDataEvent((prevData) => ({
-        ...prevData,
-        dateEnd: formattedDate,
-      }));
-    }
-  };
-
-  const validateDates = () => {
-    const { dateStart, dateEnd } = dataEvent;
-    const dateRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
-
-    if (!dateRegex.test(dateStart) || !dateRegex.test(dateEnd)) {
-      alert("Les dates doivent être au format YYYY-MM-DD HH:MM:SS");
-      return false;
-    }
-    const startDate = new Date(dateStart);
-    const endDate = new Date(dateEnd);
-
-    if (endDate <= startDate) {
-      alert("La date de fin doit être après la date de début");
-      return false;
-    }
-
-    return true;
-  };
-
   const handleChange = (e) => {
     // on déstructure notre target
     const { name, value, type, checked } = e.target;
@@ -76,7 +87,7 @@ export default function AddEventForm({
     }));
 
     if (name === "dateStartToConvert" || name === "dateEndToConvert") {
-      handleChangeAndConvertDate(value, name);
+      handleChangeAndConvertDate(value, name, setDataEvent);
     }
   };
 
@@ -132,7 +143,7 @@ export default function AddEventForm({
       alert("Titre de l'événement : limite de caractères dépassée");
     } else if (dataEvent.text.length > 250) {
       alert("Description de l'événement : limite de caractères dépassée");
-    } else if (!validateDates()) {
+    } else if (!validateDates(dataEvent.dateStart, dataEvent.dateEnd)) {
       // eslint-disable-next-line no-useless-return
       return;
     } else {
