@@ -3,6 +3,11 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,cjs,mjs}"],
   theme: {
     extend: {
+      screens: {
+        tall: { raw: "(min-width: 1200px)" },
+        tallheader: { raw: "(min-width: 1000px)" },
+      },
+
       fontFamily: {
         "Neue-Kabel": ["neue-kabel", "sans-serif"],
         "Puffin-Display-Soft": ["puffin-display-soft", "sans-serif"],
