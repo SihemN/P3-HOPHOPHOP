@@ -79,7 +79,7 @@ export default function Home() {
         <HeaderHome />
       </header>
       <div className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom flex justify-center items-center">
-        <div className="grid grid-cols-2 lg:grid-cols-4 grid-rows-4 lg:grid-rows-2 gap-8 lg:gap-16 md:gap-20 max-w-[75%] py-3 px-2 lg:p-10">
+        <div className="h-custom md:h-[80%] lg:h-[75%] lg:max-h-[500px] grid grid-cols-2 grid-rows-4 lg:grid-cols-4 lg:grid-rows-2 place-items-center gap-8 md:gap-16 lg:gap-12 py-16 md:py-0 px-2 lg:py-5 ">
           {functionnalities.map(({ id, title, icon, to }) => (
             <Link to={to} key={id}>
               <HomeNavigComp title={title} icon={icon} />

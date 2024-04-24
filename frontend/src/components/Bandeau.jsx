@@ -3,8 +3,8 @@ import React from "react";
 function Bandeau() {
   return (
     <div className="inline font-Puffin-Display-Soft font-black italic text-2xl m-1">
-      <div className="relative flex overflow-x-hidden">
-        <div className="top-0 animate-marquee whitespace-nowrap">
+      <div className="relative flex overflow-x-hidden overflow-y-hidden ">
+        <div className="top-0 animate-marquee whitespace-nowrap ">
           <span className="text-4xl mx-4 text-green-default">HOP HOP HOP</span>
           <span className="text-4xl mx-4 text-red-default">HOP HOP HOP</span>
           <span className="text-4xl mx-4 text-orange-default">HOP HOP HOP</span>

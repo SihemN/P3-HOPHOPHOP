@@ -16,11 +16,11 @@ export default function Footer() {
         <li>Git / GitHub</li>
       </ul>
       <img
-        className="hidden md:inline-block h-24 w-28pt-4 pt-4"
+        className="hidden md:inline-block h-24 w-28pt-4 pt-4 transform-gpu transition-transform hover:animate-spin-360"
         src={ghost}
         alt="Hoppy"
       />
-      <div className="flex justify-between pt-5 px-4">
+      <div className="flex justify-between pt-5 px-4 ">
         <p>Wild Code School (2024)</p>
         <p>&copy; Hop Hop Hop</p>
       </div>

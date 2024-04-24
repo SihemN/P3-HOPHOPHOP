@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import FunctionnalitiesPC from "./FunctionnalitiesPC";
 import FunctionnalitiesMobile from "./FunctionnalitiesMobile";
 import iconCalendar from "../../../assets/icons-functionnalities/calendar.svg";
@@ -80,6 +81,14 @@ export default function MapFunctionnalities() {
     },
   ];
 
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const handleToggle = (clickedIndex) => {
+    setOpenIndex((prevIndex) =>
+      prevIndex === clickedIndex ? null : clickedIndex
+    );
+  };
+
   return (
     <div className="flex justify-center p-5">
       {/* Version PC */}
@@ -103,13 +112,15 @@ export default function MapFunctionnalities() {
       {/* Version Mobile */}
       <div className="flex flex-col justify-center p-5 tall:hidden">
         {functionnalities.map(
-          ({ id, title, description, color, colorFont }) => (
+          ({ id, title, description, color, colorFont }, index) => (
             <FunctionnalitiesMobile
               key={id}
               title={title}
               description={description}
               color={color}
               colorFont={colorFont}
+              isOpen={index === openIndex}
+              onToggle={() => handleToggle(index)}
             />
           )
         )}

@@ -3,13 +3,13 @@ import React from "react";
 // eslint-disable-next-line react/prop-types
 function HomeNavigComp({ title, icon }) {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="font-Neue-Kabel flex flex-col items-center justify-center transition-transform transform-gpu hover:scale-110">
       <img
         src={icon}
         alt={title}
-        className="w-28 lg:w-36 md:w-40 h-28 lg:h-36 md:h-40"
+        className="w-28 h-28 md:w-36 md:h-36 lg:w-36 lg:h-36  "
       />
-      <span>{title}</span>
+      <span className="text-lg mt-1">{title}</span>
     </div>
   );
 }

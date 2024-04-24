@@ -1,4 +1,3 @@
-import React from "react";
 import ghostPink from "../assets/logo/ghost-pink.svg";
 
 function Presentation() {
@@ -24,7 +23,7 @@ function Presentation() {
           <img
             src={ghostPink}
             alt="logo hop hop hop fantôme"
-            className="absolute z-30 w-28 md:w-32 h-28 md:h-32 -bottom-16 md:-bottom-16 -right-8 md:-right-16"
+            className="absolute z-30 w-28 md:w-32 h-28 md:h-32 -bottom-16 md:-bottom-16 -right-8 md:-right-16 transform-gpu transition-transform hover:animate-spin-360"
           />
         </div>
       </div>
