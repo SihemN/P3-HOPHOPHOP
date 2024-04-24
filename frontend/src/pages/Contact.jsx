@@ -6,6 +6,8 @@ import contact from "../assets/icons-functionnalities/contact.svg";
 import SelectCategory from "../components/Contact_page/SelectCategory";
 import MapContact from "../components/Contact_page/MapContact";
 import AddContact from "../components/Contact_page/AddContact";
+import ContactDetails from "../components/Contact_page/ContactDetails";
+import CreateContactForm from "../components/Contact_page/CreateContactForm";
 
 export default function Contact() {
   // stocke la liste de contact et la met à jour
@@ -18,6 +20,10 @@ export default function Contact() {
   const [filteredContacts, setFilteredContacts] = useState([]);
   // stocke catégorie et met à jour si une catégorie est sélectionnée
   const [filterSelected, setFilterSelected] = useState(null);
+  const [selectedContact, setSelectedContact] = useState(null);
+
+  const [componentToShow, setComponentToShow] = useState(null);
+
   // récupérer les contacts depuis l'api
   useEffect(() => {
     const fetchContacts = async () => {
@@ -96,8 +102,14 @@ export default function Contact() {
     setCategoryUpdated((prev) => !prev);
   };
 
+  const handleAddContactClick = () => {
+    setComponentToShow((prevComponent) =>
+      prevComponent !== "create contact" ? "create contact" : null
+    );
+  };
+
   return (
-    <div className="bg-blue-lighter font-Neue-Kabel">
+    <div className="bg-blue-lighter font-Neue-Kabel text-lg">
       <header>
         <HeaderFunctionnalities
           title="Contacts"
@@ -106,8 +118,8 @@ export default function Contact() {
           icon={contact}
         />
       </header>
-      <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
-        <section className="pb-24">
+      <main className="rounded-t-3xl lg:rounded-t-[4rem] h-custom bg-cream shadow-top flex overflow-y-auto no-scrollbar ">
+        <div className="flex-1 rounded-xl lg:rounded-t-[4rem] shadow-2xl z-100 overflow-y-auto no-scrollbar">
           <SelectCategory
             categories={categories}
             onCategoriesChange={handleCategoriesChange}
@@ -116,31 +128,34 @@ export default function Contact() {
             setFilteredContacts={setFilteredContacts}
             setFilterSelected={setFilterSelected}
           />
-          <div className="border flex">
-            <div className="flex-grow flex-basis-1/2 border">
-              <MapContact
-                filteredContacts={filteredContacts}
-                setContacts={setContacts}
-                contacts={contacts}
-                filterSelected={filterSelected}
-                setCategoryUpdated={setCategoryUpdated}
-              />
-            </div>
-            <div className="hidden lg:block flex-grow flex-basis-1/2 border">
-              <MapContact
-                filteredContacts={filteredContacts}
-                setContacts={setContacts}
-                contacts={contacts}
-                filterSelected={filterSelected}
-                setCategoryUpdated={setCategoryUpdated}
-              />
-            </div>
-          </div>
-        </section>
-        <footer>
-          <AddContact onAddCategory={handleCategoriesChange} />
-        </footer>
+          <MapContact
+            filteredContacts={filteredContacts}
+            setContacts={setContacts}
+            contacts={contacts}
+            filterSelected={filterSelected}
+            setCategoryUpdated={setCategoryUpdated}
+            onSelectContact={setSelectedContact}
+            setComponentToShow={setComponentToShow}
+          />
+        </div>
+        <div className="flex-1 hidden lg:flex justify-center h-fit mt-10 py-4 overflow-y-auto no-scrollbar">
+          {componentToShow === "create contact" && (
+            <CreateContactForm
+              setComponentToShow={setComponentToShow}
+              setCategoryUpdated={setCategoryUpdated}
+            />
+          )}
+          {componentToShow === "contact details" && (
+            <ContactDetails contact={selectedContact} />
+          )}
+        </div>
       </main>
+      <footer>
+        <AddContact
+          onAddCategory={handleCategoriesChange}
+          handleAddContactClick={handleAddContactClick}
+        />
+      </footer>
     </div>
   );
 }

@@ -14,7 +14,6 @@ export default function DivContactMobile({
   setCategoryUpdated,
 }) {
   const { c_name, c_phone, c_email, c_address, c_id } = contact;
-
   const handleClick = () => {
     setOpenMenuContactId(openMenuContactId === c_id ? null : c_id);
   };

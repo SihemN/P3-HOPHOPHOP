@@ -9,8 +9,15 @@ export default function MapContact({
   contacts,
   setContacts,
   setCategoryUpdated,
+  onSelectContact,
+  setComponentToShow,
 }) {
   const [openMenuContactId, setOpenMenuContactId] = useState(null);
+
+  const handleClick = (contact) => {
+    onSelectContact(contact);
+    setComponentToShow("contact details");
+  };
 
   const filterContacts = () => {
     if (!filterSelected) {
@@ -25,19 +32,26 @@ export default function MapContact({
   };
 
   return (
-    <>
+    <div className="overflow-y-auto no-scrollbar h-full">
       {contacts &&
         contacts.length > 0 &&
         filterContacts().map((contact) => (
           <React.Fragment key={contact.c_id}>
             <div className="hidden lg:block">
-              <DivContactPc
-                contact={contact}
-                openMenuContactId={openMenuContactId}
-                setOpenMenuContactId={setOpenMenuContactId}
-                setContacts={setContacts}
-                setCategoryUpdated={setCategoryUpdated}
-              />
+              <button
+                type="button"
+                aria-label="Afficher les détails du contact"
+                className="w-full"
+                onClick={() => handleClick(contact)}
+              >
+                <DivContactPc
+                  contact={contact}
+                  openMenuContactId={openMenuContactId}
+                  setOpenMenuContactId={setOpenMenuContactId}
+                  setContacts={setContacts}
+                  setCategoryUpdated={setCategoryUpdated}
+                />
+              </button>
             </div>
             <div className="block lg:hidden">
               <DivContactMobile
@@ -56,6 +70,6 @@ export default function MapContact({
             Vous n'avez pas de contact
           </p>
         ))}
-    </>
+    </div>
   );
 }

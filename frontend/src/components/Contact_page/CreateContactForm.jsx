@@ -1,10 +1,14 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import { useEffect, useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-export default function CreateContactForm() {
+export default function CreateContactForm({
+  setComponentToShow,
+  setCategoryUpdated,
+}) {
   const [dataForm, setDataForm] = useState({
     name: "",
     phone: "",
@@ -92,6 +96,14 @@ export default function CreateContactForm() {
         throw new Error("Erreur lors de la crétion du contact");
       }
       navigate("/contacts");
+      setDataForm({
+        name: "",
+        phone: "",
+        email: "",
+        address: "",
+      });
+      setCategoryUpdated((prev) => !prev);
+      setComponentToShow(null);
     } catch (error) {
       console.error("Erreur lors de la création du contact:", error);
     }

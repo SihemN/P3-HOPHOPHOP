@@ -27,7 +27,7 @@ export default function MenuKebabContact({ contact, setCategoryUpdated }) {
     <div className="relative">
       <div className="absolute right-4 -bottom-5 rounded-md z-10 border  border-dark-default font-light">
         <div className="bg-blue-lighter rounded shadow-lg">
-          <Link to={`/update-contact/${contact.id}`}>
+          <Link to={`/update-contact/${contact.c_id}`}>
             <button
               type="button"
               className=" hover:bg-green-lighter px-6 py-1 w-full"
@@ -39,7 +39,7 @@ export default function MenuKebabContact({ contact, setCategoryUpdated }) {
           <button
             type="button"
             className="  hover:bg-red-default px-4 py-1  w-full border-t-2"
-            onClick={() => deleteContact(contact.id)}
+            onClick={() => deleteContact(contact.c_id)}
           >
             Supprimer
           </button>
