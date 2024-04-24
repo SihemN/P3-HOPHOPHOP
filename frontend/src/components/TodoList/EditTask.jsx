@@ -1,11 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { FaTrashAlt } from "react-icons/fa";
 
 function EditTask() {
   const [tasks, setTasks] = useState([]);
+  // console.log("tasks", tasks);
   const [newTask, setNewTask] = useState("");
-  const [title, setTitle] = useState("Courses de la semaine");
+
+  const currentCategoryTask = JSON.parse(
+    localStorage.getItem("categoryTaskId")
+  );
+
+  const currentCategoryName = JSON.parse(localStorage.getItem("categoryName"));
+  console.info("currentCategoryName", currentCategoryName);
+
+  console.info("currentCategoryTask", currentCategoryTask);
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/tasks/categories/${currentCategoryTask}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const { message, result } = await response.json();
+          setTasks(result);
+          console.info("message", message);
+        } else if (!response.ok) {
+          const errorResponse = await response.json();
+          throw new Error(
+            errorResponse || "Problème pour récupérer les données"
+          );
+        } else {
+          console.error(
+            "Erreur lors de la récupération de la catégorie de tâches"
+          );
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération de la catégorie de tâches:",
+          error
+        );
+      }
+    };
+
+    fetchCategory();
+  }, []);
 
   const addTask = () => {
     const newTaskObj = {
@@ -35,13 +84,10 @@ function EditTask() {
   return (
     <div className="min-h-screen flex justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full sm:w-96">
-        <input
-          type="text"
-          placeholder="Titre"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="bg-orange-default rounded-3xl text-cream text-xl p-2 text-center w-full mb-4 outline-none"
-        />
+        <h1 className="bg-orange-default rounded-3xl text-cream text-xl p-2 text-center w-full mb-4 outline-none">
+          {currentCategoryName}
+        </h1>
+
         <form
           onSubmit={(e) => {
             e.preventDefault();

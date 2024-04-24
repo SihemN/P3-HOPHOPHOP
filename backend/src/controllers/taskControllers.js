@@ -38,8 +38,10 @@ const getByCategory = async (req, res) => {
       res
         .status(200)
         .json({ message: "liste des taches récupéré avec succès", result });
+    } else if (result.length === 0) {
+      res.status(200).json({ message: "pas de task", result });
     } else {
-      res.status(401).send("pas de liste");
+      res.status(401).json("Problème pour récupérer les données");
     }
   } catch (error) {
     res.status(500).send(error);

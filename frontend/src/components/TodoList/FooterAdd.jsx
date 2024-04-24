@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
-import { useNavigate } from "react-router-dom"; // Importation du hook useNavigate pour la navigation
+import { useNavigate } from "react-router-dom";
 import Switch from "@mui/material/Switch";
 import { alpha, styled } from "@mui/material/styles";
 import { orange } from "@mui/material/colors";
@@ -80,7 +80,12 @@ export default function FooterAdd() {
       }
       // créer une alerte pour voir l'action réussie
       const { message, insertId } = await response.json();
-      console.info("insertId", insertId);
+
+      // on stock i'id category task dans le local storage
+      localStorage.setItem("categoryTaskId", JSON.stringify(insertId));
+
+      // on stock le nom de la category task dans le local storage
+      localStorage.setItem("categoryName", JSON.stringify(newList.name));
       // eslint-disable-next-line no-alert
       alert(message);
 
