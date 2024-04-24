@@ -81,7 +81,7 @@ export default function FooterAdd() {
       // créer une alerte pour voir l'action réussie
       const { message, insertId } = await response.json();
 
-      // on stock i'id category task dans le local storage
+      // on stock l'id category task dans le local storage
       localStorage.setItem("categoryTaskId", JSON.stringify(insertId));
 
       // on stock le nom de la category task dans le local storage

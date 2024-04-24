@@ -1,17 +1,25 @@
+/* eslint-disable camelcase */
 import React, { useState, useEffect } from "react";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { FaTrashAlt } from "react-icons/fa";
 
 function EditTask() {
   const [tasks, setTasks] = useState([]);
-  // console.log("tasks", tasks);
+  // console.info("tasks", tasks);
   const [newTask, setNewTask] = useState("");
+  const [taskUpdated, setTaskUpdated] = useState(false);
 
   const currentCategoryTask = JSON.parse(
     localStorage.getItem("categoryTaskId")
   );
+  console.info("currentCategoryTask", currentCategoryTask);
 
   const currentCategoryName = JSON.parse(localStorage.getItem("categoryName"));
+
+  //  const currentTask = JSON.parse(localStorage.getItem("task"));
+
+  const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
+  console.info("ug_group_id", ug_group_id);
   console.info("currentCategoryName", currentCategoryName);
 
   console.info("currentCategoryTask", currentCategoryTask);
@@ -54,17 +62,40 @@ function EditTask() {
     };
 
     fetchCategory();
-  }, []);
+  }, [taskUpdated]);
 
-  const addTask = () => {
-    const newTaskObj = {
-      id: Date.now(),
-      text: newTask,
-      completed: false,
-    };
-
-    setTasks([...tasks, newTaskObj]);
-    setNewTask("");
+  const addTask = async () => {
+    try {
+      const response = await fetch(
+        // eslint-disable-next-line camelcase
+        `http://localhost:3310/api/tasks/groups/${ug_group_id}/categories/${currentCategoryTask}`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
+          body: JSON.stringify({ name: newTask, done: false }),
+        }
+      );
+      console.info("newTask", newTask);
+      console.info("response", response);
+      if (response.ok) {
+        const { message } = await response.json(); // Extraire le message et le résultat de la réponse JSON
+        setNewTask("");
+        // prev= prends la preview values
+        setTaskUpdated((prev) => !prev);
+        console.info("message", message); // Afficher le message dans la console
+      } else {
+        // Si la réponse de la requête n'est pas OK
+        const errorResponse = await response.json(); // Extraire la réponse d'erreur au format JSON
+        throw new Error(errorResponse || "Problème pour créer la tâche"); // Lancer une erreur avec le message d'erreur ou un message par défaut
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'ajout de la tâche:", error);
+    }
   };
 
   const removeTask = (taskId) => {
@@ -80,6 +111,7 @@ function EditTask() {
     updatedTasks[taskIndex] = updatedTask;
     setTasks(updatedTasks);
   };
+  console.info("tasks", tasks);
 
   return (
     <div className="min-h-screen flex justify-center bg-gray-100">
@@ -105,31 +137,26 @@ function EditTask() {
           />
         </form>
         <ul>
-          {tasks.map((task) => (
-            <li
-              key={task.id}
-              className="flex items-center justify-between mb-2"
-            >
+          {tasks.map(({ ta_id, ta_name, ta_done }) => (
+            <li key={ta_id} className="flex items-center justify-between mb-2">
               <div className="flex items-center">
                 <IoMdCheckmarkCircleOutline
-                  onClick={() => toggleTask(task.id)}
+                  onClick={() => toggleTask(ta_id)}
                   className={`mr-3 cursor-pointer ${
-                    task.completed
-                      ? "text-green-default"
-                      : "text-orange-lighter"
+                    ta_done ? "text-green-default" : "text-orange-lighter"
                   }`}
                 />
                 <label
-                  htmlFor={`checkbox-${task.id}`}
+                  htmlFor={`checkbox-${ta_id}`}
                   className={`${
-                    task.completed ? "line-through text-orange-lighter" : ""
+                    ta_done ? "line-through text-orange-lighter" : ""
                   }`}
                 >
-                  <div className="flex flex-wrap w-52">{task.text}</div>
+                  <div className="flex flex-wrap w-52">{ta_name}</div>
                 </label>
               </div>
               <FaTrashAlt
-                onClick={() => removeTask(task.id)}
+                onClick={() => removeTask(ta_id)}
                 className="text-red-lighter text-sm cursor-pointer"
               />
             </li>

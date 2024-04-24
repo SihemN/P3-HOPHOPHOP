@@ -18,12 +18,13 @@ const create = async (req, res) => {
     );
 
     if (result.affectedRows) {
-      res.status(201).send("Task créée avec succès !");
+      res.status(201).json({ message: "Task créée avec succès !" });
     } else {
       res.status(401).send("Problème dans la création de la tâche");
     }
   } catch (error) {
     res.status(500).send(error);
+    console.info("error", error);
   }
 };
 
