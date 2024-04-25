@@ -29,6 +29,7 @@ export default {
         top: "0 -5px 15px -5px rgba(0, 0, 0, 0.1)",
       },
     },
+
     colors: {
       green: {
         lighter: "#95D9CC",
@@ -115,6 +116,7 @@ export default {
       },
     },
   },
+
   plugins: [
     // eslint-disable-next-line func-names
     function ({ addUtilities }) {
