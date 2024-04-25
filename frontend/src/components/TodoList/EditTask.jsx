@@ -1,28 +1,20 @@
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from "react";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { FaTrashAlt } from "react-icons/fa";
+import ToggleTask from "./ToggleCheckTask"; // Import du composant ToggleTask
 
 function EditTask() {
   const [tasks, setTasks] = useState([]);
-  // console.info("tasks", tasks);
   const [newTask, setNewTask] = useState("");
   const [taskUpdated, setTaskUpdated] = useState(false);
 
   const currentCategoryTask = JSON.parse(
     localStorage.getItem("categoryTaskId")
   );
-  console.info("currentCategoryTask", currentCategoryTask);
 
   const currentCategoryName = JSON.parse(localStorage.getItem("categoryName"));
 
-  //  const currentTask = JSON.parse(localStorage.getItem("task"));
-
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
-  console.info("ug_group_id", ug_group_id);
-  console.info("currentCategoryName", currentCategoryName);
-
-  console.info("currentCategoryTask", currentCategoryTask);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -40,9 +32,12 @@ function EditTask() {
           }
         );
         if (response.ok) {
-          const { message, result } = await response.json();
-          setTasks(result);
-          console.info("message", message);
+          const { result } = await response.json();
+          const tasksWithDone = result.map((task) => ({
+            ...task,
+            done: task.ta_done, // On ajoute une propriété "done" à chaque objet tâche
+          }));
+          setTasks(tasksWithDone);
         } else if (!response.ok) {
           const errorResponse = await response.json();
           throw new Error(
@@ -67,7 +62,6 @@ function EditTask() {
   const addTask = async () => {
     try {
       const response = await fetch(
-        // eslint-disable-next-line camelcase
         `http://localhost:3310/api/tasks/groups/${ug_group_id}/categories/${currentCategoryTask}`,
         {
           method: "POST",
@@ -77,41 +71,82 @@ function EditTask() {
               localStorage.getItem("token")
             )}`,
           },
-          body: JSON.stringify({ name: newTask, done: false }),
+          body: JSON.stringify({ name: newTask, done: false }), // On ajoute la propriété "done" à false pour chaque nouvelle tâche
         }
       );
-      console.info("newTask", newTask);
-      console.info("response", response);
       if (response.ok) {
-        const { message } = await response.json(); // Extraire le message et le résultat de la réponse JSON
+        const { message } = await response.json();
         setNewTask("");
-        // prev= prends la preview values
         setTaskUpdated((prev) => !prev);
-        console.info("message", message); // Afficher le message dans la console
+        console.info("message", message);
       } else {
-        // Si la réponse de la requête n'est pas OK
-        const errorResponse = await response.json(); // Extraire la réponse d'erreur au format JSON
-        throw new Error(errorResponse || "Problème pour créer la tâche"); // Lancer une erreur avec le message d'erreur ou un message par défaut
+        const errorResponse = await response.json();
+        throw new Error(errorResponse || "Problème pour créer la tâche");
       }
     } catch (error) {
       console.error("Erreur lors de l'ajout de la tâche:", error);
     }
   };
 
-  const removeTask = (taskId) => {
-    const newTasks = tasks.filter((task) => task.id !== taskId);
+  const toggleTask = async (taskId) => {
+    const taskIndex = tasks.findIndex((task) => task.ta_id === taskId);
+    const newTasks = [...tasks];
+    newTasks[taskIndex] = {
+      ...newTasks[taskIndex],
+      done: !newTasks[taskIndex].done, // On inverse la valeur de la propriété "done" de la tâche correspondante
+    };
     setTasks(newTasks);
+
+    try {
+      const response = await fetch(
+        `http://localhost:3310/api/tasks/${taskId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
+          body: JSON.stringify({ done: newTasks[taskIndex].done }), // On met à jour la propriété "done" dans la base de données
+        }
+      );
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(
+          errorResponse || "Problème pour mettre à jour la tâche"
+        );
+      }
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de la tâche:", error);
+    }
   };
 
-  const toggleTask = (taskId) => {
-    const taskIndex = tasks.findIndex((task) => task.id === taskId);
-    const task = tasks[taskIndex];
-    const updatedTask = { ...task, completed: !task.completed };
-    const updatedTasks = [...tasks];
-    updatedTasks[taskIndex] = updatedTask;
-    setTasks(updatedTasks);
+  const removeTask = async (taskId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3310/api/tasks/${taskId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const newTasks = tasks.filter((task) => task.ta_id !== taskId);
+        setTasks(newTasks);
+        setTaskUpdated((prev) => !prev);
+      } else {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse || "Problème pour supprimer la tâche");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression de la tâche:", error);
+    }
   };
-  console.info("tasks", tasks);
 
   return (
     <div className="min-h-screen flex justify-center bg-gray-100">
@@ -137,30 +172,36 @@ function EditTask() {
           />
         </form>
         <ul>
-          {tasks.map(({ ta_id, ta_name, ta_done }) => (
-            <li key={ta_id} className="flex items-center justify-between mb-2">
-              <div className="flex items-center">
-                <IoMdCheckmarkCircleOutline
-                  onClick={() => toggleTask(ta_id)}
-                  className={`mr-3 cursor-pointer ${
-                    ta_done ? "text-green-default" : "text-orange-lighter"
-                  }`}
+          {tasks.map(
+            (
+              { ta_id, ta_name, done } // On utilise la propriété "done" à la place de "ta_done"
+            ) => (
+              <li
+                key={ta_id}
+                className="flex items-center justify-between mb-2"
+              >
+                <div className="flex items-center">
+                  <ToggleTask
+                    taskId={ta_id}
+                    taskDone={done} // On passe la propriété "done" en tant que prop "taskDone"
+                    onToggle={() => toggleTask(ta_id)}
+                  />
+                  <label
+                    htmlFor={`checkbox-${ta_id}`}
+                    className={`${
+                      done ? "line-through text-orange-lighter" : ""
+                    }`}
+                  >
+                    <div className="flex flex-wrap w-52">{ta_name}</div>
+                  </label>
+                </div>
+                <FaTrashAlt
+                  onClick={() => removeTask(ta_id)}
+                  className="text-red-lighter text-sm cursor-pointer"
                 />
-                <label
-                  htmlFor={`checkbox-${ta_id}`}
-                  className={`${
-                    ta_done ? "line-through text-orange-lighter" : ""
-                  }`}
-                >
-                  <div className="flex flex-wrap w-52">{ta_name}</div>
-                </label>
-              </div>
-              <FaTrashAlt
-                onClick={() => removeTask(ta_id)}
-                className="text-red-lighter text-sm cursor-pointer"
-              />
-            </li>
-          ))}
+              </li>
+            )
+          )}
         </ul>
       </div>
     </div>
