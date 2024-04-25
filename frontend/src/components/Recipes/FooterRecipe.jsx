@@ -10,7 +10,7 @@ export default function FooterRecipe({ handleClicCreateRecipe }) {
       </Link>
       <button
         type="button"
-        className="hidden md:block"
+        className="hidden md:block transition-transform transform-gpu hover:scale-110"
         aria-label="bouton pour créer une recette"
         onClick={handleClicCreateRecipe}
       >

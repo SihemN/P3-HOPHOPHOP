@@ -48,11 +48,6 @@ export default function ShowRecipeDetails({ recipeId, setComponentToShow }) {
             {recipe.r_category}
           </div>
 
-          {/* <ButtonPenModify
-            label="bouton modifier la recette"
-            colorBg="bg-red-default"
-            onClick={() => handleClickModify(recipe)}
-          /> */}
           <ButtonPenModify
             label="bouton modifier la recette"
             colorBg="bg-red-default"

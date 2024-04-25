@@ -41,17 +41,24 @@ export default function MapRecipeDivMobile({
         <h3 className="font-light">{`Ajoutée par ${u_name}`}</h3>
       </button>
       <div className="relative flex items-center ">
-        <HiOutlineDotsVertical
-          className="text-3xl w-fit text-red-default mt-0 pr-3"
-          onClick={() => handleClickDots(r_id)}
-        />
-        <DotsUpdateRecipe
-          showDotsUpdateRecipe={showDotsUpdateRecipe}
-          setShowDotsUpdateRecipe={setShowDotsUpdateRecipe}
-          recipeId={r_id}
-          recipeName={r_name}
-          setRecipeUpdated={setRecipeUpdated}
-        />
+        <button
+          type="button"
+          aria-label="ouvrir la boîte avec les boutons modifier et supprimer"
+        >
+          <HiOutlineDotsVertical
+            className="text-3xl w-fit text-red-default mt-0 pr-3"
+            onClick={() => handleClickDots(r_id)}
+          />
+        </button>
+        {showDotsUpdateRecipe && showDotsUpdateRecipe === r_id && (
+          <DotsUpdateRecipe
+            showDotsUpdateRecipe={showDotsUpdateRecipe}
+            setShowDotsUpdateRecipe={setShowDotsUpdateRecipe}
+            recipeId={r_id}
+            recipeName={r_name}
+            setRecipeUpdated={setRecipeUpdated}
+          />
+        )}
       </div>
     </div>
   );

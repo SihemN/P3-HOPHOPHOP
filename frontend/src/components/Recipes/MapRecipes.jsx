@@ -9,6 +9,7 @@ export default function MapRecipes({
   recipesCategories,
   setComponentToShow,
   setRecipeId,
+  recipeId,
 }) {
   // On récupère les catégories qui ont des recettes
   const categoriesNotEmpty = [
@@ -57,6 +58,7 @@ export default function MapRecipes({
               setRecipeUpdated={setRecipeUpdated}
               setComponentToShow={setComponentToShow}
               setRecipeId={setRecipeId}
+              recipeId={recipeId}
             />
           </div>
         ))}
