@@ -1,4 +1,3 @@
-import React from "react";
 import { MdGroups2 } from "react-icons/md";
 import { FiSend } from "react-icons/fi";
 
@@ -8,6 +7,7 @@ import ButtonLanding from "../components/ButtonLanding";
 import AddUser from "../components/Group_params/AddUser";
 import InvitationMail from "../components/Create_group/InvitationMail";
 import InvitationLink from "../components/Create_group/InvitationLink";
+import DeleteButon from "../components/Group_params/DeleteButon";
 
 export default function GroupParams() {
   return (
@@ -25,11 +25,7 @@ export default function GroupParams() {
           </div>
           <MapMembers />
           <ButtonLanding text="Enregistrer" color="bg-blue-default" />
-          <ButtonLanding
-            text="Supprimer le groupe"
-            color="bg-red-default"
-            to="/home"
-          />
+          <DeleteButon />
         </section>
         <section>
           <div className="flex flex-col py-9 items-center">

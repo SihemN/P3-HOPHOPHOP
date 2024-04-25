@@ -115,9 +115,9 @@ const deleteGroup = async (req, res) => {
 
     // si la suppression a fonctionné, une ligne a été affectée
     if (result.affectedRows) {
-      res.status(201).send("Le groupe a été supprimé");
+      res.status(201).json("Le groupe a été supprimé");
     } else {
-      res.status(401).send("Erreur, le groupe n'a pas été supprimé");
+      res.status(401).json("Erreur, le groupe n'a pas été supprimé");
     }
   } catch (error) {
     res.status(500).send(error);
