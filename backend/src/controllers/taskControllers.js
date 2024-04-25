@@ -18,12 +18,13 @@ const create = async (req, res) => {
     );
 
     if (result.affectedRows) {
-      res.status(201).send("Task créée avec succès !");
+      res.status(201).json({ message: "Task créée avec succès !" });
     } else {
       res.status(401).send("Problème dans la création de la tâche");
     }
   } catch (error) {
     res.status(500).send(error);
+    console.info("error", error);
   }
 };
 
@@ -38,8 +39,10 @@ const getByCategory = async (req, res) => {
       res
         .status(200)
         .json({ message: "liste des taches récupéré avec succès", result });
+    } else if (result.length === 0) {
+      res.status(200).json({ message: "pas de task", result });
     } else {
-      res.status(401).send("pas de liste");
+      res.status(401).json("Problème pour récupérer les données");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -88,10 +91,14 @@ const createCategory = async (req, res) => {
       userId,
       id
     );
+
     if (result.affectedRows) {
-      res.status(201).send("La catégorie task a été créée");
+      const { insertId } = result;
+      res
+        .status(201)
+        .json({ message: "La catégorie task a été créée", insertId });
     } else {
-      res.status(401).send("la création de la catégorie task a échoué!!");
+      res.status(401).json("la création de la catégorie task a échoué!!");
     }
   } catch (error) {
     res.status(500).send(error);
