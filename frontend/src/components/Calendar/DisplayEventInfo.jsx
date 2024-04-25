@@ -21,41 +21,6 @@ export default function DisplayEventInfo({
   const handleCloseModal = () => {
     setDeleteOrUpdateToShow(null);
     setSelectedEvent(null);
-    localStorage.removeItem("eventIdSelected");
-  };
-
-  // convertir au bon format d'affichage les dates des événéments
-  // afficher le jour et le mois sous forme de nom et les heures et minutes en nombres
-  const formatDate = (startDate, endDate) => {
-    const options = {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      hour: "numeric",
-      minute: "numeric",
-    };
-
-    // On convertit en string les objets Dates avec les options ci-dessus
-    const startFormatted = startDate.toLocaleDateString("fr-FR", options);
-    const endFormatted = endDate.toLocaleDateString("fr-FR", options);
-
-    // Idem, on convertit les heures et minutes en string. On ajoute à si les minutes < 10
-    // pour voir 18h09 et pas 18h9
-    const endHour = endDate.getHours().toString().padStart(2, "0");
-    const endMinute = endDate.getMinutes().toString().padStart(2, "0");
-
-    // On veut éviter d'afficher deux fois le même jour si le jour de début et de fin est le même
-    const isSameDay =
-      startDate.getDate() === endDate.getDate() &&
-      startDate.getMonth() === endDate.getMonth() &&
-      startDate.getFullYear() === endDate.getFullYear();
-
-    if (isSameDay) {
-      // si le jour est identique, on affiche la date start puis les heures et minutes de fin
-      return `${startFormatted} - ${endHour}:${endMinute}`;
-    }
-    // si différent, on affiche date start et date end
-    return `${startFormatted} au ${endFormatted}`;
   };
 
   // clic sur l'icon Pen
@@ -78,18 +43,20 @@ export default function DisplayEventInfo({
 
   // on récupère l'event par id
   useEffect(() => {
-    const id = localStorage.getItem("eventIdSelected");
     const fetchEventById = async () => {
       try {
-        const results = await fetch(`http://localhost:3310/api/events/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("token")
-            )}`,
-          },
-        });
+        const results = await fetch(
+          `http://localhost:3310/api/events/${selectedEvent.eventId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
         if (!results.ok) {
           const errorResponse = await results.json();
           throw new Error(
@@ -122,9 +89,14 @@ export default function DisplayEventInfo({
         console.info("Erreur pour récupérer l'événement:", error);
       }
     };
-    if (id) {
+    if (selectedEvent && selectedEvent.eventId) {
       fetchEventById();
     }
+    return () => {
+      // Nettoyage avant de recevoir le nouvel événement à afficher
+      // évite d'apercevoir l'ancien événement cliqué (brièvement)
+      setEventToDisplay(null);
+    };
   }, [eventUpdated, selectedEvent]);
 
   return (
@@ -174,7 +146,7 @@ export default function DisplayEventInfo({
           />
         )}
         {deleteOrUpdateToShow !== "update" && (
-          <InfosEvent eventToDisplay={eventToDisplay} formatDate={formatDate} />
+          <InfosEvent eventToDisplay={eventToDisplay} />
         )}
       </div>
     )
