@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable radix */
 /* eslint-disable no-shadow */
 import { useParams } from "react-router-dom";
@@ -8,8 +9,9 @@ import contact from "../assets/icons-functionnalities/contact.svg";
 import UpdateContactForm from "../components/Contact_page/UpdateContactForm";
 import FooterBack from "../components/Recipes/FooterBack";
 
-export default function UpdateContact() {
+export default function UpdateContact({ selectedContactId }) {
   const { id } = useParams();
+  const contactToUpdateId = id || selectedContactId;
   const [contactToUpdate, setContactToUpdate] = useState(null);
 
   // récupérer les données du contact
@@ -17,7 +19,7 @@ export default function UpdateContact() {
     const fetchContactData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3310/api/contacts/${id}`,
+          `http://localhost:3310/api/contacts/${contactToUpdateId}`,
           {
             method: "GET",
             headers: {
@@ -43,8 +45,8 @@ export default function UpdateContact() {
   }, [id]);
 
   return (
-    <div className="bg-blue-lighter font-Neue-Kabel">
-      <header>
+    <div className="bg-blue-lighter font-Neue-Kabel lg:bg-cream">
+      <header className="lg:hidden">
         <HeaderFunctionnalities
           title="Modifier un contact"
           color="text-blue-medium"
@@ -52,7 +54,7 @@ export default function UpdateContact() {
           icon={contact}
         />
       </header>
-      <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
+      <main className="rounded-t-3xl bg-cream h-custom shadow-top lg:shadow-none">
         {contactToUpdate ? (
           <UpdateContactForm contact={contactToUpdate} />
         ) : (

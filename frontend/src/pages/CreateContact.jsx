@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import contact from "../assets/icons-functionnalities/contact.svg";
 import CreateContactForm from "../components/Contact_page/CreateContactForm";
 import FooterBack from "../components/Recipes/FooterBack";
 
-export default function CreateContact() {
+export default function CreateContact({ setComponentToShow }) {
   return (
     <div className="bg-blue-lighter font-Neue-Kabel">
       <header>
@@ -15,7 +16,7 @@ export default function CreateContact() {
         />
       </header>
       <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
-        <CreateContactForm />
+        <CreateContactForm setComponentToShow={setComponentToShow} />
       </main>
       <footer>
         <FooterBack

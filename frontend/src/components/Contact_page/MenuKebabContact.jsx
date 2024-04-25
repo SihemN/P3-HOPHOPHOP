@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
-export default function MenuKebabContact({ contact, setCategoryUpdated }) {
+export default function MenuKebabContact({
+  contact,
+  setCategoryUpdated,
+  handleUpdateContactClick,
+}) {
   const deleteContact = async (id) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
@@ -25,21 +29,30 @@ export default function MenuKebabContact({ contact, setCategoryUpdated }) {
   };
   return (
     <div className="relative">
-      <div className="absolute right-4 -bottom-5 rounded-md z-10 border  border-dark-default font-light">
+      <div className="absolute right-7 -bottom-16 rounded-md z-10 border  border-dark-default font-light">
         <div className="bg-blue-lighter rounded shadow-lg">
-          <Link to={`/update-contact/${contact.id}`}>
+          <Link to={`/update-contact/${contact.c_id}`}>
             <button
               type="button"
-              className=" hover:bg-green-lighter px-6 py-1 w-full"
+              aria-label="Modifier un contact"
+              className=" hover:bg-green-lighter px-6 py-1 w-full lg:hidden"
             >
               Modifier
             </button>
           </Link>
-
           <button
             type="button"
-            className="  hover:bg-red-default px-4 py-1  w-full border-t-2"
-            onClick={() => deleteContact(contact.id)}
+            onClick={() => handleUpdateContactClick(contact.c_id)}
+            aria-label="Modifier un contact"
+            className="hidden lg:block hover:bg-green-lighter px-6 py-1 w-full"
+          >
+            Modifier
+          </button>
+          <button
+            type="button"
+            aria-label="Supprimer un contact"
+            className="hover:bg-red-default px-4 py-1  w-full border-t-2"
+            onClick={() => deleteContact(contact.c_id)}
           >
             Supprimer
           </button>

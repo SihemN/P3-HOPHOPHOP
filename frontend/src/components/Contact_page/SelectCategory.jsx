@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
-import { VscKebabVertical } from "react-icons/vsc";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import UpdateCategory from "./UpdateCategory";
 import AddContactCatButton from "./AddContactCatButton";
 
@@ -100,7 +100,7 @@ export default function SelectCategory({
     <div className="pt-4 px-6">
       <button
         type="button"
-        className="flex items-center gap-2 font-semibold text-lg"
+        className="flex items-center gap-2 font-semibold text-xl pb-2"
         onClick={handleClick}
       >
         Afficher par catégories
@@ -133,7 +133,10 @@ export default function SelectCategory({
                     handleKebabClick(category);
                   }}
                 >
-                  <VscKebabVertical className="text-blue-medium" />
+                  <HiOutlineDotsVertical
+                    size={25}
+                    className="text-blue-medium"
+                  />
                 </button>
               </div>
             ))}
