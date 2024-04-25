@@ -8,7 +8,7 @@ export default function Functionnalities({
   return (
     <>
       {/* container box */}
-      <div className="font-Neue-Kabel text-dark-default m-10 relative flex flex-col w-48 min-w-48">
+      <div className="font-Neue-Kabel text-dark-default m-10 relative flex flex-col w-48 min-w-48 transition-transform transform-gpu hover:scale-110">
         {/* bandeau rouge avec le titre de la fonctionnalité */}
         <div className="z-10 flex justify-center items-center bg-red-default w-full h-9 rounded-t-2xl border-solid border border-dark">
           {/* titre de la fonctionnalité */}

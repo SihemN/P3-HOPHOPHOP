@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import FunctionnalitiesPC from "./FunctionnalitiesPC";
 import FunctionnalitiesMobile from "./FunctionnalitiesMobile";
-import iconCalendar from "../../assets/icons-functionnalities/calendar.svg";
-import iconBudget from "../../assets/icons-functionnalities/budget.svg";
-import iconList from "../../assets/icons-functionnalities/todolist.svg";
-import iconContact from "../../assets/icons-functionnalities/contact.svg";
-import iconDocument from "../../assets/icons-functionnalities/document.svg";
-import iconChat from "../../assets/icons-functionnalities/chat.svg";
-import iconRecipe from "../../assets/icons-functionnalities/recipe.svg";
+import iconCalendar from "../../../assets/icons-functionnalities/calendar.svg";
+import iconBudget from "../../../assets/icons-functionnalities/budget.svg";
+import iconList from "../../../assets/icons-functionnalities/todolist.svg";
+import iconContact from "../../../assets/icons-functionnalities/contact.svg";
+import iconDocument from "../../../assets/icons-functionnalities/document.svg";
+import iconChat from "../../../assets/icons-functionnalities/chat.svg";
+import iconRecipe from "../../../assets/icons-functionnalities/recipe.svg";
 
 export default function MapFunctionnalities() {
   const functionnalities = [
@@ -80,16 +81,25 @@ export default function MapFunctionnalities() {
     },
   ];
 
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const handleToggle = (clickedIndex) => {
+    setOpenIndex((prevIndex) =>
+      prevIndex === clickedIndex ? null : clickedIndex
+    );
+  };
+
   return (
     <div className="flex justify-center p-5">
       {/* Version PC */}
-      <div className="hidden w-3/4 max-w-4xl h-80 lg:flex flex-wrap justify-center">
+      <div className="hidden w-3/4 max-w-4xl h-80 tall:flex flex-wrap justify-center">
         {/* On map le tableau functionnalities
           On crée un composant Functionnalities par élément */}
         {functionnalities.map(
-          ({ title, description, icon, iconDescription }) => {
+          ({ id, title, description, icon, iconDescription }) => {
             return (
               <FunctionnalitiesPC
+                key={id}
                 title={title}
                 description={description}
                 icon={icon}
@@ -100,15 +110,17 @@ export default function MapFunctionnalities() {
         )}
       </div>
       {/* Version Mobile */}
-      <div className="flex flex-col justify-center p-5 lg:hidden">
+      <div className="flex flex-col justify-center p-5 tall:hidden">
         {functionnalities.map(
-          ({ id, title, description, color, colorFont }) => (
+          ({ id, title, description, color, colorFont }, index) => (
             <FunctionnalitiesMobile
               key={id}
               title={title}
               description={description}
               color={color}
               colorFont={colorFont}
+              isOpen={index === openIndex}
+              onToggle={() => handleToggle(index)}
             />
           )
         )}

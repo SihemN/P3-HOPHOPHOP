@@ -2,7 +2,7 @@ import React from "react";
 import TeamMembers from "./TeamMembers";
 import teamMember1 from "../assets/logo/ghost-blue.svg";
 import teamMember2 from "../assets/logo/ghost-green.svg";
-import SectionTitle from "./PresentationFonctionnalities/SectionTitle";
+import SectionTitle from "./Landing/PresentationFonctionnalities/SectionTitle";
 
 function TeamComponant() {
   return (

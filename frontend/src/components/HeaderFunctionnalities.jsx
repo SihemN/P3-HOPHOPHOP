@@ -14,6 +14,7 @@ export default function HeaderFunctionnalities({
       {icon && (
         <div className="flex justify-between items-center p-4  ">
           <IconHome color={color} />
+
           <h1 className={`${colorTitle} font-Neue-Kabel font-bold text-2xl`}>
             {title}
           </h1>

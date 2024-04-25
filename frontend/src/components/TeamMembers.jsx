@@ -8,7 +8,7 @@ export default function TeamMembers({ image, name, color }) {
         <img
           src={image}
           alt="Membre de l'équipe"
-          className="rounded-full w-24 h-24 "
+          className="rounded-full w-24 h-24 transform-gpu transition-transform hover:animate-spin-360"
         />
       </div>
       <p className="text-center">{name}</p>

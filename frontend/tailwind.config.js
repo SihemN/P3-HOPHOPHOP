@@ -3,6 +3,12 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,cjs,mjs}"],
   theme: {
     extend: {
+      screens: {
+        tall: { raw: "(min-width: 1200px)" },
+        tallheader: { raw: "(min-width: 1000px)" },
+        mega: { raw: "(min-width: 1920px)" },
+      },
+
       fontFamily: {
         "Neue-Kabel": ["neue-kabel", "sans-serif"],
         "Puffin-Display-Soft": ["puffin-display-soft", "sans-serif"],
@@ -60,9 +66,19 @@ export default {
       marquee4: "marquee2 40s linear infinite",
       burgerDown: "burgerDown 0.5s ease-out forwards",
       "menu-slide-down": "menuSlideDown 0.5s ease-in-out forwards",
+      "spin-360": "spin-360 1s linear infinite",
+      "reverse-spin-360": "reverse-spin-360 0.3s ease-out forwards",
     },
 
     keyframes: {
+      "spin-360": {
+        "0%": { transform: "rotate(0deg)" },
+        "100%": { transform: "rotate(360deg)" },
+      },
+      "reverse-spin-360": {
+        "0%": { transform: "rotate(360deg)" },
+        "100%": { transform: "rotate(0deg)" },
+      },
       marquee: {
         "0%": { transform: "translateX(0%)" },
         "100%": { transform: "translateX(-100%)" },
