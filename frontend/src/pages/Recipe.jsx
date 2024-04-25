@@ -107,6 +107,7 @@ export default function Recipe() {
             setRecipeUpdated={setRecipeUpdated}
             setComponentToShow={setComponentToShow}
             setRecipeId={setRecipeId}
+            recipeId={recipeId}
           />
         </div>
         {/* Version PC et Tablette */}

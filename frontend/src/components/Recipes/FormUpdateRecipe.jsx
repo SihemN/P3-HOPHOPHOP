@@ -2,8 +2,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import { useState } from "react";
-import { IoChevronDownSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { handleErrorsInput } from "./FormCreateRecipe";
+import FormRecipe from "./FormRecipe";
 
 export default function FormUpdateRecipe({
   setRecipeUpdated,
@@ -25,6 +26,13 @@ export default function FormUpdateRecipe({
     r_category,
     r_time_preparation,
   } = recipe;
+  // Gérer les erreurs d'inputs
+  const [errors, setErrors] = useState({
+    name: "",
+    time_preparation: "",
+    list_ingredients: "",
+    nb_persons: "",
+  });
   // Par défaut, la catégorie de la recette est celle existante
   const [categorySelected, setCategorySelected] = useState(r_category || "");
   // on initialise les propriétés avec les valeurs de la recette cliquée
@@ -79,11 +87,13 @@ export default function FormUpdateRecipe({
   const handlChange = (e) => {
     const { name, value } = e.target;
     setDataRecipe({ ...dataRecipe, [name]: value });
+    handleErrorsInput(errors, name, value, setErrors);
   };
 
   // Au submit du form, on envoie dataUserUpdate avec la route PATCH
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.info("submit recipeId", recipeId);
     const fetchUpdateRecipe = async () => {
       try {
         const response = await fetch(
@@ -117,119 +127,42 @@ export default function FormUpdateRecipe({
         console.info("Erreur pour modifier la recette >>", error);
       }
     };
-    // Gestion d'inputs inattendus :
-    if (dataRecipe.name.length > 50) {
-      alert("Nom de la recette : limite de caractères dépassée");
-    } else if (dataRecipe.time_preparation.length > 20) {
-      alert("Temps de préparation : limite de caractères dépassée");
-    } else if (dataRecipe.list_ingredients.length > 255) {
-      alert("Ingrédients : limite de caractères dépassée");
+    // Vérification des erreurs
+    const newErrors = {};
+
+    if (categorySelected === null) {
+      newErrors.category = "Choisissez une catégorie";
+    }
+
+    if (
+      errors.name ||
+      errors.time_preparation ||
+      errors.list_ingredients ||
+      errors.nb_persons ||
+      newErrors.category
+    ) {
+      alert("Vérifier vos données");
+      // Au moins un champ contient une erreur
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        ...newErrors,
+      }));
     } else {
       fetchUpdateRecipe();
     }
   };
 
   return (
-    <form
-      className="flex flex-col text-dark-default text-xl m-5"
-      onSubmit={handleSubmit}
-    >
-      <label htmlFor="name" className="font-bold">
-        Nom de la recette
-      </label>
-      <input
-        type="text"
-        name="name"
-        value={dataRecipe.name}
-        placeholder={dataRecipe.name}
-        required
-        className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-        onChange={handlChange}
-      />
-      <label htmlFor="category" className="relative w-full">
-        <p className="font-bold mt-4">Catégorie</p>
-        <button
-          type="button"
-          className="w-full border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg flex justify-start"
-          value={dataRecipe.category}
-          onClick={handleClickCat}
-        >
-          {categorySelected}
-          <IoChevronDownSharp className="absolute top-15 right-3 mt-1 text-dark-default" />
-        </button>
-        {isOpen && (
-          <div className=" flex flex-col justify-start  border border-dark-default rounded-lg ">
-            {filteredCategories.map(({ id, name }) => (
-              <button
-                type="button"
-                key={id}
-                name="category"
-                value={name}
-                onClick={() => handleClicNewCat(name)}
-                className="h-12 py-2 px-5 hover:bg-red-clear text-left rounded-lg hover:font-semibold"
-              >
-                {name}
-              </button>
-            ))}
-          </div>
-        )}
-      </label>
-
-      <label htmlFor="nb_persons" className="font-bold mt-4">
-        Nombre de personnes
-      </label>
-      <input
-        type="text"
-        name="nb_persons"
-        value={dataRecipe.nb_persons}
-        placeholder={dataRecipe.nb_persons}
-        required
-        className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-        onChange={handlChange}
-      />
-      <label htmlFor="time_preparation" className="font-bold mt-4">
-        Temps de préparation
-      </label>
-      <input
-        type="text"
-        name="time_preparation"
-        value={dataRecipe.time_preparation}
-        placeholder={dataRecipe.time_preparation}
-        required
-        className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-        onChange={handlChange}
-      />
-      <label htmlFor="list_ingredients" className="font-bold mt-4">
-        Ingrédients
-      </label>
-      <textarea
-        type="text"
-        name="list_ingredients"
-        value={dataRecipe.list_ingredients}
-        placeholder={dataRecipe.list_ingredients}
-        required
-        className="border border-solid border-dark-default h-fit resize-y mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-        onChange={handlChange}
-      />
-
-      <label htmlFor="description" className="font-bold mt-4">
-        Instructions
-      </label>
-      <textarea
-        name="description"
-        value={dataRecipe.description}
-        placeholder={dataRecipe.description}
-        required
-        className="border border-solid border-dark-default mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default min-h-96 resize-y overflow-auto"
-        onChange={handlChange}
-      />
-
-      <button
-        type="submit"
-        className="bg-red-default  hover:bg-green-default active:bg-green-lighter h-12 mt-10 mb-16 py-2 px-5 rounded-lg text-cream font-semibold shadow-md shadow-dark-shadow"
-      >
-        ENREGISTRER
-      </button>
-    </form>
+    <FormRecipe
+      handleSubmit={handleSubmit}
+      dataRecipe={dataRecipe}
+      errors={errors}
+      handlChange={handlChange}
+      handleClickCat={handleClickCat}
+      categorySelected={categorySelected}
+      isOpen={isOpen}
+      filteredCategories={filteredCategories}
+      handleClicNewCat={handleClicNewCat}
+    />
   );
 }

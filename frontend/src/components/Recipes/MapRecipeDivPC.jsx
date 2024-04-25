@@ -15,18 +15,25 @@ export default function MapRecipeDivPC({
 }) {
   const [showDotsUpdateRecipe, setShowDotsUpdateRecipe] = useState(null);
 
-  const handleClickDots = (recipeId) => {
-    setShowDotsUpdateRecipe(recipeId);
+  // console.info("showDots", showDotsUpdateRecipe);
+  const handleClickDots = (recipeIdClicked) => {
+    // Fermer la boîte des points si elle est déjà ouverte pour le même élément
+    if (showDotsUpdateRecipe) {
+      setShowDotsUpdateRecipe(null);
+    } else {
+      // Ouvrir la boîte des points pour l'élément correspondant
+      setShowDotsUpdateRecipe(recipeIdClicked);
+    }
   };
-
   const storeClickedRecipe = (recipeId) => {
     localStorage.setItem("recipeId", JSON.stringify(recipeId));
     // console.info("store() recipeId", recipeId);
   };
 
-  const handleClicRecipe = (recipeId) => {
-    storeClickedRecipe(recipeId);
-    setRecipeId(recipeId);
+  const handleClicRecipe = (recipeIdClicked) => {
+    storeClickedRecipe(recipeIdClicked);
+    setRecipeId(recipeIdClicked);
+    setShowDotsUpdateRecipe(null);
     setComponentToShow("details recipe");
   };
 
@@ -42,18 +49,23 @@ export default function MapRecipeDivPC({
         <h2 className="font-bold">{r_name}</h2>
         <h3 className="font-light">{`Ajoutée par ${u_name}`}</h3>
       </button>
-      <div className="relative flex items-center ">
-        <HiOutlineDotsVertical
-          className="text-3xl w-fit text-red-default mt-0 pr-3"
+      <div className="relative flex items-center">
+        <button
+          type="button"
+          aria-label="ouvrir la boîte pour modifier ou supprimer la recette"
           onClick={() => handleClickDots(r_id)}
-        />
-        <DotsUpdateRecipe
-          showDotsUpdateRecipe={showDotsUpdateRecipe}
-          setShowDotsUpdateRecipe={setShowDotsUpdateRecipe}
-          recipeId={r_id}
-          recipeName={r_name}
-          setRecipeUpdated={setRecipeUpdated}
-        />
+        >
+          <HiOutlineDotsVertical className="text-3xl w-fit text-red-default mt-0 pr-3" />
+        </button>
+        {showDotsUpdateRecipe === r_id && (
+          <DotsUpdateRecipe
+            showDotsUpdateRecipe={showDotsUpdateRecipe}
+            setShowDotsUpdateRecipe={setShowDotsUpdateRecipe}
+            recipeId={r_id}
+            recipeName={r_name}
+            setRecipeUpdated={setRecipeUpdated}
+          />
+        )}
       </div>
     </div>
   );

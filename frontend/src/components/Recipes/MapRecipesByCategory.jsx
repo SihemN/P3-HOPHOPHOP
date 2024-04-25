@@ -9,6 +9,7 @@ export default function MapRecipesByCategory({
   setRecipeUpdated,
   setComponentToShow,
   setRecipeId,
+  recipeId,
 }) {
   return (
     <>
@@ -26,10 +27,11 @@ export default function MapRecipesByCategory({
               r_category={r_category}
               u_name={u_name}
               setRecipeUpdated={setRecipeUpdated}
+              recipeId={recipeId}
             />
           ))}
       </div>
-      <div className="md:block">
+      <div className="hidden md:block">
         {recipesGroup
           // on filtre les recettes correspondantes et on map pour créer un button chacune
           .filter(
@@ -45,6 +47,7 @@ export default function MapRecipesByCategory({
               setRecipeUpdated={setRecipeUpdated}
               setComponentToShow={setComponentToShow}
               setRecipeId={setRecipeId}
+              recipeId={recipeId}
             />
           ))}
       </div>
