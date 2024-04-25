@@ -1,23 +1,125 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable camelcase */
+import { useEffect, useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import MembersOfGroup from "./MembersOfGroup";
 
 export default function MapMembers() {
-  const members = [
-    { id: 1, memberName: "Anaïs" },
-    { id: 2, memberName: "Soumia" },
-    { id: 3, memberName: "Sihem" },
-    { id: 4, memberName: "Arthur" },
-  ];
+  const { ug_group_id, ug_user_id: currentUserId } = JSON.parse(
+    localStorage.getItem("group")
+  );
+  const [members, setMembers] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSingleAdmin, setIsSingleAdmin] = useState(false);
+
+  useEffect(() => {
+    const fetchGroupMembers = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/groups/${ug_group_id}/users`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error(
+            "Erreur lors de la récupération des membres du groupe"
+          );
+        }
+        const data = await response.json();
+        setMembers(data.results);
+
+        const adminCount = data.results.filter(
+          (member) => member.ug_user_role === "admin"
+        ).length;
+        const currentUserIsAdmin = data.results.some(
+          (member) =>
+            member.ug_user_id === currentUserId &&
+            member.ug_user_role === "admin"
+        );
+        setIsAdmin(currentUserIsAdmin);
+        setIsSingleAdmin(adminCount === 1 && currentUserIsAdmin);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchGroupMembers();
+  }, [ug_group_id]);
+
+  const handleAdminChange = async (ug_user_id, newAdminStatus, currentRole) => {
+    if (
+      isSingleAdmin &&
+      currentUserId === ug_user_id &&
+      currentRole === "admin"
+    ) {
+      alert("Action non autorisée: Vous êtes le seul admin du groupe.");
+      return;
+    }
+    const newRole = newAdminStatus ? "admin" : "membre";
+    try {
+      const response = await fetch(
+        `http://localhost:3310/api/groups/${ug_group_id}/users/${ug_user_id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
+          body: JSON.stringify({ role: newRole }),
+        }
+      );
+
+      if (!response.ok) {
+        const errMsg = await response.text();
+        throw new Error(`Failed to update user role: ${errMsg}`);
+      }
+      alert("Le rôle de l'utilisateur a été mis à jour avec succès.");
+      setMembers(
+        members.map((member) =>
+          member.ug_user_id === ug_user_id
+            ? { ...member, ug_user_role: newRole }
+            : member
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <h1 className="font-bold text-xl pl-2">Membres du groupe</h1>
-      {members.map(({ memberName, id }) => {
+      {members.map(({ ug_user_id, u_name, ug_user_role }) => {
         return (
           <div
-            key={id}
+            key={ug_user_id}
             className="flex items-center justify-between bg-green-lightest my-3 h-14 rounded-lg mx-2 px-4"
           >
-            <MembersOfGroup memberName={memberName} />
+            <MembersOfGroup
+              memberName={u_name}
+              ug_user_id={ug_user_id}
+              isAdmin={ug_user_role === "admin"}
+              // eslint-disable-next-line no-shadow
+              handleAdminChange={(_isAdmin) =>
+                handleAdminChange(
+                  ug_user_id,
+                  ug_user_role !== "admin",
+                  ug_user_role
+                )
+              }
+              isSingleAdmin={isSingleAdmin}
+              currentUserId={currentUserId}
+            />
             <FaTrashCan className="text-dark-default cursor-pointer" />
           </div>
         );
