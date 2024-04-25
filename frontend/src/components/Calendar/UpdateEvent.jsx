@@ -1,10 +1,13 @@
 /* eslint-disable no-alert */
 /* eslint-disable react/prop-types */
+// import { Checkbox } from "@mui/material";
+// import AddEventFormButton from "./AddEventFormButton";
+// import RedStarForRequiredInput from "../to-reuse/RedStarForRequiredInput";
 import { useState } from "react";
-import { Checkbox } from "@mui/material";
-import AddEventFormButton from "./AddEventFormButton";
-import RedStarForRequiredInput from "../to-reuse/RedStarForRequiredInput";
-import { validateDates } from "./AddEventForm";
+import validateDates from "./functions/ValidateDates";
+import handleErrorsInput from "./functions/HandleInputForm";
+// import ErrorInputForm from "./ErrorInputForm";
+import FormEvent from "./FormEvent";
 
 export default function UpdateEvent({
   setDeleteOrUpdateToShow,
@@ -15,6 +18,11 @@ export default function UpdateEvent({
     setDeleteOrUpdateToShow(null);
   };
 
+  // gérer les inputs qui ne correspondent pas
+  const [errors, setErrors] = useState({
+    title: "",
+    text: "",
+  });
   // Formater les dates existantes pour remplir l'input dateStart et dateEnd
   // On reçoit >>> Wed Apr 10 2024 10:00:00 GMT+0200 (heure d’été d’Europe centrale)
   // On veut >>> 2024-04-10T10:00
@@ -72,7 +80,6 @@ export default function UpdateEvent({
       private: false,
     }
   );
-  console.info("dataEvent.private", dataEvent.private);
 
   // Déplacez la fonction handleChangeAndConvertDate à l'intérieur du composant UpdateEvent
   const handleChangeAndConvertDate = (value, name) => {
@@ -90,6 +97,8 @@ export default function UpdateEvent({
   const handleChange = (e) => {
     // on déstructure notre target
     const { name, value, type, checked } = e.target;
+    const newErrors = handleErrorsInput(errors, name, value);
+    setErrors(newErrors);
     // si l'input est de type "checkbox", on récupère une valeur checked true ou false
     // sinon on récupère juste la valeur de l'input qui n'est pas une checkbox
     const newValue = type === "checkbox" ? checked : value;
@@ -148,11 +157,12 @@ export default function UpdateEvent({
         console.info("Erreur pour mettre à jour l'événement >>", error);
       }
     };
-    // Gestion d'inputs inattendus :
-    if (dataEvent.title.length > 50) {
-      alert("Titre de l'événement : limite de caractères dépassée");
-    } else if (dataEvent.text.length > 250) {
-      alert("Description de l'événement : limite de caractères dépassée");
+    // Contrôle des inputs
+    if (errors.title || errors.text) {
+      alert("Vérifier vos données");
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+      }));
     } else if (!validateDates(dataEvent.date_start, dataEvent.date_end)) {
       // eslint-disable-next-line no-useless-return
       return;
@@ -162,95 +172,12 @@ export default function UpdateEvent({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col text-dark-default text-xl my-5 w-full  bg-cream p-5 pt-2 border-[1px] border-blue-default rounded-2xl shadow-2xl"
-    >
-      <label htmlFor="name" className="font-bold mt-4">
-        Nom de l'événement <RedStarForRequiredInput />
-      </label>
-      <input
-        type="text"
-        name="title"
-        value={dataEvent.title}
-        required
-        className="border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default "
-        onChange={handleChange}
-      />
-      <label htmlFor="name" className="font-bold mt-4">
-        Description
-      </label>
-      <textarea
-        name="text"
-        value={dataEvent.text}
-        placeholder="Ajouter des infos utiles"
-        className="border border-solid border-dark-default h-fit mt-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-        onChange={handleChange}
-      />
-      <label htmlFor="dateStart" className="font-bold mt-4">
-        Date de début <RedStarForRequiredInput />
-      </label>
-      <input
-        type="datetime-local"
-        name="dateStartToConvert"
-        value={dataEvent.dateStartToConvert}
-        required
-        className="w-full border border-solid border-dark-default h-12 mt-1 mr-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-        onChange={handleChange}
-      />
-
-      <label htmlFor="dateEnd" className="font-bold mt-4">
-        Date de fin <RedStarForRequiredInput />
-      </label>
-
-      <input
-        type="datetime-local"
-        name="dateEndToConvert"
-        value={dataEvent.dateEndToConvert}
-        required
-        className="w-full border border-solid border-dark-default h-12 mt-1 mr-1 py-2 px-5 rounded-lg placeholder:text-dark-default"
-        onChange={handleChange}
-      />
-
-      <label
-        htmlFor="isPrivate"
-        aria-label="Checkbox pour masquer ou rendre visible un événement"
-        className="flex items-center gap-5 font-bold mt-4"
-      >
-        <div>
-          <p>Masquer aux membres du groupe ?</p>
-          <p className="font-normal italic text-base ">Cocher pour masquer</p>
-        </div>
-        <Checkbox
-          name="private"
-          checked={dataEvent.private}
-          onChange={handleChange}
-          color="success"
-        />
-      </label>
-
-      <div className="flex justify-center items-center pt-5  gap-2">
-        <AddEventFormButton
-          onClick={handleClickCancelButton}
-          type="button"
-          label="Annuler"
-          bgColor="cream"
-          borderColor="blue-default"
-          textColor="blue-default"
-          hoverColor="orange-default"
-          activeBgColor="orange-lighter"
-        />
-
-        <AddEventFormButton
-          label="Enregistrer"
-          type="submit"
-          bgColor="blue-default"
-          borderColor="blue-default"
-          textColor="cream"
-          hoverColor="green-default"
-          activeBgColor="green-lighter"
-        />
-      </div>
-    </form>
+    <FormEvent
+      handleSubmit={handleSubmit}
+      dataEvent={dataEvent}
+      handleChange={handleChange}
+      errors={errors}
+      handleClickButtonCancel={handleClickCancelButton}
+    />
   );
 }
