@@ -11,6 +11,7 @@ export default function MapContact({
   setCategoryUpdated,
   onSelectContact,
   setComponentToShow,
+  handleUpdateContactClick,
 }) {
   const [openMenuContactId, setOpenMenuContactId] = useState(null);
 
@@ -38,11 +39,10 @@ export default function MapContact({
         filterContacts().map((contact) => (
           <React.Fragment key={contact.c_id}>
             <div className="hidden lg:block">
-              <button
+              <div
                 type="button"
                 aria-label="Afficher les détails du contact"
                 className="w-full"
-                onClick={() => handleClick(contact)}
               >
                 <DivContactPc
                   contact={contact}
@@ -50,8 +50,10 @@ export default function MapContact({
                   setOpenMenuContactId={setOpenMenuContactId}
                   setContacts={setContacts}
                   setCategoryUpdated={setCategoryUpdated}
+                  handleUpdateContactClick={handleUpdateContactClick}
+                  onClick={handleClick}
                 />
-              </button>
+              </div>
             </div>
             <div className="block lg:hidden">
               <DivContactMobile

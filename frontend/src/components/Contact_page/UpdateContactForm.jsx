@@ -66,7 +66,7 @@ export default function UpdateContactForm({ contact }) {
     fetchCategories();
   }, [contact]);
 
-  const handlChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setDataForm({ ...dataForm, [name]: value });
   };
@@ -128,7 +128,7 @@ export default function UpdateContactForm({ contact }) {
             name="name"
             defaultValue={contact.c_name}
             className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
-            onChange={handlChange}
+            onChange={handleChange}
             required
           />
         </div>
@@ -142,7 +142,7 @@ export default function UpdateContactForm({ contact }) {
               name="email"
               defaultValue={contact.c_email}
               className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
-              onChange={handlChange}
+              onChange={handleChange}
               required
             />
           </div>
@@ -157,7 +157,7 @@ export default function UpdateContactForm({ contact }) {
               name="phone"
               defaultValue={contact.c_phone}
               className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
-              onChange={handlChange}
+              onChange={handleChange}
               required
             />
           </div>
@@ -173,7 +173,7 @@ export default function UpdateContactForm({ contact }) {
               name="address"
               defaultValue={contact.c_address}
               className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
-              onChange={handlChange}
+              onChange={handleChange}
               required
             />
           </div>

@@ -8,23 +8,25 @@ import MapContact from "../components/Contact_page/MapContact";
 import AddContact from "../components/Contact_page/AddContact";
 import ContactDetails from "../components/Contact_page/ContactDetails";
 import CreateContactForm from "../components/Contact_page/CreateContactForm";
+import UpdateContact from "./UpdateContact";
 
 export default function Contact() {
   // stocke la liste de contact et la met à jour
   const [contacts, setContacts] = useState([]);
   // stocke liste de catégories et la met à jour
   const [categories, setCategories] = useState([]);
-  // suit si les catégories ont été modifiées et passe a true si c'est le cas
+  // booléen pour récupérer les contacts quand la catégorie change
   const [categoryUpdated, setCategoryUpdated] = useState(false);
   // liste filtrées de contacts et la met à jour
   const [filteredContacts, setFilteredContacts] = useState([]);
-  // stocke catégorie et met à jour si une catégorie est sélectionnée
+  // stocke catégorie sélectionnées et met à jour si une catégorie est sélectionnée
   const [filterSelected, setFilterSelected] = useState(null);
+  // contient id du contact sélectionné
   const [selectedContact, setSelectedContact] = useState(null);
-
+  // state pour le composant à afficher
   const [componentToShow, setComponentToShow] = useState(null);
 
-  // récupérer les contacts depuis l'api
+  // récupérer les contacts depuis l'api, se redéclenche lorsque qu'une catégorie change
   useEffect(() => {
     const fetchContacts = async () => {
       try {
@@ -98,13 +100,23 @@ export default function Contact() {
 
   // màj des carégories quand il y a des modifications
   const handleCategoriesChange = (newCategory) => {
+    // récupère le tableau actuel des catégories, copie le tableau dans un nouveau et ajoute la nouvelle catégorie à la fin de celui ci
     setCategories((prevCategories) => [...prevCategories, newCategory]);
     setCategoryUpdated((prev) => !prev);
   };
 
+  // affiche le formulaire de création de contact si cliqué
   const handleAddContactClick = () => {
     setComponentToShow((prevComponent) =>
       prevComponent !== "create contact" ? "create contact" : null
+    );
+  };
+
+  // affiche le formulaire de modification de contact si cliqué
+  const handleUpdateContactClick = (contactId) => {
+    setSelectedContact(contactId);
+    setComponentToShow((prevComponent) =>
+      prevComponent !== "update contact" ? "update contact" : null
     );
   };
 
@@ -136,9 +148,10 @@ export default function Contact() {
             setCategoryUpdated={setCategoryUpdated}
             onSelectContact={setSelectedContact}
             setComponentToShow={setComponentToShow}
+            handleUpdateContactClick={handleUpdateContactClick}
           />
         </div>
-        <div className="flex-1 hidden lg:flex justify-center h-fit mt-10 py-4 overflow-y-auto no-scrollbar">
+        <div className="flex-1 hidden lg:flex lg:mt-0 lg:pt-0 justify-center h-fit mt-10 py-4 overflow-y-auto no-scrollbar">
           {componentToShow === "create contact" && (
             <CreateContactForm
               setComponentToShow={setComponentToShow}
@@ -147,6 +160,9 @@ export default function Contact() {
           )}
           {componentToShow === "contact details" && (
             <ContactDetails contact={selectedContact} />
+          )}
+          {componentToShow === "update contact" && (
+            <UpdateContact selectedContactId={selectedContact} />
           )}
         </div>
       </main>
