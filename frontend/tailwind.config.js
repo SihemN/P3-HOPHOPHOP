@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line import/no-extraneous-dependencies
+const scrollbar = require("tailwind-scrollbar");
+
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,cjs,mjs}"],
   theme: {
@@ -119,6 +122,7 @@ export default {
   },
 
   plugins: [
+    scrollbar,
     // eslint-disable-next-line func-names
     function ({ addUtilities }) {
       const newUtilities = {
@@ -129,6 +133,16 @@ export default {
           "-ms-overflow-style": "none",
           "scrollbar-width": "none",
         },
+        // // Personnalisation de la scrollbar
+        // "::webkit-scrollbar": {
+        //   width: "12px", // Largeur de la scrollbar
+        // },
+        // "::webkit-scrollbar-track": {
+        //   background: "#f8a75d", // Couleur de fond de la piste de défilement
+        // },
+        // "::webkit-scrollbar-thumb": {
+        //   background: "#ffd1a8", // Couleur du bouton de défilement
+        // },
       };
 
       addUtilities(newUtilities, ["responsive", "hover"]);
