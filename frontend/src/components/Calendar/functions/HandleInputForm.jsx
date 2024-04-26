@@ -10,11 +10,10 @@ const handleErrorsInput = (error, name, value) => {
       newErrors.text =
         value.length > 250 ? "Limite de caractères dépassée" : "";
       break;
-    // Add more cases for other input fields as needed
     default:
       break;
   }
-  return newErrors; // Return the updated error object
+  return newErrors; // Return l'objet error mis à jour
 };
 
 export default handleErrorsInput;
