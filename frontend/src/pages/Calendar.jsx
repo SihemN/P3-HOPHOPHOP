@@ -90,21 +90,35 @@ export default function MyCalendar() {
 
   // Pour récupérer les infos de l'event cliqué
   const handleEventClick = (event) => {
-    // console.log("event clic", event);
     if (!selectedEvent) {
-      localStorage.setItem("eventIdSelected", JSON.stringify(event.eventId));
       setSelectedEvent(event);
-    } else if (event.eventId === selectedEvent.eventId) {
+    } else if (
+      event.eventId === selectedEvent.eventId ||
+      selectedEvent.eventId
+    ) {
       setSelectedEvent(null);
     } else {
-      setSelectedEvent(
-        localStorage.setItem("eventIdSelected", JSON.stringify(event.eventId))
-      );
+      setSelectedEvent(event);
     }
   };
 
-  console.info("parent >> selectedEvent >>", selectedEvent);
-
+  // Styliser l'événement selon la propriété e_private
+  const getEventStyle = (event) => {
+    let backgroundColor = "";
+    if (event.e_private === 1) {
+      // événement privé en vert
+      backgroundColor = "#0EB495";
+    } else {
+      // événement public en bleu
+      backgroundColor = "#054B8C";
+    }
+    return {
+      // on injectera ce style dans Calendar dans la props eventPropGetter
+      style: {
+        backgroundColor,
+      },
+    };
+  };
   return (
     <div className="font-Neue-Kabel bg-blue-default">
       <HeaderFunctionnalities
@@ -114,24 +128,27 @@ export default function MyCalendar() {
       />
       <main className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top lg:p-5">
         <AddEvent setEventUpdated={setEventUpdated} />
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          onSelectEvent={handleEventClick}
-          views={["month", "week", "day"]}
-          defaultView="month"
-          messages={{
-            allDay: "Toute la journée",
-            previous: "Précédent",
-            next: "Suivant",
-            today: "Aujourd'hui",
-            month: "Mois",
-            week: "Semaine",
-            day: "Jour",
-          }}
-        />
+        <div className="h-[90%]">
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            onSelectEvent={handleEventClick}
+            views={["month", "week", "day"]}
+            defaultView="month"
+            messages={{
+              allDay: "Toute la journée",
+              previous: "Précédent",
+              next: "Suivant",
+              today: "Aujourd'hui",
+              month: "Mois",
+              week: "Semaine",
+              day: "Jour",
+            }}
+            eventPropGetter={getEventStyle}
+          />
+        </div>
         <DisplayEventInfo
           selectedEvent={selectedEvent}
           setSelectedEvent={setSelectedEvent}

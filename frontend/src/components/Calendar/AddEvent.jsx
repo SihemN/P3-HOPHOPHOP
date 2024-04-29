@@ -17,5 +17,3 @@ export default function AddEvent({ setEventUpdated }) {
     </div>
   );
 }
-
-// title, text, dateStart, dateEnd, isPrivate;
