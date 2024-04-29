@@ -7,12 +7,17 @@ import { FaTrashCan } from "react-icons/fa6";
 import MembersOfGroup from "./MembersOfGroup";
 
 export default function MapMembers() {
+  // récupère id du group et id du user
   const { ug_group_id, ug_user_id: currentUserId } = JSON.parse(
     localStorage.getItem("group")
   );
   const [members, setMembers] = useState([]);
+  // Booléen qui indique si le user actuel est admin
   const [isAdmin, setIsAdmin] = useState(false);
+  // console.log("isAdmin", isAdmin);
+  // booléen pour savoir si le user est le seul admin
   const [isSingleAdmin, setIsSingleAdmin] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     const fetchGroupMembers = async () => {
@@ -47,12 +52,13 @@ export default function MapMembers() {
         );
         setIsAdmin(currentUserIsAdmin);
         setIsSingleAdmin(adminCount === 1 && currentUserIsAdmin);
+        // console.log("je suis dans le useeffect");
       } catch (error) {
         console.error(error);
       }
     };
     fetchGroupMembers();
-  }, [ug_group_id]);
+  }, [toggle]);
 
   const handleAdminChange = async (ug_user_id, newAdminStatus, currentRole) => {
     if (
@@ -83,7 +89,6 @@ export default function MapMembers() {
         const errMsg = await response.text();
         throw new Error(`Failed to update user role: ${errMsg}`);
       }
-      alert("Le rôle de l'utilisateur a été mis à jour avec succès.");
       setMembers(
         members.map((member) =>
           member.ug_user_id === ug_user_id
@@ -91,6 +96,7 @@ export default function MapMembers() {
             : member
         )
       );
+      alert("Le rôle de l'utilisateur a été mis à jour avec succès.");
     } catch (error) {
       console.error(error);
     }
@@ -109,6 +115,7 @@ export default function MapMembers() {
               memberName={u_name}
               ug_user_id={ug_user_id}
               isAdmin={ug_user_role === "admin"}
+              setToggle={setToggle}
               // eslint-disable-next-line no-shadow
               handleAdminChange={(_isAdmin) =>
                 handleAdminChange(

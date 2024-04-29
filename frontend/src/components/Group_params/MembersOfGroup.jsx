@@ -12,6 +12,7 @@ export default function MembersOfGroup({
   handleAdminChange,
   isSingleAdmin,
   currentUserId,
+  setToggle,
 }) {
   return (
     <div className="flex gap-9 font-semibold text-lg pl-2 items-center pt-1">
@@ -27,6 +28,7 @@ export default function MembersOfGroup({
                 !isAdmin,
                 isAdmin ? "admin" : "membre"
               );
+              setToggle((prev) => !prev);
             } else {
               alert("Action non autorisée: Vous êtes le seul admin du groupe.");
             }

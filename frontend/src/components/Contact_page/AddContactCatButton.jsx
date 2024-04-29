@@ -14,9 +14,7 @@ export default function AddContactCatButton({ onAddCategory }) {
     try {
       e.preventDefault();
       const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
-      // console.log("ug_group_id", ug_group_id);
       const categoryName = e.target.elements[0].value;
-      // console.log("categoryName", categoryName);
       const token = JSON.parse(localStorage.getItem("token"));
       if (!token) {
         throw new Error("Token manquant");
