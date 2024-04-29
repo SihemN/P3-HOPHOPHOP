@@ -1,24 +1,13 @@
 /* eslint-disable no-alert */
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import MembersOfGroup from "./MembersOfGroup";
 
 export default function MapMembers() {
-  // récupère id du group et id du user
-  const { ug_group_id, ug_user_id: currentUserId } = JSON.parse(
-    localStorage.getItem("group")
-  );
+  const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
   const [members, setMembers] = useState([]);
-  // Booléen qui indique si le user actuel est admin
-  const [isAdmin, setIsAdmin] = useState(false);
-  // console.log("isAdmin", isAdmin);
-  // booléen pour savoir si le user est le seul admin
-  const [isSingleAdmin, setIsSingleAdmin] = useState(false);
   const [toggle, setToggle] = useState(false);
-
   useEffect(() => {
     const fetchGroupMembers = async () => {
       try {
@@ -41,18 +30,6 @@ export default function MapMembers() {
         }
         const data = await response.json();
         setMembers(data.results);
-
-        const adminCount = data.results.filter(
-          (member) => member.ug_user_role === "admin"
-        ).length;
-        const currentUserIsAdmin = data.results.some(
-          (member) =>
-            member.ug_user_id === currentUserId &&
-            member.ug_user_role === "admin"
-        );
-        setIsAdmin(currentUserIsAdmin);
-        setIsSingleAdmin(adminCount === 1 && currentUserIsAdmin);
-        // console.log("je suis dans le useeffect");
       } catch (error) {
         console.error(error);
       }
@@ -60,16 +37,11 @@ export default function MapMembers() {
     fetchGroupMembers();
   }, [toggle]);
 
-  const handleAdminChange = async (ug_user_id, newAdminStatus, currentRole) => {
-    if (
-      isSingleAdmin &&
-      currentUserId === ug_user_id &&
-      currentRole === "admin"
-    ) {
-      alert("Action non autorisée: Vous êtes le seul admin du groupe.");
-      return;
-    }
-    const newRole = newAdminStatus ? "admin" : "membre";
+  const onAdminToggle = async (ug_user_id) => {
+    const currentRole = members.find(
+      (member) => member.ug_user_id === ug_user_id
+    ).ug_user_role;
+    const newRole = currentRole === "admin" ? "membre" : "admin";
     try {
       const response = await fetch(
         `http://localhost:3310/api/groups/${ug_group_id}/users/${ug_user_id}`,
@@ -81,24 +53,31 @@ export default function MapMembers() {
               localStorage.getItem("token")
             )}`,
           },
-          body: JSON.stringify({ role: newRole }),
+          body: JSON.stringify({ newRole }),
         }
       );
-
       if (!response.ok) {
-        const errMsg = await response.text();
-        throw new Error(`Failed to update user role: ${errMsg}`);
+        throw new Error(
+          "Erreur lors de la mise à jour du rôle de l'utilisateur"
+        );
       }
-      setMembers(
-        members.map((member) =>
+
+      alert("Rôle de l'utilisateur mis à jour avec succès");
+
+      setMembers((prevMembers) =>
+        prevMembers.map((member) =>
           member.ug_user_id === ug_user_id
             ? { ...member, ug_user_role: newRole }
             : member
         )
       );
-      alert("Le rôle de l'utilisateur a été mis à jour avec succès.");
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Erreur lors de la mise à jour du rôle de l'utilisateur :",
+        error
+      );
+    } finally {
+      setToggle((prevToggle) => !prevToggle);
     }
   };
 
@@ -113,19 +92,10 @@ export default function MapMembers() {
           >
             <MembersOfGroup
               memberName={u_name}
+              role={ug_user_role}
               ug_user_id={ug_user_id}
-              isAdmin={ug_user_role === "admin"}
-              setToggle={setToggle}
-              // eslint-disable-next-line no-shadow
-              handleAdminChange={(_isAdmin) =>
-                handleAdminChange(
-                  ug_user_id,
-                  ug_user_role !== "admin",
-                  ug_user_role
-                )
-              }
-              isSingleAdmin={isSingleAdmin}
-              currentUserId={currentUserId}
+              onAdminToggle={() => onAdminToggle(ug_user_id)}
+              updateRoleUser={onAdminToggle}
             />
             <FaTrashCan className="text-dark-default cursor-pointer" />
           </div>

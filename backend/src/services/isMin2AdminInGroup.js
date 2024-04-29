@@ -4,19 +4,22 @@ const isMin2AdminInGroup = async (req, res, next) => {
   try {
     // on récupère l'id du group dans les params
     const { id } = req.params;
+    const { newRole } = req.body;
     // on récupère les admins du group
     const [group] = await tables.group_table.getAdminGroup(id);
-
+    // console.log("group", group);
     // on vérifie s'il y a au moins 2 admin dans le group
     // permet au user admin de quitter le groupe, etc.
-    if (group.length >= 2) {
-      res.status(200).send("Il y a au moins 2 admin dans le groupe");
+    if (newRole === "admin") {
+      next();
+    } else if (group.length >= 2) {
+      // res.status(200).json("Il y a au moins 2 admin dans le groupe");
       next();
     } else {
       res
         .status(403)
-        .send(
-          "Vous êtes le seul admin, passez un autre user admin avant de quitter le groupe"
+        .json(
+          "Vous êtes le seul admin, passez un autre user admin avant de quitter le groupe ou de changer de statut"
         );
     }
   } catch (error) {

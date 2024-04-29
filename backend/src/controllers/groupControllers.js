@@ -152,9 +152,13 @@ const updateRoleUser = async (req, res) => {
     // on récupère l'id du groupe et l'id du user à update dans params
     const { id, idUser } = req.params;
     // on récupère de la requête le changement de rôle
-    const { role } = req.body;
+    const { newRole } = req.body;
     // on stocke la réponse de la BDD
-    const [results] = await tables.group_table.updateRoleUser(idUser, id, role);
+    const [results] = await tables.group_table.updateRoleUser(
+      idUser,
+      id,
+      newRole
+    );
     if (results.affectedRows) {
       res.status(201).json("Rôle du User mis à jour");
     } else {
