@@ -140,7 +140,7 @@ class GroupManager extends AbstractManager {
   // Récupérer les messages du groupe
   getMessagesByGroup(groupId) {
     return this.database.query(
-      `SELECT ug_user_id, u.u_name, ug_message
+      `SELECT ug_id, ug_user_id, u.u_name, ug_message
         FROM user_group
         INNER JOIN user AS u ON ug_user_id = u.u_id
         WHERE ug_group_id = ?`,
