@@ -102,6 +102,7 @@ router.patch(
   "/groups/:id/users/:idUser",
   verifyToken,
   isAdmin,
+  isMin2AdminInGroup,
   groupControllers.updateRoleUser
 );
 

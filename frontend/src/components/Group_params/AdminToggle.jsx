@@ -1,22 +1,24 @@
-import { useState } from "react";
+/* eslint-disable camelcase */
+/* eslint-disable react/prop-types */
+import React, { useState } from "react";
 import Switch from "@mui/material/Switch";
 
-export default function AdminToggle() {
-  const [checked, setChecked] = useState(false);
+export default function AdminToggle({ onAdminToggle, ug_user_id, role }) {
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleChange = (event) => {
-    setChecked(event.target.checked);
+    setIsChecked(event.target.checked);
+    onAdminToggle(ug_user_id);
   };
-
   return (
     <div>
       <Switch
-        checked={checked}
+        checked={role === "admin"}
         onChange={handleChange}
         name="checkedSwitch"
         inputProps={{ "aria-label": "controlled" }}
       />
-      {checked ? "On" : "Off"}
+      {isChecked ? "On" : "Off"}
     </div>
   );
 }
