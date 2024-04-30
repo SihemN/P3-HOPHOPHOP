@@ -11,7 +11,7 @@ function initializeSocketServer(httpServer) {
     },
   });
 
-  // On écoute quand le user se connecte
+  // On écoute quand un user se connecte
   io.on("connection", (socket) => {
     console.info("User connected");
 
@@ -53,6 +53,7 @@ function initializeSocketServer(httpServer) {
       fetchMessagesOfGroup();
     });
 
+    // Quand un message est envoyé, on récupère ses données
     socket.on("sendMessage", async (data) => {
       console.info("data", data);
       const {
@@ -64,14 +65,14 @@ function initializeSocketServer(httpServer) {
       } = data;
 
       try {
-        // Envoyer à tous les membres du chat du groupe (sender y compris)
+        // Puis on l'envoie à tous les membres du chat du groupe (sender y compris)
         io.in(ug_group_id).emit("receive_message", {
           u_name: currentUserName,
           ug_user_id: currentUserId,
           ug_message: currentMessage.message,
         });
 
-        // Stocker le message dans la BDD
+        // Et on stocke le message dans la BDD
         const response = await fetch(
           `http://localhost:3310/api/messages/groups/${ug_group_id}`,
           {
@@ -100,6 +101,7 @@ function initializeSocketServer(httpServer) {
       }
     });
 
+    // Déconnecter le user de la room
     socket.on("disconnect", () => {
       console.info("User disconnected");
     });
