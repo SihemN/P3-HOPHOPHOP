@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from "react";
 import { FaTrashAlt } from "react-icons/fa";
-import ToggleTask from "./ToggleCheckTask"; // Import du composant ToggleTask
+import ToggleTask from "./ToggleCheckTask";
 
 function EditTask() {
   const [tasks, setTasks] = useState([]);

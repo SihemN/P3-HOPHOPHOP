@@ -116,8 +116,10 @@ const getPublicCatByGroup = async (req, res) => {
         message: "Liste de catégorie récupérée",
         result,
       });
+    } else if (result.length === 0) {
+      res.status(200).json({ message: "Pas de catégorie", result });
     } else {
-      res.status(401).send("Pas de catégorie");
+      res.status(401).json("Problème de récupération de catégorie");
     }
   } catch (error) {
     res.status(500).send(error);

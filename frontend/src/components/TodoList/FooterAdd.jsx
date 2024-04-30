@@ -72,7 +72,7 @@ export default function FooterAdd() {
           body: JSON.stringify(newList),
         }
       );
-      console.info("response", response);
+      // console.info("response", response);
 
       if (!response.ok) {
         const errorResponse = await response.json();
