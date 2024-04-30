@@ -201,9 +201,9 @@ const createMessage = async (req, res) => {
       role
     );
     if (result.affectedRows) {
-      res.status(201).send("message créé avec succès");
+      res.status(201).json("message créé avec succès");
     } else {
-      res.status(401).send("problème pour créer le message");
+      res.status(401).json("problème pour créer le message");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -213,14 +213,16 @@ const createMessage = async (req, res) => {
 const getMessagesByGroup = async (req, res) => {
   try {
     const { id } = req.params;
-    const [results] = await tables.group_table.getMessagesByGroup(id);
+    const [messages] = await tables.group_table.getMessagesByGroup(id);
 
-    if (results.length) {
+    if (messages.length) {
       res
         .status(200)
-        .json({ message: "liste des messages récupérée", results });
+        .json({ message: "liste des messages récupérée", messages });
+    } else if (messages.length > 0) {
+      res.status(200).json("Aucun message à afficher");
     } else {
-      res.status(401).send("pas de liste");
+      res.status(401).json("pas de liste");
     }
   } catch (error) {
     res.status(500).send(error);

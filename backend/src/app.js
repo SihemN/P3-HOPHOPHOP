@@ -40,6 +40,19 @@ app.use(
   })
 );
 
+// Serveur socket pour la messagerie instantannée *********** //
+const http = require("http");
+// On importe notre fichier qui contient notre serveur et ses événements
+const initializeSocketServer = require("./services/socket");
+
+const server = http.createServer(app);
+// Initialiser le serveur Socket.IO en passant le serveur HTTP
+initializeSocketServer(server);
+const port = process.env.SOCKET_PORT || 4000;
+
+server.listen(port, () => {
+  console.info(`Serveur Socket en cours d'exécution sur le port ${port}`);
+});
 /* ************************************************************************* */
 
 // Request Parsing: Understanding the purpose of this part
