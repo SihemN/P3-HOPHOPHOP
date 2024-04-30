@@ -10,11 +10,12 @@ export default function SendMessages({ socket }) {
     role: "",
   });
 
+  // console.info("newMessage", newMessage);
+
   // Récupère les infos du user connecté et du groupe en cours
   const { user } = useContext(UserContext);
   const { u_id: currentUserId, u_name: currentUserName } = user.data;
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
-
   // Gère si rédaction de message
   const handleChangeMessage = (e) => {
     const { value } = e.target;
@@ -94,7 +95,7 @@ export default function SendMessages({ socket }) {
   return (
     <form
       onSubmit={sendMessage}
-      className="rounded-b-xl w-full md:w-8/12 lg:w-5/12 h-12 flex shadow-top"
+      className="rounded-b-xl w-full  h-12 flex shadow-top"
     >
       <input
         type="text"

@@ -17,8 +17,10 @@ export default function Chat() {
         icon={icon}
       />
       <main className="flex flex-col items-center justify-center rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top p-5">
-        <ChatMessages socket={socket} />
-        <SendMessages socket={socket} />
+        <div className="bg-cream h-full lg:w-6/12">
+          <ChatMessages socket={socket} />
+          <SendMessages socket={socket} />
+        </div>
       </main>
     </div>
   );

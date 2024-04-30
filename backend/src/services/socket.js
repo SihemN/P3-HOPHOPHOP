@@ -61,11 +61,16 @@ function initializeSocketServer(httpServer) {
 
       try {
         // Puis on l'envoie à tous les membres du chat du groupe (sender y compris)
+        console.info("serveur io émit le msg à tout le monde");
         io.in(ug_group_id).emit("receive_message", {
           u_name: currentUserName,
           ug_user_id: currentUserId,
           ug_message: newMessage.message,
         });
+        console.info("currentUserName", currentUserName);
+        console.info("currentUserId", currentUserId);
+
+        console.info(" newMessage.message", newMessage.message);
 
         // Et on stocke le message dans la BDD
         const response = await fetch(
@@ -87,7 +92,7 @@ function initializeSocketServer(httpServer) {
           );
         }
       } catch (error) {
-        console.error("Erreur lors de la gestion du message :", error.message);
+        console.error("Erreur lors de la gestion du message :", error);
         // Envoyer un message d'erreur au client, par exemple en émettant un événement spécifique
         socket.emit("error_message", {
           message:

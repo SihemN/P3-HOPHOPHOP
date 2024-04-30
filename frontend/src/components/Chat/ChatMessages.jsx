@@ -11,12 +11,14 @@ export default function ChatMessages({ socket }) {
   // Récupère les infos du user connecté et du groupe en cours
   const { user } = useContext(UserContext);
   const { u_id: currentUserId } = user.data;
-  const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
 
+  console.info("messagesGroup", messagesGroup);
   useEffect(() => {
+    console.info("useEffect RECEIVE MSG");
     // On récupère le message envoyé par un user de la room
     socket.on("receive_message", (message) => {
       // On ajoute ce message à notre state messagesGroup
+      console.info("receive message MSG >>", message);
       setMessagesGroup((prevMessages) => [message, ...prevMessages]);
     });
 
@@ -26,6 +28,7 @@ export default function ChatMessages({ socket }) {
   }, [socket]);
 
   useEffect(() => {
+    const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
     const token = JSON.parse(localStorage.getItem("token"));
     // On connecte le user à la room adéquate (numéro de room = id du groupe)
     socket.emit("joinGroup", ug_group_id, token);
@@ -45,7 +48,7 @@ export default function ChatMessages({ socket }) {
   }, [messagesGroup]);
 
   return (
-    <div className="rounded-t-lg  w-full md:w-8/12 lg:w-5/12 h-[90%] shadow-2xl bg-cream-default ">
+    <div className="rounded-t-lg  w-full  h-[90%] shadow-2xl bg-cream-default ">
       <div
         ref={messagesColumnRef}
         className="flex flex-col-reverse justify-start h-full py-8 pb-5 overflow-y-auto overflow-x-hidden scrollbar-track-orange-lighter scrollbar-thumb-orange-default scrollbar-thin"

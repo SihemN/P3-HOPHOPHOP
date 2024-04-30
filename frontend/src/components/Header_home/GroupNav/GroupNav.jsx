@@ -14,7 +14,7 @@ export default function GroupNav() {
   const [groups, setGroups] = useState([]);
   // console.info("groups dans GroupNav >>", groups);
   const [currentGroup, setCurrentGroup] = useState();
-  console.info("currentGroup - GroupNav >>>", currentGroup);
+  // console.info("currentGroup - GroupNav >>>", currentGroup);
 
   function toggleMenu() {
     if (!playAnimation) {
