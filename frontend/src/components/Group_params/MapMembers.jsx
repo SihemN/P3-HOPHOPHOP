@@ -8,6 +8,7 @@ export default function MapMembers() {
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
   const [members, setMembers] = useState([]);
   const [toggle, setToggle] = useState(false);
+
   useEffect(() => {
     const fetchGroupMembers = async () => {
       try {
@@ -41,6 +42,7 @@ export default function MapMembers() {
     const currentRole = members.find(
       (member) => member.ug_user_id === ug_user_id
     ).ug_user_role;
+
     const newRole = currentRole === "admin" ? "membre" : "admin";
     try {
       const response = await fetch(
@@ -57,38 +59,60 @@ export default function MapMembers() {
         }
       );
       if (!response.ok) {
+        const errorMsg = await response.json();
+        alert(errorMsg || "erreur lors de la mise à jour");
+
         throw new Error(
-          "Erreur lors de la mise à jour du rôle de l'utilisateur"
+          errorMsg || "Erreur lors de la mise à jour du rôle de l'utilisateur"
         );
       }
+      setToggle((prevToggle) => !prevToggle);
 
       alert("Rôle de l'utilisateur mis à jour avec succès");
-
-      setMembers((prevMembers) =>
-        prevMembers.map((member) =>
-          member.ug_user_id === ug_user_id
-            ? { ...member, ug_user_role: newRole }
-            : member
-        )
-      );
     } catch (error) {
-      console.error(
-        "Erreur lors de la mise à jour du rôle de l'utilisateur :",
-        error
-      );
-    } finally {
-      setToggle((prevToggle) => !prevToggle);
+      console.error("Erreur :", error);
     }
   };
 
+  const handleDeleteMember = async (e, userId) => {
+    if (window.confirm("Etes-vous sûr(e) de vouloir supprimer le contact ?"))
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/groups/${ug_group_id}/users/${userId}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ action: "delete" }),
+          }
+        );
+        if (response.ok) {
+          e.preventDefault();
+          // créé un nouveau tableau en exluant le membre à supprimer
+          setMembers((currentMembers) =>
+            currentMembers.filter((member) => member.ug_user_id !== userId)
+          );
+        } else {
+          const errorResponse = await response.json();
+          alert("Non autorisé, vous êtes le seul admin.");
+          throw new Error(errorResponse || "erreur pour supprimer le membre");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+  };
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <h1 className="font-bold text-xl pl-2">Membres du groupe</h1>
       {members.map(({ ug_user_id, u_name, ug_user_role }) => {
         return (
           <div
             key={ug_user_id}
-            className="flex items-center justify-between bg-green-lightest my-3 h-14 rounded-lg mx-2 px-4"
+            className="flex w-full items-center justify-between bg-green-lightest my-3 h-14 rounded-lg px-4 md:w-3/4 lg:w-96"
           >
             <MembersOfGroup
               memberName={u_name}
@@ -97,7 +121,10 @@ export default function MapMembers() {
               onAdminToggle={() => onAdminToggle(ug_user_id)}
               updateRoleUser={onAdminToggle}
             />
-            <FaTrashCan className="text-dark-default cursor-pointer" />
+            <FaTrashCan
+              onClick={(e) => handleDeleteMember(e, ug_user_id, ug_user_role)}
+              className="text-dark-default cursor-pointer"
+            />
           </div>
         );
       })}

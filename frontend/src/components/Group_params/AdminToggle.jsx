@@ -18,7 +18,7 @@ export default function AdminToggle({ onAdminToggle, ug_user_id, role }) {
         name="checkedSwitch"
         inputProps={{ "aria-label": "controlled" }}
       />
-      {isChecked ? "On" : "Off"}
+      {isChecked ? "" : ""}
     </div>
   );
 }

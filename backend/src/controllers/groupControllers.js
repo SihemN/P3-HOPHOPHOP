@@ -162,7 +162,7 @@ const updateRoleUser = async (req, res) => {
     if (results.affectedRows) {
       res.status(201).json("Rôle du User mis à jour");
     } else {
-      res.status(401).send("Erreur dans la mise à jour du rôle du User");
+      res.status(401).json("Erreur dans la mise à jour du rôle du User");
     }
   } catch (error) {
     res.status(500).json(error);
