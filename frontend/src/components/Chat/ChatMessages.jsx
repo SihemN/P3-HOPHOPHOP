@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../../context/UserContext";
 
 export default function ChatMessages({ socket }) {
   // Stocke les messages du groupe
   const [messagesGroup, setMessagesGroup] = useState([]);
+  const messagesColumnRef = useRef(null);
   // Récupère les infos du user connecté et du groupe en cours
   const { user } = useContext(UserContext);
   const { u_id: currentUserId } = user.data;
@@ -35,9 +36,20 @@ export default function ChatMessages({ socket }) {
     });
   }, []);
 
+  // Scroll en bas si nouveau message
+  // scrollTop définit un défilement vertical
+  // scrollHeight entraîne un défilement en bas de l'élément
+  useEffect(() => {
+    messagesColumnRef.current.scrollTop =
+      messagesColumnRef.current.scrollHeight;
+  }, [messagesGroup]);
+
   return (
     <div className="rounded-t-lg  w-full md:w-8/12 lg:w-5/12 h-[90%] shadow-2xl bg-cream-default ">
-      <div className="flex flex-col-reverse justify-start h-full py-8 pb-5 overflow-y-auto overflow-x-hidden scrollbar-track-orange-lighter scrollbar-thumb-orange-default scrollbar-thin">
+      <div
+        ref={messagesColumnRef}
+        className="flex flex-col-reverse justify-start h-full py-8 pb-5 overflow-y-auto overflow-x-hidden scrollbar-track-orange-lighter scrollbar-thumb-orange-default scrollbar-thin"
+      >
         {messagesGroup &&
           messagesGroup.length > 0 &&
           messagesGroup.map(({ ug_user_id, u_name, ug_message }, index) => {
