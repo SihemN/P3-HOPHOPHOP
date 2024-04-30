@@ -82,7 +82,7 @@ const readUsersOfGroup = async (req, res) => {
         results,
       });
     } else {
-      res.status(401).send("Erreur pour récupérer les données");
+      res.status(401).json("Erreur pour récupérer les données");
     }
   } catch (error) {
     res.status(500).send(error);

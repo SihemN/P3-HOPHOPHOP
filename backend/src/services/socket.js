@@ -56,20 +56,15 @@ function initializeSocketServer(httpServer) {
     // Quand un message est envoyé, on récupère ses données
     socket.on("sendMessage", async (data) => {
       console.info("data", data);
-      const {
-        ug_group_id,
-        currentMessage,
-        token,
-        currentUserId,
-        currentUserName,
-      } = data;
+      const { ug_group_id, newMessage, token, currentUserId, currentUserName } =
+        data;
 
       try {
         // Puis on l'envoie à tous les membres du chat du groupe (sender y compris)
         io.in(ug_group_id).emit("receive_message", {
           u_name: currentUserName,
           ug_user_id: currentUserId,
-          ug_message: currentMessage.message,
+          ug_message: newMessage.message,
         });
 
         // Et on stocke le message dans la BDD
@@ -81,7 +76,7 @@ function initializeSocketServer(httpServer) {
               "Content-type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(currentMessage),
+            body: JSON.stringify(newMessage),
           }
         );
         if (!response.ok) {

@@ -42,11 +42,13 @@ class GroupManager extends AbstractManager {
 
   getGroupsOfUser(userId) {
     return this.database.query(
-      `SELECT group_table.g_name, user_group.ug_user_id, user_group.ug_group_id   
+      `SELECT group_table.g_name, user_group.ug_user_id, user_group.ug_group_id, user_group.ug_message   
       FROM user_group     
       JOIN user ON user_group.ug_user_id = user.u_id
       JOIN group_table ON user_group.ug_group_id = group_table.g_id
-      WHERE user.u_id = ?`,
+      WHERE user.u_id = ? AND ug_message IS NULL
+      ORDER BY user_group.ug_group_id;`,
+
       [userId]
     );
   }
@@ -58,7 +60,7 @@ class GroupManager extends AbstractManager {
       FROM user_group AS ug
       JOIN user AS u ON ug.ug_user_id = u.u_id
       JOIN group_table AS g ON ug.ug_group_id = g.g_id
-      WHERE ug.ug_group_id = ? AND u.u_active = ?`,
+      WHERE ug.ug_group_id = ? AND u.u_active = ? AND ug.ug_message IS NULL`,
       [groupId, isActive]
     );
   }
