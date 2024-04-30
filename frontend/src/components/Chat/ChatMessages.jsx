@@ -12,29 +12,25 @@ export default function ChatMessages({ socket }) {
   const { u_id: currentUserId } = user.data;
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
 
-  //   console.info("messagesGroup >>>", messagesGroup);
-
-  // S'exécute quand un événement Socket est reçu du backend
   useEffect(() => {
-    // console.info("useeffect SOCKET OFF");
-    // On récupère le message
-    // On ajoute .off pour ne pas recevoir le message en double
+    // On récupère le message envoyé par un user de la room
     socket.on("receive_message", (message) => {
-      //   console.info("SOCKET >>> MESSAGE >>>", message);
+      // On ajoute ce message à notre state messagesGroup
       setMessagesGroup((prevMessages) => [message, ...prevMessages]);
     });
 
-    // Nettoyer l'écouteur d'événements lors du démontage du composant
+    // Nettoye l'écouteur d'événements lors du démontage du composant
     return () => socket.off("receive_message");
+    // S'exécute quand un événement Socket est reçu du backend
   }, [socket]);
 
   useEffect(() => {
-    console.info("USEFFECT FETCH DATA");
-    // Join la chat room du groupe au montage du composant
     const token = JSON.parse(localStorage.getItem("token"));
+    // On connecte le user à la room adéquate (numéro de room = id du groupe)
     socket.emit("joinGroup", ug_group_id, token);
+    // On récupère les messages existants stockés dans la BDD
     socket.on("get_messages_of_group", (messagesStoredFiltered) => {
-      console.info("messagesStoredFiltered", messagesStoredFiltered);
+      // On met à jour le state messagesGroup
       setMessagesGroup(messagesStoredFiltered);
     });
   }, []);
@@ -45,7 +41,6 @@ export default function ChatMessages({ socket }) {
         {messagesGroup &&
           messagesGroup.length > 0 &&
           messagesGroup.map(({ ug_user_id, u_name, ug_message }, index) => {
-            // console.info("ug_message", ug_message); // Ajout du console.log
             return (
               <div
                 // eslint-disable-next-line react/no-array-index-key
