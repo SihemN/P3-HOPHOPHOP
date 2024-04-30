@@ -95,14 +95,14 @@ export default function SendMessages({ socket }) {
   return (
     <form
       onSubmit={sendMessage}
-      className="rounded-b-xl w-full  h-12 flex shadow-top"
+      className="rounded-b-xl w-full h-12 flex shadow-top"
     >
       <input
         type="text"
         value={newMessage.message}
         onChange={handleChangeMessage}
         placeholder="Mon message..."
-        className="bg-cream px-3 w-full rounded-bl-xl focus:outline-none"
+        className="bg-cream px-3 w-full h-12 rounded-bl-xl focus:outline-none resize-none"
       />
       <button
         type="submit"
