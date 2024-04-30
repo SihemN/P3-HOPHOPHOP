@@ -98,6 +98,7 @@ export default function MapMembers() {
           );
         } else {
           const errorResponse = await response.json();
+          alert("Non autorisé, vous êtes le seul admin.");
           throw new Error(errorResponse || "erreur pour supprimer le membre");
         }
       } catch (error) {
