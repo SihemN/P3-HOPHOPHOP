@@ -8,7 +8,7 @@ function DeleteButon() {
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
 
   const handleDeleteGroup = async (e) => {
-    if (window.confirm("Etes vous sûr de vouloir supprimer le groupe ?"))
+    if (window.confirm("Etes-vous sûr(e) de vouloir supprimer le groupe ?"))
       try {
         const response = await fetch(
           `http://localhost:3310/api/groups/${ug_group_id}`,

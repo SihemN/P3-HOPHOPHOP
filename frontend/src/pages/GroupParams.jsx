@@ -7,7 +7,6 @@ import AddUser from "../components/Group_params/AddUser";
 import InvitationMail from "../components/Create_group/InvitationMail";
 import InvitationLink from "../components/Create_group/InvitationLink";
 import DeleteButon from "../components/Group_params/DeleteButon";
-import SaveButton from "../components/Group_params/SaveButton";
 
 export default function GroupParams() {
   return (
@@ -24,7 +23,6 @@ export default function GroupParams() {
             <MdGroups2 className="bg-blue-default text-cream w-16 h-16 rounded-full p-2" />
           </div>
           <MapMembers />
-          <SaveButton />
           <DeleteButon />
         </section>
         <section>

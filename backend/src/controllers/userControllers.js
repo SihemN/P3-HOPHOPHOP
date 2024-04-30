@@ -45,6 +45,7 @@ const readByEmail = async (req, res) => {
           // si c'est ok, on crée un token avec une expiration définie
           if (typeof isVerify === "boolean" && isVerify) {
             const token = jwt.sign(
+              // ajout de role: user[0].ug_user_role
               { payload: user[0].u_id },
               process.env.SECRET_KEY_JWT,
               {
@@ -52,7 +53,11 @@ const readByEmail = async (req, res) => {
               }
             );
             // on envoie le token
-            res.status(200).json({ message: "user connecté", token });
+            res.status(200).json({
+              message: "user connecté",
+              token,
+              role: user[0].ug_user_role,
+            });
           } else {
             res.status(401).json("vérifier vos données");
           }

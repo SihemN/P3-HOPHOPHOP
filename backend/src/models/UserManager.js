@@ -70,6 +70,16 @@ class UserManager extends AbstractManager {
       [email]
     );
   }
+  // getUserByEmail(email) {
+  //   return this.database.query(
+  //     `SELECT u_id, u_name, u_email, u_hashedPassword,
+  //     u_avatar, u_active, user_group.ug_user_role
+  //    FROM ${this.table}
+  //    JOIN user_group ON user.u_id = user_group.ug_user_id
+  //    WHERE u_email = ?`,
+  //     [email]
+  //   );
+  // }
 
   getUserById(id) {
     return this.database.query(

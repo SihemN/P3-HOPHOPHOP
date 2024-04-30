@@ -34,6 +34,8 @@ function LoginForm() {
         // console.info("Login res :>> ", res);
         localStorage.clear();
         localStorage.setItem("token", JSON.stringify(res.token));
+        // stocke le role dans le localstorage
+        // localStorage.setItem("role", JSON.stringify(res.role));
         if (res.token) {
           navigate("/home");
         }
