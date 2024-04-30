@@ -1,22 +1,24 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 
 export default function SendMessages({ socket }) {
-  const [currentMessage, setCurrentMessage] = useState({
+  // Stocke le message à envoyer et le role du user connecté
+  const [newMessage, setNewMessage] = useState({
     message: "",
-    role: "admin",
+    role: "",
   });
+
   // Récupère les infos du user connecté et du groupe en cours
   const { user } = useContext(UserContext);
   const { u_id: currentUserId, u_name: currentUserName } = user.data;
-  const { ug_group_id } = JSON.parse(localStorage.getItem("group")); // On met à jour notre le CurrentMessage quand le user écrit
+  const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
 
   // Gère si rédaction de message
   const handleChangeMessage = (e) => {
     const { value } = e.target;
-    setCurrentMessage((prevMessage) => ({
+    setNewMessage((prevMessage) => ({
       ...prevMessage,
       message: value,
     }));
@@ -26,7 +28,7 @@ export default function SendMessages({ socket }) {
   const sendMessage = async (e) => {
     e.preventDefault();
     // On vérifie si message n'est pas vide
-    if (currentMessage.message.trim() !== "") {
+    if (newMessage.message.trim() !== "") {
       // on récupère le token du user connecté
       const token = JSON.parse(localStorage.getItem("token"));
       // on émet à l'événement socket "sendMessage"
@@ -34,12 +36,12 @@ export default function SendMessages({ socket }) {
         await socket.emit("sendMessage", {
           ug_group_id,
           token,
-          currentMessage,
+          newMessage,
           currentUserId,
           currentUserName,
         });
 
-        setCurrentMessage({ ...currentMessage, message: "" });
+        setNewMessage({ message: "", role: "" });
       } catch (error) {
         console.error("erreur pour envoyer le message >>", error);
       }
@@ -49,6 +51,46 @@ export default function SendMessages({ socket }) {
     }
   };
 
+  // On récupère les membres du groupe pour stocker le role du user connecté (admin ou membre)
+  useEffect(() => {
+    const fetchGroupMembers = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/groups/${ug_group_id}/users`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          const errorMessage = await response.json();
+          throw new Error(
+            errorMessage ||
+              "Erreur lors de la récupération des membres du groupe"
+          );
+        }
+        const { results } = await response.json();
+        // On filtre les membres du group pour ne garder que les infos de notre user
+        const resultsFilter = results.filter(
+          (member) => member.ug_user_id === currentUserId
+        );
+        // On maj notre message à envoyer
+        setNewMessage({
+          ...newMessage,
+          role: resultsFilter[0].ug_user_role,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchGroupMembers();
+  }, []);
+
   return (
     <form
       onSubmit={sendMessage}
@@ -56,7 +98,7 @@ export default function SendMessages({ socket }) {
     >
       <input
         type="text"
-        value={currentMessage.message}
+        value={newMessage.message}
         onChange={handleChangeMessage}
         placeholder="Mon message..."
         className="bg-cream px-3 w-full rounded-bl-xl focus:outline-none"
