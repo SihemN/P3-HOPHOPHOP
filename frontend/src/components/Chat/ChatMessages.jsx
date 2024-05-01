@@ -12,7 +12,9 @@ export default function ChatMessages({ socket }) {
   const { user } = useContext(UserContext);
   const { u_id: currentUserId } = user.data;
 
-  // console.info("messagesGroup", messagesGroup);
+  const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
+
+  console.info("ug_group_id", ug_group_id);
   useEffect(() => {
     // console.info("useEffect RECEIVE MSG");
     // On récupère le message envoyé par un user de la room
@@ -28,7 +30,7 @@ export default function ChatMessages({ socket }) {
   }, [socket]);
 
   useEffect(() => {
-    const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
+    // const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
     const token = JSON.parse(localStorage.getItem("token"));
     // On connecte le user à la room adéquate (numéro de room = id du groupe)
     socket.emit("joinGroup", ug_group_id, token);
@@ -37,7 +39,7 @@ export default function ChatMessages({ socket }) {
       // On met à jour le state messagesGroup
       setMessagesGroup(messagesStoredFiltered);
     });
-  }, []);
+  }, [ug_group_id]);
 
   // Scroll en bas si nouveau message
   // scrollTop définit un défilement vertical
