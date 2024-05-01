@@ -97,16 +97,8 @@ export default function SendMessages({ socket }) {
   return (
     <form
       onSubmit={sendMessage}
-      className="bg-cream rounded-b-xl w-full flex items-center p-2 gap-3"
+      className="bg-cream rounded-b-xl w-full h-24 flex items-center p-2 gap-3"
     >
-      {/* <CssTextField
-        multiline
-        label="Message"
-        placeholder="Mon message..."
-        maxRows={4}
-        value={newMessage.message}
-        onChange={handleChangeMessage}
-      /> */}
       <TextareaAutosize
         value={newMessage.message}
         onChange={handleChangeMessage}
@@ -114,8 +106,9 @@ export default function SendMessages({ socket }) {
         inputProps={{
           style: { backgroundColor: "red-default", alignItems: "center" },
         }}
-        className="bg-blue-lightest px-3 pt-3 min-h-10 w-full rounded-2xl focus:outline-none resize-none"
-        maxRows={3} // Modifier cette valeur selon vos besoins
+        className="bg-blue-lightest px-3 pt-3 min-h-10 w-full rounded-2xl focus:outline-none resize-none scrollbar-track-orange-lighter scrollbar-thumb-orange-default scrollbar-thin"
+        maxRows={2}
+        onKeyDown={(e) => e.key === "Enter" && sendMessage(e)}
       />
       <button
         type="submit"

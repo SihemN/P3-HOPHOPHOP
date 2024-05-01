@@ -11,14 +11,14 @@ export default function Chat() {
   const socket = io.connect("http://localhost:4000");
 
   return (
-    <div className="font-Neue-Kabel bg-orange-lighter">
+    <div className="font-Neue-Kabel bg-orange-lighter ove">
       <HeaderFunctionnalities
         title="Votre messagerie"
         color="text-orange-lighter"
         icon={icon}
       />
       <main className="flex flex-col items-center justify-center rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top p-5">
-        <div className="bg-cream h-full lg:w-6/12">
+        <div className="flex flex-col items-end overflow-clip h-full w-full lg:w-6/12 shadow-2xl shadow-blue-lighter rounded-3xl">
           <ChatMessages socket={socket} />
           <SendMessages socket={socket} />
         </div>

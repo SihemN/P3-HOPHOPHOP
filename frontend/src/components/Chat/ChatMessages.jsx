@@ -48,10 +48,10 @@ export default function ChatMessages({ socket }) {
   }, [messagesGroup]);
 
   return (
-    <div className="bg-cream w-full h-[90%] bg-cream-default shadow-2xl">
+    <div className="bg-cream w-full h-[89%] shadow-2xl rounded-t-2xl">
       <div
         ref={messagesColumnRef}
-        className="flex flex-col-reverse justify-start h-full py-8 pb-5 overflow-y-auto overflow-x-hidden scrollbar-track-orange-lighter scrollbar-thumb-orange-default scrollbar-thin"
+        className="flex flex-col-reverse justify-start h-full md:py-8 pb-5 overflow-y-auto overflow-x-hidden scrollbar-track-orange-lighter scrollbar-thumb-orange-default scrollbar-thin"
       >
         {messagesGroup &&
           messagesGroup.length > 0 &&

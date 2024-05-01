@@ -17,7 +17,7 @@ export default function OpenChatBox({ setShowChat }) {
   return (
     <button
       type="button"
-      className="fixed z-1001 right-2 bottom-2 bg-green-lighter h-16 w-16 rounded-3xl overflow-hidden transform transition-transform
+      className="fixed z-1500 right-2 bottom-2 bg-green-lighter h-16 w-16 rounded-3xl overflow-hidden transform transition-transform
  hover:rotate-180"
       onClick={toggleChat}
       //   onBlur={handleBlur}

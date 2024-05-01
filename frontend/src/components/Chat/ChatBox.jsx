@@ -10,10 +10,10 @@ export default function ChatBox({ socket }) {
   const [showChat, setShowChat] = useState(false);
   // Connecte le front au server Socket backend;
   return (
-    <div>
+    <div className="lg:block hidden">
       <OpenChatBox showChat={showChat} setShowChat={setShowChat} />
       <div
-        className={`bg-blue-lightest rounded-2xl flex flex-col justify-end w-96 bottom-20 right-0 fixed h-[85%] z-1000 shadow-2xl pt-4 ${
+        className={`bg-blue-lightest rounded-2xl flex flex-col justify-end w-96 bottom-20 right-0 fixed h-[84%] z-1001 shadow-2xl pt-4 ${
           showChat
             ? "transition-transform translate-x-0 right-2"
             : "translate-x-full"
@@ -28,6 +28,7 @@ export default function ChatBox({ socket }) {
         }}
       >
         <ChatMessages socket={socket} />
+        {/* Conteneur avec hauteur fixe */}
         <SendMessages socket={socket} />
       </div>
     </div>
