@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import io from "socket.io-client";
+
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import icon from "../assets/icons-functionnalities/chat.svg";
 import SendMessages from "../components/Chat/SendMessages";

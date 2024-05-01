@@ -12,13 +12,13 @@ export default function ChatMessages({ socket }) {
   const { user } = useContext(UserContext);
   const { u_id: currentUserId } = user.data;
 
-  console.info("messagesGroup", messagesGroup);
+  // console.info("messagesGroup", messagesGroup);
   useEffect(() => {
-    console.info("useEffect RECEIVE MSG");
+    // console.info("useEffect RECEIVE MSG");
     // On récupère le message envoyé par un user de la room
     socket.on("receive_message", (message) => {
       // On ajoute ce message à notre state messagesGroup
-      console.info("receive message MSG >>", message);
+      // console.info("receive message MSG >>", message);
       setMessagesGroup((prevMessages) => [message, ...prevMessages]);
     });
 
@@ -48,7 +48,7 @@ export default function ChatMessages({ socket }) {
   }, [messagesGroup]);
 
   return (
-    <div className="rounded-t-lg  w-full  h-[90%] shadow-2xl bg-cream-default ">
+    <div className="bg-cream w-full h-[90%] bg-cream-default shadow-2xl">
       <div
         ref={messagesColumnRef}
         className="flex flex-col-reverse justify-start h-full py-8 pb-5 overflow-y-auto overflow-x-hidden scrollbar-track-orange-lighter scrollbar-thumb-orange-default scrollbar-thin"
@@ -68,13 +68,15 @@ export default function ChatMessages({ socket }) {
                   <p className="italic text-[0.6rem]">Envoyé par {u_name}</p>
                 )}
                 <div
-                  className={`w-fit max-w-48 text-cream rounded-lg px-5 py-2 mt-[3px] ${
+                  className={`w-fit max-w-48 text-cream rounded-2xl px-5 py-2 mt-[3px] ${
                     currentUserId === ug_user_id
                       ? "bg-green-default"
                       : "bg-blue-default"
                   }`}
+                  // Gestion du débordement du texte
+                  style={{ overflowWrap: "break-word" }}
                 >
-                  {ug_message}
+                  <p>{ug_message}</p>
                 </div>
               </div>
             );

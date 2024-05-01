@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import React, { useContext, useEffect, useState } from "react";
+import { RiSendPlaneFill } from "react-icons/ri";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+
 import { UserContext } from "../../context/UserContext";
 
 export default function SendMessages({ socket }) {
@@ -41,7 +44,6 @@ export default function SendMessages({ socket }) {
           currentUserId,
           currentUserName,
         });
-
         setNewMessage({ message: "", role: "" });
       } catch (error) {
         console.error("erreur pour envoyer le message >>", error);
@@ -95,20 +97,32 @@ export default function SendMessages({ socket }) {
   return (
     <form
       onSubmit={sendMessage}
-      className="rounded-b-xl w-full h-12 flex shadow-top"
+      className="bg-cream rounded-b-xl w-full flex items-center p-2 gap-3"
     >
-      <input
-        type="text"
+      {/* <CssTextField
+        multiline
+        label="Message"
+        placeholder="Mon message..."
+        maxRows={4}
+        value={newMessage.message}
+        onChange={handleChangeMessage}
+      /> */}
+      <TextareaAutosize
         value={newMessage.message}
         onChange={handleChangeMessage}
         placeholder="Mon message..."
-        className="bg-cream px-3 w-full h-12 rounded-bl-xl focus:outline-none resize-none"
+        inputProps={{
+          style: { backgroundColor: "red-default", alignItems: "center" },
+        }}
+        className="bg-blue-lightest px-3 pt-3 min-h-10 w-full rounded-2xl focus:outline-none resize-none"
+        maxRows={3} // Modifier cette valeur selon vos besoins
       />
       <button
         type="submit"
-        className="rounded-br-xl bg-blue-default text-cream px-3 py-1 hover:bg-green-default active:bg-blue-lightest"
+        aria-label="envoyer le message"
+        className="rounded-full bg-blue-default h-10 w-10 text-cream px-3 py-1 hover:bg-green-default active:bg-blue-lightest"
       >
-        Envoyer
+        <RiSendPlaneFill />
       </button>
     </form>
   );

@@ -63,7 +63,6 @@ function PrivateApp() {
   const socket = io.connect("http://localhost:4000");
 
   // Vérifie si l'utilisateur est connecté et si le chemin de l'URL n'est pas "/chat"
-  // Vérifie si l'utilisateur est connecté et si le chemin de l'URL n'est pas "/chat"
   const shouldDisplayChat =
     user.isLogged &&
     localStorage.getItem("group") &&
