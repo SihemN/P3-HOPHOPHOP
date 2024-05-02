@@ -85,7 +85,7 @@ export default function MapMembers() {
     }
   };
 
-  const handleDeleteMember = async (e, userId) => {
+  const handleDeleteMember = async (e, userId, ug_user_role) => {
     if (window.confirm("Etes-vous sûr(e) de vouloir supprimer le contact ?"))
       try {
         const response = await fetch(
@@ -98,9 +98,10 @@ export default function MapMembers() {
               )}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ action: "delete" }),
+            body: JSON.stringify({ action: "delete", ug_user_role }),
           }
         );
+
         if (response.ok) {
           e.preventDefault();
           // créé un nouveau tableau en exluant le membre à supprimer
