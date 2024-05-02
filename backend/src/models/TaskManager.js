@@ -61,7 +61,7 @@ class TaskManager extends AbstractManager {
   getPublicCatByGroup(groupId) {
     const isPrivate = false;
     return this.database.query(
-      `SELECT cta_name FROM category_task WHERE cta_group_id = ? AND cta_private = ?`,
+      `SELECT cta_name, cta_id FROM category_task WHERE cta_group_id = ? AND cta_private = ?`,
       [groupId, isPrivate]
     );
   }
