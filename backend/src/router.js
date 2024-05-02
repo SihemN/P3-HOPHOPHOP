@@ -38,6 +38,8 @@ router.post("/login", userControllers.readByEmail);
 router.post("/logout", userControllers.logout);
 // read user by id
 router.get("/me", verifyToken, userControllers.readById);
+// get user Id by email
+router.get("/users/email", verifyToken, userControllers.getUserIdByEmail);
 // update user without password with upload
 router.patch(
   "/users/update-upload",

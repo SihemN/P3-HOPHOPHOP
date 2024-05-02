@@ -11,7 +11,7 @@ export default function InvitationLink() {
             className="bg-blue-default text-cream rounded-full p-1 h-6 w-6 flex justify-center items-center"
           />
           <label htmlFor="inviter par email" className="font-bold mb-4">
-            Inviter par e-mail
+            Inviter avec un lien
           </label>
         </div>
         <div className="relative flex justify-center gap-4">

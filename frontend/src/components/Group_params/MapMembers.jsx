@@ -36,6 +36,17 @@ export default function MapMembers() {
       }
     };
     fetchGroupMembers();
+
+    const handleUserAdded = () => {
+      fetchGroupMembers(); // Recharge les membres du groupe
+    };
+
+    window.addEventListener("user-added", handleUserAdded);
+
+    // Nettoyage de l'écouteur d'événements
+    return () => {
+      window.removeEventListener("user-added", handleUserAdded);
+    };
   }, [toggle]);
 
   const onAdminToggle = async (ug_user_id) => {
@@ -105,8 +116,9 @@ export default function MapMembers() {
         console.error(error);
       }
   };
+
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mx-2">
       <h1 className="font-bold text-xl pl-2">Membres du groupe</h1>
       {members.map(({ ug_user_id, u_name, ug_user_role }) => {
         return (

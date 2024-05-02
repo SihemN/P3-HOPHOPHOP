@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { MdGroups2 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import RedStarForRequiredInput from "../to-reuse/RedStarForRequiredInput";
 
 export default function GroupNameForm() {
   const [groupName, setGroupName] = useState("");
@@ -48,7 +49,9 @@ export default function GroupNameForm() {
       <form onSubmit={handleSubmit} className="w-72 flex flex-col">
         <label htmlFor="nom du groupe" className="font-bold text-start">
           Nom du groupe
+          <RedStarForRequiredInput />
         </label>
+
         <div className="flex flex-col items-center gap-4 mt-3">
           <input
             type="text"
