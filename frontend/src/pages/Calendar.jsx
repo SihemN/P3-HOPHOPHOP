@@ -105,20 +105,27 @@ export default function MyCalendar() {
   // Styliser l'événement selon la propriété e_private
   const getEventStyle = (event) => {
     let backgroundColor = "";
+    let zIndex = ""; // Ajout d'une propriété zIndex
+
     if (event.e_private === 1) {
       // événement privé en vert
       backgroundColor = "#0EB495";
+      zIndex = "100"; // Définir le zIndex pour les événements privés
     } else {
       // événement public en bleu
       backgroundColor = "#054B8C";
+      zIndex = "100"; // Définir le zIndex pour les événements publics
     }
+
     return {
       // on injectera ce style dans Calendar dans la props eventPropGetter
       style: {
         backgroundColor,
+        zIndex, // Ajouter zIndex au style retourné
       },
     };
   };
+
   return (
     <div className="font-Neue-Kabel bg-blue-default">
       <HeaderFunctionnalities
@@ -128,7 +135,7 @@ export default function MyCalendar() {
       />
       <main className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top lg:p-5">
         <AddEvent setEventUpdated={setEventUpdated} />
-        <div className="h-[90%]">
+        <div className="h-[90%] relative z-0">
           <Calendar
             localizer={localizer}
             events={events}
