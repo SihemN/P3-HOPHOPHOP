@@ -1,10 +1,13 @@
+/* eslint-disable camelcase */
 import React, { useContext, useEffect } from "react";
 import ReactDOM from "react-dom/client";
-
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+  useLocation,
+} from "react-router-dom";
 import "./index.css";
-
 import App from "./App";
 import Error404 from "./pages/Error404";
 import Signup from "./pages/Signup";
@@ -23,16 +26,15 @@ import ProfileParams from "./pages/ProfileParams";
 import Recipe from "./pages/Recipe";
 import CreateGroup from "./pages/CreateGroup";
 import UserProvider, { UserContext } from "./context/UserContext";
+import SocketProvider from "./context/SocketContext";
 import RefusedAccess from "./components/Not-Connected/RefusedAccess";
-
 import EditTask from "./components/TodoList/EditTask";
-
 import CreateContact from "./pages/CreateContact";
 import UpdateContact from "./pages/UpdateContact";
 import ModifyRecipe from "./components/Recipes/ModifyRecipe";
 import CreateRecipe from "./components/Recipes/CreateRecipe";
-
 import ShowRecipeDetailsMobile from "./components/Recipes/ShowRecipeDetailsMobile";
+import ChatBox from "./components/Chat/ChatBox";
 
 // PrivateApp englobe toutes nos routes privées
 // on y vérifie si le user est connecté
@@ -40,10 +42,10 @@ import ShowRecipeDetailsMobile from "./components/Recipes/ShowRecipeDetailsMobil
 function PrivateApp() {
   // on récupère le UserContext
   const { user, setUser } = useContext(UserContext);
+  const location = useLocation();
 
   // on get by id le user connecté grâce à son token
   // si oui, on reçoit isLogged = true
-
   useEffect(() => {
     fetch("http://localhost:3310/api/me", {
       method: "GET",
@@ -54,17 +56,29 @@ function PrivateApp() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.info("privateApp, res, isLogged>> ", res);
+        // console.info("privateApp, res, isLogged>> ", res);
         setUser(res);
       })
       .catch((err) => console.info("Error fetching user data:", err));
   }, [setUser]);
 
+  // const socket = io.connect("http://localhost:4000");
+
+  // Vérifie si l'utilisateur est connecté et si le chemin de l'URL n'est pas "/chat"
+  const shouldDisplayChat =
+    user.isLogged &&
+    localStorage.getItem("group") &&
+    location.pathname !== "/chat";
+  // console.info(" window.location.pathname", window.location.pathname);
+  console.info(" user.isLogged", user.isLogged);
+  console.info("ug_group_id", localStorage.getItem("group"));
+  console.info(" wlocation.pathname", location.pathname);
+
   return (
     // si isLogged est true, on affiche l'app privé, sinon on affiche le composant qui invite à s'inscrire ou se connecter
     <main>
-      {" "}
       {user.isLogged && <Outlet />} {!user.isLogged && <RefusedAccess />}
+      {shouldDisplayChat && <ChatBox />}
     </main>
   );
 }
@@ -191,7 +205,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <UserProvider>
-      <RouterProvider router={router} />
+      <SocketProvider>
+        <RouterProvider router={router} />
+      </SocketProvider>
     </UserProvider>
   </React.StrictMode>
 );

@@ -56,7 +56,7 @@ function GroupList({ groups, setGroups, currentGroup, setCurrentGroup }) {
       }
     };
     fetchGroupList();
-    console.info("currentGroup après INIT", currentGroup);
+    // console.info("currentGroup après INIT", currentGroup);
   }, []);
 
   return (

@@ -133,6 +133,9 @@ export default {
           "-ms-overflow-style": "none",
           "scrollbar-width": "none",
         },
+        ".z-100": {
+          zIndex: 100,
+        },
         // // Personnalisation de la scrollbar
         // "::webkit-scrollbar": {
         //   width: "12px", // Largeur de la scrollbar

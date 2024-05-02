@@ -47,7 +47,7 @@ function initializeSocketServer(httpServer) {
           socket.emit("get_messages_of_group", messagesStoredFiltered);
           // console.log("messagesStoredFiltered", messagesStoredFiltered);
         } catch (error) {
-          console.info("Erreur pour récupérer les événements:", error);
+          console.info("Erreur pour récupérer les messages:", error);
         }
       };
       fetchMessagesOfGroup();
@@ -55,7 +55,6 @@ function initializeSocketServer(httpServer) {
 
     // Quand un message est envoyé, on récupère ses données
     socket.on("sendMessage", async (data) => {
-      console.info("data", data);
       const { ug_group_id, newMessage, token, currentUserId, currentUserName } =
         data;
 
@@ -82,12 +81,12 @@ function initializeSocketServer(httpServer) {
         if (!response.ok) {
           const errorMessage = await response.json();
           throw new Error(
-            errorMessage ||
+            errorMessage.message ||
               "Échec de l'enregistrement du message dans la base de données"
           );
         }
       } catch (error) {
-        console.error("Erreur lors de la gestion du message :", error.message);
+        console.error("Erreur lors de la gestion du message :", error);
         // Envoyer un message d'erreur au client, par exemple en émettant un événement spécifique
         socket.emit("error_message", {
           message:

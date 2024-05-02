@@ -1,20 +1,25 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import React, { useContext, useEffect, useState } from "react";
+import { RiSendPlaneFill } from "react-icons/ri";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+import { SocketContext } from "../../context/SocketContext";
 import { UserContext } from "../../context/UserContext";
 
-export default function SendMessages({ socket }) {
+export default function SendMessages() {
   // Stocke le message à envoyer et le role du user connecté
   const [newMessage, setNewMessage] = useState({
     message: "",
     role: "",
   });
+  // Connecte le front au server Socket backend;
+  const { socket } = useContext(SocketContext);
+  // console.info("newMessage", newMessage);
 
   // Récupère les infos du user connecté et du groupe en cours
   const { user } = useContext(UserContext);
   const { u_id: currentUserId, u_name: currentUserName } = user.data;
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
-
   // Gère si rédaction de message
   const handleChangeMessage = (e) => {
     const { value } = e.target;
@@ -27,6 +32,7 @@ export default function SendMessages({ socket }) {
   // Au submit du form sendMessage
   const sendMessage = async (e) => {
     e.preventDefault();
+
     // On vérifie si message n'est pas vide
     if (newMessage.message.trim() !== "") {
       // on récupère le token du user connecté
@@ -40,8 +46,11 @@ export default function SendMessages({ socket }) {
           currentUserId,
           currentUserName,
         });
-
-        setNewMessage({ message: "", role: "" });
+        setNewMessage((prevMessage) => ({
+          ...prevMessage,
+          message: "",
+        }));
+        console.info("sendMessage, je suis dans le try");
       } catch (error) {
         console.error("erreur pour envoyer le message >>", error);
       }
@@ -94,20 +103,22 @@ export default function SendMessages({ socket }) {
   return (
     <form
       onSubmit={sendMessage}
-      className="rounded-b-xl w-full md:w-8/12 lg:w-5/12 h-12 flex shadow-top"
+      className="bg-cream rounded-b-xl w-full h-24 flex items-center p-2 gap-3"
     >
-      <input
-        type="text"
+      <TextareaAutosize
         value={newMessage.message}
         onChange={handleChangeMessage}
         placeholder="Mon message..."
-        className="bg-cream px-3 w-full rounded-bl-xl focus:outline-none"
+        className="bg-blue-lightest px-3 pt-3 min-h-10 w-full rounded-2xl focus:outline-none resize-none scrollbar-track-orange-lighter scrollbar-thumb-orange-default scrollbar-thin"
+        maxRows={2}
+        onKeyDown={(e) => e.key === "Enter" && sendMessage(e)}
       />
       <button
         type="submit"
-        className="rounded-br-xl bg-blue-default text-cream px-3 py-1 hover:bg-green-default active:bg-blue-lightest"
+        aria-label="envoyer le message"
+        className="rounded-full bg-blue-default h-10 w-10 text-cream px-3 py-1 hover:bg-green-default active:bg-blue-lightest"
       >
-        Envoyer
+        <RiSendPlaneFill />
       </button>
     </form>
   );
