@@ -137,9 +137,9 @@ const addUserInGroup = async (req, res) => {
     );
 
     if (results.affectedRows) {
-      res.status(201).send("User ajouté au groupe");
+      res.status(201).json("User ajouté au groupe");
     } else {
-      res.status(401).send("Erreur pour ajouter le user");
+      res.status(401).json({ message: "Erreur pour ajouter le user" });
     }
   } catch (error) {
     res.status(500).send(error);

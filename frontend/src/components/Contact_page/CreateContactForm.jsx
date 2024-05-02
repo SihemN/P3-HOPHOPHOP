@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import RedStarForRequiredInput from "../to-reuse/RedStarForRequiredInput";
 
 export default function CreateContactForm({
   setComponentToShow,
@@ -115,6 +116,7 @@ export default function CreateContactForm({
         <label htmlFor="Name" className="font-bold">
           Nom et prénom
         </label>
+        <RedStarForRequiredInput />
         <div className="pt-1 pb-4">
           <input
             type="text"
@@ -129,6 +131,7 @@ export default function CreateContactForm({
           <label htmlFor="Phone" className="font-bold">
             Téléphone
           </label>
+          <RedStarForRequiredInput />
           <div className="pt-1 pb-4">
             <input
               type="tel"
@@ -144,6 +147,7 @@ export default function CreateContactForm({
           <label htmlFor="Email" className="font-bold">
             Adresse e-mail
           </label>
+          <RedStarForRequiredInput />
           <div className="pt-1 pb-4">
             <input
               type="text"
@@ -159,6 +163,7 @@ export default function CreateContactForm({
           <label htmlFor="Address" className="font-bold">
             Adresse
           </label>
+          <RedStarForRequiredInput />
           <div className="pt-1 pb-4">
             <input
               type="text"
@@ -172,6 +177,7 @@ export default function CreateContactForm({
         </div>
         <label htmlFor="Category" className="relative font-bold">
           Catégorie
+          <RedStarForRequiredInput />
           <button
             type="button"
             className="w-full border border-solid border-dark-default h-12 mt-1 py-2 px-5 rounded-lg flex justify-start"

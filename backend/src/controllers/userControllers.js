@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // Import access to database tables
 
 const argon2 = require("argon2");
@@ -277,6 +278,30 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUserIdByEmail = async (req, res) => {
+  try {
+    const { email } = req.query;
+    const [results] = await tables.user.getUserByEmailWithoutHashedPassword(
+      email
+    );
+    if (results.length > 0) {
+      const { u_id } = results[0];
+      res
+        .status(200)
+        .json({ userId: u_id, message: "ID utilisateur récupéré avec succès" });
+    } else {
+      res
+        .status(404)
+        .json({ message: "Aucun utilisateur trouvé avec cet email" });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({
+      message: "Erreur lors de la récupération de l'ID de l'utilisateur",
+    });
+  }
+};
+
 module.exports = {
   read,
   create,
@@ -288,4 +313,5 @@ module.exports = {
   deleteUser,
   updateAvatar,
   desactivateUser,
+  getUserIdByEmail,
 };

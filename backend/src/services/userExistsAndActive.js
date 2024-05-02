@@ -3,12 +3,12 @@ const tables = require("../tables");
 const userExistsAndActive = async (req, res, next) => {
   try {
     // on récupère l'email du user à ajouter
-    const { email } = req.body;
+    const { userEmail } = req.body;
     // on récupère l'id du groupe dans params
     const { id } = req.params;
     // on récupère la réponse du Manager
     const [result] = await tables.user.getUserByEmailWithoutHashedPassword(
-      email
+      userEmail
     );
     const userIsAlreadyInGroup = result.some(
       (element) => element.ug_group_id === parseInt(id, 10)
@@ -23,13 +23,13 @@ const userExistsAndActive = async (req, res, next) => {
           req.body.userIdToSet = result[0].u_id;
           next();
         } else {
-          res.status(401).send("User déjà dans le groupe");
+          res.status(401).json("User déjà dans le groupe");
         }
       } else {
-        res.status(401).send("Problème, User désactivé");
+        res.status(401).json("Problème, User désactivé");
       }
     } else {
-      res.status(401).send("User n'existe pas");
+      res.status(401).json("User n'existe pas");
     }
   } catch (error) {
     res.status(500).send(error);
