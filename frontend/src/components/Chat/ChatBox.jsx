@@ -5,10 +5,10 @@ import ChatMessages from "./ChatMessages";
 import SendMessages from "./SendMessages";
 import OpenChatBox from "./OpenChatBox";
 
-export default function ChatBox({ socket }) {
+export default function ChatBox() {
   // Afficher / Masquer la Messagerie instantanée
   const [showChat, setShowChat] = useState(false);
-  // Connecte le front au server Socket backend;
+
   return (
     <div className="lg:block hidden">
       <OpenChatBox showChat={showChat} setShowChat={setShowChat} />
@@ -27,9 +27,9 @@ export default function ChatBox({ socket }) {
           overflow: showChat ? "visible" : "hidden",
         }}
       >
-        <ChatMessages socket={socket} />
+        <ChatMessages />
         {/* Conteneur avec hauteur fixe */}
-        <SendMessages socket={socket} />
+        <SendMessages />
       </div>
     </div>
   );

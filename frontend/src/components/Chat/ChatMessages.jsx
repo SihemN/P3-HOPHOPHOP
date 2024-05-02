@@ -3,10 +3,12 @@
 
 import { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../../context/UserContext";
+import { SocketContext } from "../../context/SocketContext";
 
-export default function ChatMessages({ socket }) {
+export default function ChatMessages() {
   // Stocke les messages du groupe
   const [messagesGroup, setMessagesGroup] = useState([]);
+  const { socket } = useContext(SocketContext);
   const messagesColumnRef = useRef(null);
   // Récupère les infos du user connecté et du groupe en cours
   const { user } = useContext(UserContext);
@@ -14,18 +16,17 @@ export default function ChatMessages({ socket }) {
 
   const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
 
-  console.info("ug_group_id", ug_group_id);
   useEffect(() => {
-    // console.info("useEffect RECEIVE MSG");
     // On récupère le message envoyé par un user de la room
     socket.on("receive_message", (message) => {
       // On ajoute ce message à notre state messagesGroup
-      // console.info("receive message MSG >>", message);
       setMessagesGroup((prevMessages) => [message, ...prevMessages]);
     });
 
     // Nettoye l'écouteur d'événements lors du démontage du composant
-    return () => socket.off("receive_message");
+    return () => {
+      socket.off("receive_message");
+    };
     // S'exécute quand un événement Socket est reçu du backend
   }, [socket]);
 

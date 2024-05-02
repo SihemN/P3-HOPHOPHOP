@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useContext, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import {
@@ -7,7 +8,6 @@ import {
   useLocation,
 } from "react-router-dom";
 import "./index.css";
-import io from "socket.io-client";
 import App from "./App";
 import Error404 from "./pages/Error404";
 import Signup from "./pages/Signup";
@@ -26,6 +26,7 @@ import ProfileParams from "./pages/ProfileParams";
 import Recipe from "./pages/Recipe";
 import CreateGroup from "./pages/CreateGroup";
 import UserProvider, { UserContext } from "./context/UserContext";
+import SocketProvider from "./context/SocketContext";
 import RefusedAccess from "./components/Not-Connected/RefusedAccess";
 import EditTask from "./components/TodoList/EditTask";
 import CreateContact from "./pages/CreateContact";
@@ -60,19 +61,24 @@ function PrivateApp() {
       })
       .catch((err) => console.info("Error fetching user data:", err));
   }, [setUser]);
-  const socket = io.connect("http://localhost:4000");
+
+  // const socket = io.connect("http://localhost:4000");
 
   // Vérifie si l'utilisateur est connecté et si le chemin de l'URL n'est pas "/chat"
   const shouldDisplayChat =
     user.isLogged &&
     localStorage.getItem("group") &&
     location.pathname !== "/chat";
-  console.info(" window.location.pathname", window.location.pathname);
+  // console.info(" window.location.pathname", window.location.pathname);
+  console.info(" user.isLogged", user.isLogged);
+  console.info("ug_group_id", localStorage.getItem("group"));
+  console.info(" wlocation.pathname", location.pathname);
+
   return (
     // si isLogged est true, on affiche l'app privé, sinon on affiche le composant qui invite à s'inscrire ou se connecter
     <main>
       {user.isLogged && <Outlet />} {!user.isLogged && <RefusedAccess />}
-      {shouldDisplayChat && <ChatBox socket={socket} />}
+      {shouldDisplayChat && <ChatBox />}
     </main>
   );
 }
@@ -199,7 +205,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <UserProvider>
-      <RouterProvider router={router} />
+      <SocketProvider>
+        <RouterProvider router={router} />
+      </SocketProvider>
     </UserProvider>
   </React.StrictMode>
 );

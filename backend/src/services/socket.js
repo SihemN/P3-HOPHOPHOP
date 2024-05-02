@@ -47,7 +47,7 @@ function initializeSocketServer(httpServer) {
           socket.emit("get_messages_of_group", messagesStoredFiltered);
           // console.log("messagesStoredFiltered", messagesStoredFiltered);
         } catch (error) {
-          console.info("Erreur pour récupérer les événements:", error);
+          console.info("Erreur pour récupérer les messages:", error);
         }
       };
       fetchMessagesOfGroup();
@@ -55,22 +55,16 @@ function initializeSocketServer(httpServer) {
 
     // Quand un message est envoyé, on récupère ses données
     socket.on("sendMessage", async (data) => {
-      console.info("data", data);
       const { ug_group_id, newMessage, token, currentUserId, currentUserName } =
         data;
 
       try {
         // Puis on l'envoie à tous les membres du chat du groupe (sender y compris)
-        console.info("serveur io émit le msg à tout le monde");
         io.in(ug_group_id).emit("receive_message", {
           u_name: currentUserName,
           ug_user_id: currentUserId,
           ug_message: newMessage.message,
         });
-        console.info("currentUserName", currentUserName);
-        console.info("currentUserId", currentUserId);
-
-        console.info(" newMessage.message", newMessage.message);
 
         // Et on stocke le message dans la BDD
         const response = await fetch(
@@ -87,7 +81,7 @@ function initializeSocketServer(httpServer) {
         if (!response.ok) {
           const errorMessage = await response.json();
           throw new Error(
-            errorMessage ||
+            errorMessage.message ||
               "Échec de l'enregistrement du message dans la base de données"
           );
         }

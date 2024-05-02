@@ -3,16 +3,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-
+import { SocketContext } from "../../context/SocketContext";
 import { UserContext } from "../../context/UserContext";
 
-export default function SendMessages({ socket }) {
+export default function SendMessages() {
   // Stocke le message à envoyer et le role du user connecté
   const [newMessage, setNewMessage] = useState({
     message: "",
     role: "",
   });
-
+  // Connecte le front au server Socket backend;
+  const { socket } = useContext(SocketContext);
   // console.info("newMessage", newMessage);
 
   // Récupère les infos du user connecté et du groupe en cours
@@ -31,6 +32,7 @@ export default function SendMessages({ socket }) {
   // Au submit du form sendMessage
   const sendMessage = async (e) => {
     e.preventDefault();
+
     // On vérifie si message n'est pas vide
     if (newMessage.message.trim() !== "") {
       // on récupère le token du user connecté
@@ -44,7 +46,11 @@ export default function SendMessages({ socket }) {
           currentUserId,
           currentUserName,
         });
-        setNewMessage({ message: "", role: "" });
+        setNewMessage((prevMessage) => ({
+          ...prevMessage,
+          message: "",
+        }));
+        console.info("sendMessage, je suis dans le try");
       } catch (error) {
         console.error("erreur pour envoyer le message >>", error);
       }
@@ -103,9 +109,6 @@ export default function SendMessages({ socket }) {
         value={newMessage.message}
         onChange={handleChangeMessage}
         placeholder="Mon message..."
-        inputProps={{
-          style: { backgroundColor: "red-default", alignItems: "center" },
-        }}
         className="bg-blue-lightest px-3 pt-3 min-h-10 w-full rounded-2xl focus:outline-none resize-none scrollbar-track-orange-lighter scrollbar-thumb-orange-default scrollbar-thin"
         maxRows={2}
         onKeyDown={(e) => e.key === "Enter" && sendMessage(e)}
