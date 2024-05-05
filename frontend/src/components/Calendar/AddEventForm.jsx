@@ -39,7 +39,7 @@ export default function AddEventForm({
       dateStartToConvert: "",
       dateEnd: "",
       dateEndToConvert: "",
-      isPrivate: false,
+      private: false,
     });
     // On réinitialise les erreurs d'input
     setErrors({

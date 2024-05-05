@@ -146,7 +146,7 @@ export default function UpdateEvent({
           dateStart: "",
           dateEndToConvert: "",
           dateEnd: "",
-          isPrivate: false,
+          private: false,
         });
         alert(message);
         setEventUpdated((prev) => !prev);

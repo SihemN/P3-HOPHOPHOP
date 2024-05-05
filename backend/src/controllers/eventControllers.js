@@ -4,7 +4,7 @@ const create = async (req, res) => {
   try {
     const idUser = req.payload;
     const { id } = req.params;
-    const { title, text, dateStart, dateEnd, isPrivate } = req.body;
+    const { title, text, dateStart, dateEnd, private: isPrivate } = req.body;
 
     let description;
     if (!text) {

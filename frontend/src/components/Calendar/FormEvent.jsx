@@ -85,8 +85,8 @@ export default function FormEvent({
           <p className="font-normal italic text-base ">Cocher pour masquer</p>
         </div>
         <Checkbox
-          name="isPrivate"
-          checked={dataEvent.isPrivate}
+          name="private"
+          checked={dataEvent.isPrivate || dataEvent.private}
           onChange={handleChange}
           color="success"
         />

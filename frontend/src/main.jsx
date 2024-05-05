@@ -69,15 +69,11 @@ function PrivateApp() {
     user.isLogged &&
     localStorage.getItem("group") &&
     location.pathname !== "/chat";
-  // console.info(" window.location.pathname", window.location.pathname);
-  console.info(" user.isLogged", user.isLogged);
-  console.info("ug_group_id", localStorage.getItem("group"));
-  console.info(" wlocation.pathname", location.pathname);
 
   return (
-    // si isLogged est true, on affiche l'app privé, sinon on affiche le composant qui invite à s'inscrire ou se connecter
     <main>
-      {user.isLogged && <Outlet />} {!user.isLogged && <RefusedAccess />}
+      {user.isLogged && <Outlet />}
+      {!user.isLogged && <RefusedAccess />}
       {shouldDisplayChat && <ChatBox />}
     </main>
   );
