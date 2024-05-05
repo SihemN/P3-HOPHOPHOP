@@ -3,6 +3,7 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import frFR from "date-fns/locale/fr";
 import { useState, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import icon from "../assets/icons-functionnalities/calendar.svg";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -135,6 +136,7 @@ export default function MyCalendar() {
       />
       <main className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top lg:p-5">
         <AddEvent setEventUpdated={setEventUpdated} />
+        <ToastContainer />
         <div className="h-[90%] relative z-0">
           <Calendar
             localizer={localizer}

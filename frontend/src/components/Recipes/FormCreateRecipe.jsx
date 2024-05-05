@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FormRecipe from "./FormRecipe";
 import notify from "../Notify/Notify";
@@ -44,8 +44,7 @@ export const handleErrorsInput = (errors, name, value, setErrors) => {
 
 export default function FormCreateRecipe({
   setRecipeUpdated,
-  pc,
-  // setComponentToShow,
+  setComponentToShow,
 }) {
   const navigate = useNavigate();
   // Ouverture de l'input catégorie
@@ -136,8 +135,7 @@ export default function FormCreateRecipe({
         );
         if (!response.ok) {
           const errorResponse = await response.json();
-          notify("errorInputs", errorResponse);
-          throw new Error(errorResponse.message || "Vérifiez vos données");
+          notify("errorInputs", errorResponse || "Vérifiez vos données");
         }
 
         const message = await response.json();
@@ -150,11 +148,9 @@ export default function FormCreateRecipe({
           time_preparation: "",
         });
         setCategorySelected(null);
-        if (pc) {
-          setRecipeUpdated((prev) => !prev);
-          // setComponentToShow((prev) => prev === "details recipe");
-          notify("success", message);
-        }
+        notify("success", message);
+        setRecipeUpdated((prev) => !prev);
+        setComponentToShow((prev) => prev === "details recipe");
         navigate("/recipes");
       } catch (error) {
         console.info("Erreur pour créer la recette >>", error);
@@ -186,19 +182,16 @@ export default function FormCreateRecipe({
   };
 
   return (
-    <>
-      <FormRecipe
-        handleSubmit={handleSubmit}
-        dataRecipe={dataRecipe}
-        errors={errors}
-        handlChange={handlChange}
-        handleClickCat={handleClickCat}
-        categorySelected={categorySelected}
-        isOpen={isOpen}
-        filteredCategories={filteredCategories}
-        handleClicNewCat={handleClicNewCat}
-      />
-      <ToastContainer />
-    </>
+    <FormRecipe
+      handleSubmit={handleSubmit}
+      dataRecipe={dataRecipe}
+      errors={errors}
+      handlChange={handlChange}
+      handleClickCat={handleClickCat}
+      categorySelected={categorySelected}
+      isOpen={isOpen}
+      filteredCategories={filteredCategories}
+      handleClicNewCat={handleClicNewCat}
+    />
   );
 }

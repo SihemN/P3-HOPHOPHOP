@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import CloseBox from "./CloseBox";
+import notify from "../Notify/Notify";
 
 export default function DotsUpdateRecipe({
   setShowDotsUpdateRecipe,
@@ -38,17 +39,19 @@ export default function DotsUpdateRecipe({
         );
         if (!results.ok) {
           const errorResponse = await results.json();
-          throw new Error(
-            errorResponse.message || "Echec pour récupérer les données"
+          notify(
+            "errorCreation",
+            errorResponse.message || "échec pour supprimer la recette"
           );
         }
-        // const result = await results.json();
+        const result = await results.json();
+        notify("success", result);
         setRecipeUpdated((prev) => !prev);
         setShowDotsUpdateRecipe(null);
         setNewRecipeName({ name: recipeName });
         setDeleteRecipe(false);
       } catch (error) {
-        console.info("Error deleting the recipe :", error);
+        console.info("Erreur pour supprimer la recette :", error);
       }
     };
     fetchDeleteRecipe();
@@ -70,7 +73,7 @@ export default function DotsUpdateRecipe({
     })
       .then((res) => res.json())
       .then((data) => {
-        console.info("data", data);
+        notify("success", data);
         setShowDotsUpdateRecipe(null);
         setRecipeUpdated((prev) => !prev);
       })

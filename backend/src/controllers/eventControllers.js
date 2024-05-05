@@ -23,9 +23,9 @@ const create = async (req, res) => {
       isPrivate
     );
     if (result.affectedRows) {
-      res.status(201).json("événenement créé avec succès !");
+      res.status(201).json("événement créé");
     } else {
-      res.status(401).json("Erreur lors de la création !");
+      res.status(401).json("Erreur lors de la création");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -91,7 +91,7 @@ const deleteEvent = async (req, res) => {
     const { id } = req.params;
     const [result] = await tables.event.deleteEvent(id);
     if (result.affectedRows) {
-      res.status(200).json("évenement supprimé avec succès !");
+      res.status(200).json("événement supprimé");
     } else {
       res.status(401).json("Erreur lors de la suppression de l'événement !");
     }

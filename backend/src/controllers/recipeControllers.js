@@ -25,9 +25,11 @@ const createRecipe = async (req, res) => {
       time_preparation
     );
     if (result.affectedRows) {
-      res.status(201).json("Votre recette à été créée");
+      res.status(201).json("recette créée");
     } else {
-      res.status(401).json("Problème dans la création !!!");
+      res
+        .status(401)
+        .json("La création n'a pas aboutie, actualisez la page et réessayez");
     }
   } catch (error) {
     res.status(500).json(error);
@@ -58,9 +60,9 @@ const updateRecipe = async (req, res) => {
     const { id } = req.params;
     const [result] = await tables.recipe.updateRecipe(id, req.body);
     if (result.affectedRows) {
-      res.status(200).json("La recette a été mise à jour");
+      res.status(200).json("recette mise à jour");
     } else {
-      res.status(401).json("Mise à jour échouée!!");
+      res.status(401).json("Mise à jour échouée");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -78,7 +80,7 @@ const getRecipeById = async (req, res) => {
         result,
       });
     } else {
-      res.status(401).send("Récupération de la recette échouée!!");
+      res.status(401).send("Récupération de la recette échouée");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -91,9 +93,9 @@ const deleteRecipe = async (req, res) => {
     const { id } = req.params;
     const [result] = await tables.recipe.deleteRecipe(id);
     if (result.affectedRows) {
-      res.status(200).json("La recette a été supprimée!");
+      res.status(200).json("recette supprimée");
     } else {
-      res.status(401).json("Suppression de la recette échouée!!");
+      res.status(401).json("Suppression de la recette a échouée");
     }
   } catch (error) {
     res.status(500).json(error);
