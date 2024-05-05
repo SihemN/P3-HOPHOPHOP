@@ -3,7 +3,10 @@
 /* eslint-disable camelcase */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import FormRecipe from "./FormRecipe";
+import notify from "../Notify/Notify";
 
 // Fonction pour gérer les erreurs des inputs Create Recipe
 // Réutilisable pour UpdateRecipe
@@ -41,7 +44,8 @@ export const handleErrorsInput = (errors, name, value, setErrors) => {
 
 export default function FormCreateRecipe({
   setRecipeUpdated,
-  setComponentToShow,
+  pc,
+  // setComponentToShow,
 }) {
   const navigate = useNavigate();
   // Ouverture de l'input catégorie
@@ -132,13 +136,11 @@ export default function FormCreateRecipe({
         );
         if (!response.ok) {
           const errorResponse = await response.json();
+          notify("errorInputs", errorResponse);
           throw new Error(errorResponse.message || "Vérifiez vos données");
         }
 
         const message = await response.json();
-        console.info("message", message);
-        setRecipeUpdated((prev) => !prev);
-        setComponentToShow("details recipe");
         setDataRecipe({
           name: "",
           description: "",
@@ -148,6 +150,11 @@ export default function FormCreateRecipe({
           time_preparation: "",
         });
         setCategorySelected(null);
+        if (pc) {
+          setRecipeUpdated((prev) => !prev);
+          // setComponentToShow((prev) => prev === "details recipe");
+          notify("success", message);
+        }
         navigate("/recipes");
       } catch (error) {
         console.info("Erreur pour créer la recette >>", error);
@@ -167,7 +174,7 @@ export default function FormCreateRecipe({
       errors.nb_persons ||
       newErrors.category
     ) {
-      alert("Vérifier vos données");
+      notify("errorInputs", "Vérifiez vos données");
       // Au moins un champ contient une erreur
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -179,16 +186,19 @@ export default function FormCreateRecipe({
   };
 
   return (
-    <FormRecipe
-      handleSubmit={handleSubmit}
-      dataRecipe={dataRecipe}
-      errors={errors}
-      handlChange={handlChange}
-      handleClickCat={handleClickCat}
-      categorySelected={categorySelected}
-      isOpen={isOpen}
-      filteredCategories={filteredCategories}
-      handleClicNewCat={handleClicNewCat}
-    />
+    <>
+      <FormRecipe
+        handleSubmit={handleSubmit}
+        dataRecipe={dataRecipe}
+        errors={errors}
+        handlChange={handlChange}
+        handleClickCat={handleClickCat}
+        categorySelected={categorySelected}
+        isOpen={isOpen}
+        filteredCategories={filteredCategories}
+        handleClicNewCat={handleClicNewCat}
+      />
+      <ToastContainer />
+    </>
   );
 }

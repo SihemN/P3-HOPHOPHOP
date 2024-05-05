@@ -122,6 +122,7 @@ export default function Recipe() {
             <CreateRecipe
               setRecipeUpdated={setRecipeUpdated}
               setComponentToShow={setComponentToShow}
+              pc="pc"
             />
           )}
           {componentToShow === "modify recipe" && (

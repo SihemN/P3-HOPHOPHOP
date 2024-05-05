@@ -3,8 +3,10 @@
 /* eslint-disable camelcase */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { handleErrorsInput } from "./FormCreateRecipe";
 import FormRecipe from "./FormRecipe";
+import notify from "../Notify/Notify";
 
 export default function FormUpdateRecipe({
   setRecipeUpdated,
@@ -112,14 +114,16 @@ export default function FormUpdateRecipe({
         );
         if (!response.ok) {
           const errorResponse = await response.json();
+          notify("errorCreation", errorResponse);
           throw new Error(errorResponse.message || "Vérifiez vos données");
         }
 
         const message = await response.json();
-        console.info("message", message);
+        // console.info("message", message);
         if (desktopOrMobile === "mobile") {
           navigate("/recipes/detail");
         } else if (desktopOrMobile === "desktop") {
+          notify("success", message);
           setComponentToShow("details recipe");
           setRecipeUpdated((prev) => !prev);
         }
@@ -141,7 +145,7 @@ export default function FormUpdateRecipe({
       errors.nb_persons ||
       newErrors.category
     ) {
-      alert("Vérifier vos données");
+      notify("errorInputs", "Vérifiez vos données");
       // Au moins un champ contient une erreur
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -153,16 +157,19 @@ export default function FormUpdateRecipe({
   };
 
   return (
-    <FormRecipe
-      handleSubmit={handleSubmit}
-      dataRecipe={dataRecipe}
-      errors={errors}
-      handlChange={handlChange}
-      handleClickCat={handleClickCat}
-      categorySelected={categorySelected}
-      isOpen={isOpen}
-      filteredCategories={filteredCategories}
-      handleClicNewCat={handleClicNewCat}
-    />
+    <>
+      <FormRecipe
+        handleSubmit={handleSubmit}
+        dataRecipe={dataRecipe}
+        errors={errors}
+        handlChange={handlChange}
+        handleClickCat={handleClickCat}
+        categorySelected={categorySelected}
+        isOpen={isOpen}
+        filteredCategories={filteredCategories}
+        handleClicNewCat={handleClicNewCat}
+      />
+      <ToastContainer />
+    </>
   );
 }

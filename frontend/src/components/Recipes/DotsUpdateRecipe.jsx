@@ -42,8 +42,7 @@ export default function DotsUpdateRecipe({
             errorResponse.message || "Echec pour récupérer les données"
           );
         }
-        const result = await results.json();
-        console.info("result", result);
+        // const result = await results.json();
         setRecipeUpdated((prev) => !prev);
         setShowDotsUpdateRecipe(null);
         setNewRecipeName({ name: recipeName });
