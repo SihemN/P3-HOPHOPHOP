@@ -23,7 +23,7 @@ export default function AddEventForm({
     dateStartToConvert: "",
     dateEnd: "",
     dateEndToConvert: "",
-    isPrivate: false,
+    private: false,
   });
   // gérer les inputs qui ne correspondent pas
   const [errors, setErrors] = useState({
@@ -101,8 +101,10 @@ export default function AddEventForm({
         );
         if (!response.ok) {
           const errorResponse = await response.json();
-          notify("errorCreation", errorResponse);
-          throw new Error(errorResponse.message || "Vérifiez vos données");
+          notify(
+            "errorCreation",
+            errorResponse.message || "Vérifiez vos données"
+          );
         }
         const message = await response.json();
         notify("success", message);

@@ -6,8 +6,8 @@
 import { useState } from "react";
 import validateDates from "./functions/ValidateDates";
 import handleErrorsInput from "./functions/HandleInputForm";
-// import ErrorInputForm from "./ErrorInputForm";
 import FormEvent from "./FormEvent";
+import notify from "../Notify/Notify";
 
 export default function UpdateEvent({
   setDeleteOrUpdateToShow,
@@ -135,7 +135,10 @@ export default function UpdateEvent({
         );
         if (!response.ok) {
           const errorResponse = await response.json();
-          throw new Error(errorResponse.message || "Vérifiez vos données");
+          notify(
+            "errorCreation",
+            errorResponse.message || "Vérifiez vos données"
+          );
         }
         const message = await response.json();
         console.info("message", message);
@@ -148,7 +151,7 @@ export default function UpdateEvent({
           dateEnd: "",
           private: false,
         });
-        alert(message);
+        notify("success", message);
         setEventUpdated((prev) => !prev);
         setDeleteOrUpdateToShow(null);
 
@@ -159,7 +162,7 @@ export default function UpdateEvent({
     };
     // Contrôle des inputs
     if (errors.title || errors.text) {
-      alert("Vérifier vos données");
+      notify("errorCreation", "Vérifiez vos données");
       setErrors((prevErrors) => ({
         ...prevErrors,
       }));
