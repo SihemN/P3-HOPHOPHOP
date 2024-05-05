@@ -141,7 +141,7 @@ export default function UpdateEvent({
           );
         }
         const message = await response.json();
-        console.info("message", message);
+        // console.info("message", message);
         setDataEvent({
           title: "",
           text: "",

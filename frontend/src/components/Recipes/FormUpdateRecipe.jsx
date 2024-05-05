@@ -94,7 +94,7 @@ export default function FormUpdateRecipe({
   // Au submit du form, on envoie dataUserUpdate avec la route PATCH
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.info("submit recipeId", recipeId);
+    console.info("submit recipe", dataRecipe);
     const fetchUpdateRecipe = async () => {
       try {
         const response = await fetch(
