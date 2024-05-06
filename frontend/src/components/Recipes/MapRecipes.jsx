@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import MapRecipesByCategory from "./MapRecipesByCategory";
 
 export default function MapRecipes({
@@ -11,10 +12,14 @@ export default function MapRecipes({
   setRecipeId,
   recipeId,
 }) {
+  const [isLoading, setIsLoading] = useState(true);
   // On récupère les catégories qui ont des recettes
-  const categoriesNotEmpty = [
-    ...new Set(recipesGroup.map((recipe) => recipe.r_category)),
-  ];
+  // const categoriesNotEmpty = [
+  //   ...new Set(recipesGroup.map((recipe) => recipe.r_category)),
+  // ];
+  const categoriesNotEmpty = recipesGroup
+    ? [...new Set(recipesGroup.map((recipe) => recipe.r_category))]
+    : [];
 
   const customOrder = [
     "Apéritifs",
@@ -37,6 +42,13 @@ export default function MapRecipes({
   };
 
   storeRecipesCategories();
+
+  // Au chargement du composant, on simule une attente de données pendant quelques secondes
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false); // Une fois que les données sont chargées, on met isLoading à false
+    }, 2000);
+  }, []);
 
   return (
     <div className="flex flex-col gap-5 px-5 pb-20 lg:px-10 w-full">
@@ -62,6 +74,18 @@ export default function MapRecipes({
             />
           </div>
         ))}
+      {!recipesGroup && isLoading && (
+        <div className="italic">
+          <p>Chargement des recettes...</p>
+        </div>
+      )}
+
+      {recipesGroup && recipesGroup.length === 0 && !isLoading && (
+        <div className="italic">
+          <p>Aucune recette à afficher.</p>
+          <p>Cliquez sur le bouton "+" pour ajouter une recette.</p>
+        </div>
+      )}
     </div>
   );
 }

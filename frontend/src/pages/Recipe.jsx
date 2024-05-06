@@ -15,7 +15,7 @@ export default function Recipe() {
   const [filterSelected, setFilterSelected] = useState("Toutes");
 
   // State pour gérer les recettes du groupe
-  const [recipesGroup, setRecipesGroup] = useState([]);
+  const [recipesGroup, setRecipesGroup] = useState(null);
 
   // State pour récupérer le group en cours
   const [group] = useState(JSON.parse(localStorage.getItem("group")));
@@ -24,7 +24,6 @@ export default function Recipe() {
   const [recipeUpdated, setRecipeUpdated] = useState(false);
 
   // state pour gérer l'id de la recette cliquée
-
   const [recipeId, setRecipeId] = useState(
     localStorage.getItem("recipeId") || null
   );
@@ -93,7 +92,6 @@ export default function Recipe() {
         color="text-red-default"
         icon={icon}
       />
-      {/* en cours ici media query tablette */}
       <main className=" md:flex rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top overflow-y-auto no-scrollbar">
         <ToastContainer />
         <div className="md:flex-1 z-10 md:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] md:overflow-y-auto md:no-scrollbar ">
@@ -125,6 +123,7 @@ export default function Recipe() {
             <CreateRecipe
               setRecipeUpdated={setRecipeUpdated}
               setComponentToShow={setComponentToShow}
+              pc="pc"
             />
           )}
           {componentToShow === "modify recipe" && (

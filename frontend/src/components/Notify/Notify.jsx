@@ -4,7 +4,7 @@ const notify = (result, message) => {
   if (result === "success") {
     toast.success(message, {
       position: "bottom-right",
-      autoClose: 4000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -16,7 +16,7 @@ const notify = (result, message) => {
   } else if (result === "errorInputs" || result === "errorCreation") {
     toast.error(message, {
       position: "bottom-right",
-      autoClose: 4000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,

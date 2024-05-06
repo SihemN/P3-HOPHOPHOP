@@ -91,7 +91,7 @@ export default function SignupForm() {
           notify("success", "Compte créé, redirection vers la page connexion");
           setTimeout(() => {
             navigate("/login");
-          }, 5000);
+          }, 2000);
         }
       } catch (error) {
         console.info("erreur pour créer le user :>> ", error);

@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { ToastContainer } from "react-toastify";
 import HeaderFunctionnalities from "../HeaderFunctionnalities";
 import icon from "../../assets/icons-functionnalities/recipe.svg";
 import FooterBack from "./FooterBack";
@@ -28,6 +29,9 @@ export default function CreateRecipe({
           pc={pc}
         />
       </main>
+      <div className="md:hidden">
+        <ToastContainer />
+      </div>
 
       <FooterBack text="Retourner aux recettes" to="/recipes" />
     </div>
