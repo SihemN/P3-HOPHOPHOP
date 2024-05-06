@@ -41,13 +41,18 @@ const getRecipeByGroup = async (req, res) => {
   try {
     const { id } = req.params;
     const [result] = await tables.recipe.getRecipeByGroup(id);
-    if (result.length) {
+    if (result.length === 0) {
+      res.status(200).json({
+        message: "Aucune recette à afficher",
+        result,
+      });
+    } else if (result.length) {
       res.status(200).json({
         message: "Liste des recettes du groupe",
         result,
       });
     } else {
-      res.status(401).json("Vous n'avez pas de recettes :(");
+      res.status(401).json("erreur pour récupérer les recettes");
     }
   } catch (error) {
     res.status(500).send(error);
