@@ -3,6 +3,7 @@
 /* eslint-disable no-shadow */
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import contact from "../assets/icons-functionnalities/contact.svg";
@@ -55,6 +56,8 @@ export default function UpdateContact({ selectedContactId }) {
         />
       </header>
       <main className="rounded-t-3xl bg-cream h-custom shadow-top lg:shadow-none">
+        <ToastContainer />
+
         {contactToUpdate ? (
           <UpdateContactForm contact={contactToUpdate} />
         ) : (

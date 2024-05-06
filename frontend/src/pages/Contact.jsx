@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import contact from "../assets/icons-functionnalities/contact.svg";
 import SelectCategory from "../components/Contact_page/SelectCategory";
@@ -166,7 +167,7 @@ export default function Contact() {
           )}
         </div>
       </main>
-      <footer>
+      <footer className="fixed z-3000">
         <AddContact
           onAddCategory={handleCategoriesChange}
           handleAddContactClick={handleAddContactClick}

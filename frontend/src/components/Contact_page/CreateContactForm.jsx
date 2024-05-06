@@ -94,7 +94,7 @@ export default function CreateContactForm({
         }
       );
       if (!response.ok) {
-        throw new Error("Erreur lors de la crétion du contact");
+        throw new Error("Erreur lors de la création du contact");
       }
       navigate("/contacts");
       setDataForm({

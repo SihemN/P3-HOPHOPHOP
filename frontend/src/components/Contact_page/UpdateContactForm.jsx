@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 /* eslint-disable react/prop-types */
+import notify from "../Notify/Notify";
+import RedStarForRequiredInput from "../to-reuse/RedStarForRequiredInput";
 
 export default function UpdateContactForm({ contact }) {
   const storedCategory = JSON.parse(localStorage.getItem("category"));
@@ -20,6 +22,45 @@ export default function UpdateContactForm({ contact }) {
     address: contact.c_address,
     category: storedCategory,
   });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
+
+  const handleErrors = (name, value) => {
+    const newErrors = { ...errors };
+
+    switch (name) {
+      case "name":
+        newErrors.name = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]*$/.test(value)
+          ? ""
+          : "Le nom ne doit contenir que des lettres.";
+        break;
+      case "phone":
+        newErrors.phone = /^\d{10}$/.test(value)
+          ? ""
+          : "Le numéro de téléphone doit contenir 10 chiffres.";
+        break;
+      case "email":
+        newErrors.email = /^[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(
+          value
+        )
+          ? ""
+          : "Adresse e-mail non valide.";
+        break;
+      case "address":
+        newErrors.address =
+          value.trim() !== "" ? "" : "L'adresse ne peut pas être vide.";
+        break;
+      default:
+        break;
+    }
+
+    setErrors(newErrors);
+  };
 
   const navigate = useNavigate();
 
@@ -42,9 +83,7 @@ export default function UpdateContactForm({ contact }) {
           }
         );
         if (!response.ok) {
-          throw new Error(
-            "Erreur lors de la récupération des catégories de contacts"
-          );
+          notify("errorCreation", "Veuillez sélectionner une catégorie");
         }
         const { results } = await response.json();
         setCategory(results);
@@ -69,6 +108,7 @@ export default function UpdateContactForm({ contact }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDataForm({ ...dataForm, [name]: value });
+    handleErrors(name, value);
   };
 
   const handleSubmit = async (e) => {
@@ -101,13 +141,21 @@ export default function UpdateContactForm({ contact }) {
       );
 
       if (!response.ok) {
-        throw new Error("Erreur lors de la mise à jour du contact");
+        const errorResponse = await response.json();
+        notify(
+          "errorCreation",
+          errorResponse.message || "Vérifiez vos données"
+        );
       }
-      navigate("/contacts");
+      notify("success", "Contact mis à jour");
+      setTimeout(() => {
+        navigate("/contacts");
+      }, 2000);
     } catch (error) {
       console.error("Erreur lors de la mise à jour:", error);
     }
   };
+
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
@@ -116,71 +164,99 @@ export default function UpdateContactForm({ contact }) {
     setCategorySelected({ name, id });
     setIsOpen(false);
   };
+
   return (
     <div className="flex flex-col items-center text-dark-default">
       <form className="pt-8" onSubmit={handleSubmit}>
         <label htmlFor="name" className="font-bold">
           Nom et prénom
         </label>
+        <RedStarForRequiredInput />
         <div>
           <input
             type="text"
             name="name"
             defaultValue={contact.c_name}
-            className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
+            className={`border focus:outline-none h-12 w-80 rounded-lg pl-2 ${
+              errors.name
+                ? "border-red-default text-red-default"
+                : "border-dark-default"
+            }`}
             onChange={handleChange}
             required
           />
+          {errors.name && <p className="text-red-default">{errors.name}</p>}
         </div>
         <div className="mt-4">
           <label htmlFor="email" className="font-bold">
             Adresse e-mail
           </label>
+          <RedStarForRequiredInput />
+
           <div>
             <input
               type="email"
               name="email"
               defaultValue={contact.c_email}
-              className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
+              className={`border focus:outline-none h-12 w-80 rounded-lg pl-2 ${
+                errors.email
+                  ? "border-red-default text-red-default"
+                  : "border-dark-default"
+              }`}
               onChange={handleChange}
               required
             />
+            {errors.email && <p className="text-red-default">{errors.email}</p>}
           </div>
         </div>
         <div className="mt-4">
           <label htmlFor="Téléphone" className="font-bold">
             Téléphone
           </label>
+          <RedStarForRequiredInput />
           <div>
             <input
               type="text"
               name="phone"
               defaultValue={contact.c_phone}
-              className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
+              className={`border focus:outline-none h-12 w-80 rounded-lg pl-2 ${
+                errors.phone
+                  ? "border-red-default text-red-default"
+                  : "border-dark-default"
+              }`}
               onChange={handleChange}
               required
             />
+            {errors.phone && <p className="text-red-default">{errors.phone}</p>}
           </div>
         </div>
-
         <div className="mt-4">
           <label htmlFor="address" className="font-bold">
             Adresse
           </label>
+          <RedStarForRequiredInput />
           <div>
             <input
               type="text"
               name="address"
               defaultValue={contact.c_address}
-              className="border border-blue-medium h-12 w-80 rounded-lg pl-2"
+              className={`border focus:outline-none h-12 w-80 rounded-lg pl-2 ${
+                errors.address
+                  ? "border-red-default text-red-default"
+                  : "border-dark-default"
+              }`}
               onChange={handleChange}
               required
             />
+            {errors.address && (
+              <p className="text-red-default">{errors.address}</p>
+            )}
           </div>
         </div>
         <div className="mt-4">
           <label htmlFor="Category" className="relative font-bold">
             Catégorie
+            <RedStarForRequiredInput />
             <button
               type="button"
               className="w-full border border-solid border-blue-medium h-12 mt-1 py-2 px-5 rounded-lg flex justify-start"
@@ -213,10 +289,9 @@ export default function UpdateContactForm({ contact }) {
             </div>
           </label>
         </div>
-
         <button
           type="submit"
-          className="bg-blue-medium w-80 py-1 rounded-lg text-dark-default shadow-lg mt-4 font-bold hover:bg-green-lighter"
+          className="bg-blue-medium w-80 py-1 rounded-lg text-dark-default shadow-lg mt-4 font-bold hover:bg-green-lighter hover:animate-scaleUp"
         >
           Enregistrer
         </button>
