@@ -3,7 +3,6 @@
 /* eslint-disable camelcase */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FormRecipe from "./FormRecipe";
 import notify from "../Notify/Notify";
@@ -45,6 +44,7 @@ export const handleErrorsInput = (errors, name, value, setErrors) => {
 export default function FormCreateRecipe({
   setRecipeUpdated,
   setComponentToShow,
+  media,
 }) {
   const navigate = useNavigate();
   // Ouverture de l'input catégorie
@@ -148,10 +148,17 @@ export default function FormCreateRecipe({
           time_preparation: "",
         });
         setCategorySelected(null);
-        notify("success", message);
-        setRecipeUpdated((prev) => !prev);
-        setComponentToShow((prev) => prev === "details recipe");
-        navigate("/recipes");
+
+        if (media !== "pc") {
+          notify("success", message);
+          setTimeout(() => {
+            navigate("/recipes");
+          }, 2000);
+        } else {
+          notify("success", message);
+          setRecipeUpdated((prev) => !prev);
+          setComponentToShow((prev) => prev === "details recipe");
+        }
       } catch (error) {
         console.info("Erreur pour créer la recette >>", error);
       }

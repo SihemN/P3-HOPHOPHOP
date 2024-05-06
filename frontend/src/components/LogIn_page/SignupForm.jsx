@@ -91,7 +91,7 @@ export default function SignupForm() {
           notify("success", "Compte créé, redirection vers la page connexion");
           setTimeout(() => {
             navigate("/login");
-          }, 5000);
+          }, 2000);
         }
       } catch (error) {
         console.info("erreur pour créer le user :>> ", error);
@@ -119,7 +119,7 @@ export default function SignupForm() {
         className="flex flex-col text-blue-default text-xl mx-5"
         onSubmit={handlSubmit}
       >
-        <label htmlFor="name" className="font-bold">
+        <label htmlFor="name" className="font-bold -mt-2">
           Prénom <RedStarForRequiredInput />
         </label>
         <input
