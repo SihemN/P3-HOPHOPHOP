@@ -1,4 +1,6 @@
 /* eslint-disable react/prop-types */
+import notify from "../Notify/Notify";
+
 export default function DeleteEvent({
   setEventUpdated,
   handleClickButtonDelete,
@@ -23,14 +25,15 @@ export default function DeleteEvent({
         );
         if (!response.ok) {
           const errorResponse = await response.json();
-          throw new Error(
-            errorResponse.message || "problème pour supprimer l'événement"
+          notify(
+            "errorCreation",
+            errorResponse || "problème pour supprimer l'événement"
           );
         }
         const message = await response.json();
         // console.info("message", message);
         // eslint-disable-next-line no-alert
-        alert(message);
+        notify("success", message);
         handleCloseModal();
         setEventUpdated((prev) => !prev);
       } catch (error) {

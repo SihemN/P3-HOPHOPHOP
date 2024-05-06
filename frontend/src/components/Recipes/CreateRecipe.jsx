@@ -4,7 +4,11 @@ import icon from "../../assets/icons-functionnalities/recipe.svg";
 import FooterBack from "./FooterBack";
 import FormCreateRecipe from "./FormCreateRecipe";
 
-export default function CreateRecipe({ setRecipeUpdated, setComponentToShow }) {
+export default function CreateRecipe({
+  setRecipeUpdated,
+  setComponentToShow,
+  pc,
+}) {
   return (
     <div className="font-Neue-Kabel bg-red-default md:bg-opacity-0">
       <div className="md:hidden">
@@ -21,6 +25,7 @@ export default function CreateRecipe({ setRecipeUpdated, setComponentToShow }) {
         <FormCreateRecipe
           setRecipeUpdated={setRecipeUpdated}
           setComponentToShow={setComponentToShow}
+          pc={pc}
         />
       </main>
 

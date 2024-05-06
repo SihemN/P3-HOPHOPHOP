@@ -8,6 +8,7 @@ import { useState } from "react";
 import handleErrorsInput from "./functions/HandleInputForm";
 import validateDates from "./functions/ValidateDates";
 import FormEvent from "./FormEvent";
+import notify from "../Notify/Notify";
 
 export default function AddEventForm({
   formIsOpen,
@@ -22,7 +23,7 @@ export default function AddEventForm({
     dateStartToConvert: "",
     dateEnd: "",
     dateEndToConvert: "",
-    isPrivate: false,
+    private: false,
   });
   // gérer les inputs qui ne correspondent pas
   const [errors, setErrors] = useState({
@@ -100,23 +101,24 @@ export default function AddEventForm({
         );
         if (!response.ok) {
           const errorResponse = await response.json();
-          throw new Error(errorResponse.message || "Vérifiez vos données");
+          notify(
+            "errorCreation",
+            errorResponse.message || "Vérifiez vos données"
+          );
         }
         const message = await response.json();
-        console.info("message", message);
+        notify("success", message);
         // On réutilise le nettoyage effectué en fermant la boîte
         handleClickButtonCancel();
         setEventUpdated((prev) => !prev);
         // eslint-disable-next-line no-alert
-        alert(message);
       } catch (error) {
         console.info("Erreur pour créer la recette >>", error);
       }
-      console.info(dataEvent);
     };
     // Contrôle des inputs
     if (errors.title || errors.text) {
-      alert("Vérifier vos données");
+      notify("errorCreation", "Vérifiez vos données");
       setErrors((prevErrors) => ({
         ...prevErrors,
       }));

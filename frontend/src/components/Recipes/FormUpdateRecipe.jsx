@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { handleErrorsInput } from "./FormCreateRecipe";
 import FormRecipe from "./FormRecipe";
+import notify from "../Notify/Notify";
 
 export default function FormUpdateRecipe({
   setRecipeUpdated,
@@ -93,7 +94,7 @@ export default function FormUpdateRecipe({
   // Au submit du form, on envoie dataUserUpdate avec la route PATCH
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.info("submit recipeId", recipeId);
+    console.info("submit recipe", dataRecipe);
     const fetchUpdateRecipe = async () => {
       try {
         const response = await fetch(
@@ -112,11 +113,14 @@ export default function FormUpdateRecipe({
         );
         if (!response.ok) {
           const errorResponse = await response.json();
-          throw new Error(errorResponse.message || "Vérifiez vos données");
+          notify(
+            "errorCreation",
+            errorResponse.message || "Vérifiez vos données"
+          );
         }
 
         const message = await response.json();
-        console.info("message", message);
+        notify("success", message);
         if (desktopOrMobile === "mobile") {
           navigate("/recipes/detail");
         } else if (desktopOrMobile === "desktop") {
@@ -141,7 +145,7 @@ export default function FormUpdateRecipe({
       errors.nb_persons ||
       newErrors.category
     ) {
-      alert("Vérifier vos données");
+      notify("errorInputs", "Vérifiez vos données");
       // Au moins un champ contient une erreur
       setErrors((prevErrors) => ({
         ...prevErrors,

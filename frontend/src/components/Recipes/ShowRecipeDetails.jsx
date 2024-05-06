@@ -7,7 +7,11 @@ import ShowRecipeIconsDetails from "./ShowRecipeIconsDetails";
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-no-useless-fragment */
 
-export default function ShowRecipeDetails({ recipeId, setComponentToShow }) {
+export default function ShowRecipeDetails({
+  recipeId,
+  setComponentToShow,
+  recipeUpdated,
+}) {
   // const navigate = useNavigate();
 
   const [recipe, setRecipe] = useState();
@@ -38,7 +42,7 @@ export default function ShowRecipeDetails({ recipeId, setComponentToShow }) {
         })
         .catch((err) => console.info("Error fetching recipes data:", err));
     }
-  }, [recipeId]);
+  }, [recipeId, recipeUpdated]);
 
   return (
     <>

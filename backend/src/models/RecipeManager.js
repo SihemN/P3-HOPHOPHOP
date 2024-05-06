@@ -44,6 +44,7 @@ class RecipeManager extends AbstractManager {
     const keysToUpdate = Object.keys(recipeUpdated);
     // on récupère leurs valeurs
     const valuesToUpdate = Object.values(recipeUpdated);
+
     // on compile ces champs dans une string en leur ajoutant le préfixe pour coller à notre BDD et à la syntaxe SQL
     const setKeys = keysToUpdate.map((column) => `r_${column} = ?`).join(", ");
     return this.database.query(

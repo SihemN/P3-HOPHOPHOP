@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import icon from "../assets/icons-functionnalities/recipe.svg";
 import FilterCategories from "../components/Recipes/FilterCategories";
@@ -94,6 +95,7 @@ export default function Recipe() {
       />
       {/* en cours ici media query tablette */}
       <main className=" md:flex rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top overflow-y-auto no-scrollbar">
+        <ToastContainer />
         <div className="md:flex-1 z-10 md:shadow-lg lg:rounded-t-[4rem] lg:pt-5 lg:max-w-[800px] md:overflow-y-auto md:no-scrollbar ">
           <FilterCategories
             filterSelected={filterSelected}
@@ -116,6 +118,7 @@ export default function Recipe() {
             <ShowRecipeDetails
               recipeId={recipeId}
               setComponentToShow={setComponentToShow}
+              recipeUpdated={recipeUpdated}
             />
           )}
           {componentToShow === "create recipe" && (
