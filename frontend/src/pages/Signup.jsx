@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import SignupPC from "../components/LogIn_page/SignupPC";
 import SignupMobile from "../components/LogIn_page/SignupMobile";
 
@@ -13,6 +14,7 @@ export default function Signup() {
       </div>
 
       <SignupMobile />
+      <ToastContainer />
     </div>
   );
 }

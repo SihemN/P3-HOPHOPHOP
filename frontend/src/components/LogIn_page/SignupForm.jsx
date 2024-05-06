@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaRegHandPointDown } from "react-icons/fa";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
+import notify from "../Notify/Notify";
 
 export default function SignupForm() {
   // Gérer les données rentrées dans le formulaire
@@ -35,15 +36,16 @@ export default function SignupForm() {
       .then((res) => {
         console.info("SignUp res :>> ", res);
         if (res.message === "user Created") {
-          alert(res.message);
-          navigate("/login");
+          notify("success", "Compte créé, redirection vers la page connexion");
+          setTimeout(() => {
+            navigate("/login");
+          }, 5000);
         } else if (res.errno === 1062) {
-          alert("e-mail déjà utilisé");
+          notify("errorInputs", "e-mail déjà utilisé");
         }
       })
       .catch((err) => {
         console.info("err :>> ", err);
-        // alert("Email déjà utilisé");
       });
   };
 
@@ -51,7 +53,7 @@ export default function SignupForm() {
     <div>
       {/* Bouton flèche retour à la landing page */}
       <Link to="/">
-        <FaCircleArrowLeft className="text-blue-default text-3xl mt-2" />
+        <FaCircleArrowLeft className="text-3xl mt-2 text-blue-default hover:text-green-default active:text-green-lighter" />
       </Link>
       <div className="flex flex-col items-center my-5">
         <h1 className=" text-2xl font-bold text-center px-10">
