@@ -44,7 +44,7 @@ export const handleErrorsInput = (errors, name, value, setErrors) => {
 export default function FormCreateRecipe({
   setRecipeUpdated,
   setComponentToShow,
-  media,
+  media = "mobile",
 }) {
   const navigate = useNavigate();
   // Ouverture de l'input catégorie
@@ -148,17 +148,20 @@ export default function FormCreateRecipe({
           time_preparation: "",
         });
         setCategorySelected(null);
+        notify("success", message);
 
-        if (media !== "pc") {
-          notify("success", message);
-          setTimeout(() => {
-            navigate("/recipes");
-          }, 2000);
-        } else {
-          notify("success", message);
-          setRecipeUpdated((prev) => !prev);
-          setComponentToShow((prev) => prev === "details recipe");
+        setErrors({
+          name: "",
+          time_preparation: "",
+          list_ingredients: "",
+          nb_persons: "",
+        });
+
+        if (media === "mobile") {
+          navigate("/recipes");
         }
+        setRecipeUpdated((prev) => !prev);
+        setComponentToShow(null);
       } catch (error) {
         console.info("Erreur pour créer la recette >>", error);
       }
