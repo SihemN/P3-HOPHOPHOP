@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
@@ -19,7 +20,7 @@ const OrangeSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function FooterAdd() {
+export default function FooterAdd({ setListUpdated }) {
   const [isCreatingList, setIsCreatingList] = useState(false); // État pour gérer l'ouverture du formulaire de création de liste
   const [newList, setNewList] = useState({
     name: "",
@@ -92,6 +93,7 @@ export default function FooterAdd() {
       // Réinitialisation des données du formulaire après soumission réussie
       setNewList({ ...newList, name: "" });
       setIsCreatingList(false);
+      setListUpdated((prev) => !prev);
 
       // Navigation vers une autre page après la soumission réussie
       navigate("/todolist/edittask");

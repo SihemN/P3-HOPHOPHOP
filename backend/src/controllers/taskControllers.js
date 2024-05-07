@@ -70,9 +70,9 @@ const updateTask = async (req, res) => {
     const { id } = req.params;
     const [result] = await tables.task.updateTask(id, req.body);
     if (result.affectedRows) {
-      res.status(200).send("La mise à jour a été effectuée");
+      res.status(200).json("La mise à jour a été effectuée");
     } else {
-      res.status(401).send("la mise à jour a échoué!!");
+      res.status(401).json("la mise à jour a échoué!!");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -138,7 +138,7 @@ const getPrivateCatByUserByGroup = async (req, res) => {
         result,
       });
     } else {
-      res.status(401).send("Pas de catégorie");
+      res.status(401).json("Pas de catégorie");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -152,9 +152,9 @@ const updateCategory = async (req, res) => {
     const { categoryName } = req.body;
     const [result] = await tables.task.updateCategory(categoryName, id);
     if (result.affectedRows) {
-      res.status(200).send("mise à jour faite avec succès");
+      res.status(200).json("mise à jour faite avec succès");
     } else {
-      res.status(401).send("problème de mise à jour");
+      res.status(401).json("problème de mise à jour");
     }
   } catch (error) {
     res.status(500).send(error);
@@ -167,9 +167,9 @@ const deleteCategory = async (req, res) => {
     const { id } = req.params;
     const [result] = await tables.task.deleteCategory(id);
     if (result.affectedRows) {
-      res.status(200).send("to do list supprimée avec succès");
+      res.status(200).json("to do list supprimée avec succès");
     } else {
-      res.status(401).send("problème de suppression");
+      res.status(401).json("problème de suppression");
     }
   } catch (error) {
     res.status(500).send(error);

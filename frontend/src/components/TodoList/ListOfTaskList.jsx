@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from "react";
 import HiDotsMenu from "./HiDotsMenu";
 
-export default function TaskListContainer() {
+export default function TaskListContainer({ listUpdated, setListUpdated }) {
   const [taskCategory, setTaskCategory] = useState([]);
 
   useEffect(() => {
@@ -10,7 +11,6 @@ export default function TaskListContainer() {
       const { ug_group_id } = JSON.parse(localStorage.getItem("group"));
 
       try {
-        console.info("ug_group_id", ug_group_id);
         const response = await fetch(
           `http://localhost:3310/api/tasks-categories/groups/${ug_group_id}`,
           {
@@ -39,7 +39,7 @@ export default function TaskListContainer() {
       }
     };
     fetchTaskCategory();
-  }, []);
+  }, [listUpdated]);
 
   return (
     <div className="relative rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top lg:p-5">
@@ -54,7 +54,11 @@ export default function TaskListContainer() {
                     <div>{category.cta_name}</div>
 
                     <div>
-                      <HiDotsMenu className="text-orange-default text-lg" />
+                      <HiDotsMenu
+                        catId={category.cta_id}
+                        setListUpdated={setListUpdated}
+                        className="text-orange-default text-lg"
+                      />
                     </div>
                   </div>
                 </div>
