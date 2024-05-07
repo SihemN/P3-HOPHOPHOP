@@ -73,9 +73,14 @@ export default {
       "menu-slide-down": "menuSlideDown 0.5s ease-in-out forwards",
       "spin-360": "spin-360 1s linear infinite",
       "reverse-spin-360": "reverse-spin-360 0.3s ease-out forwards",
+      scaleUp: "scaleUp 0.3s forwards",
     },
 
     keyframes: {
+      scaleUp: {
+        "0%": { transform: "scale(1)" },
+        "100%": { transform: "scale(1.2)" },
+      },
       "spin-360": {
         "0%": { transform: "rotate(0deg)" },
         "100%": { transform: "rotate(360deg)" },

@@ -45,12 +45,12 @@ export default function ChangePassword() {
           Enregistrer
         </button>
       </form>
-      <button
+      {/* <button
         type="submit"
         className="bg-red-default w-80 rounded-lg text-cream shadow-lg mt-4 py-1"
       >
         Quitter le groupe
-      </button>
+      </button> */}
     </div>
   );
 }

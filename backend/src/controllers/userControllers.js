@@ -185,10 +185,10 @@ const updateWithoutUpload = async (req, res) => {
         .status(200)
         .json({ message: "Votre compte a été mis à jour avec succès" });
     } else {
-      res.status(401).send("Problème lors de la mise à jour de votre compte");
+      res.status(401).json("Problème lors de la mise à jour de votre compte");
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 };
 

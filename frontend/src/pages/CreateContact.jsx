@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { ToastContainer } from "react-toastify";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import contact from "../assets/icons-functionnalities/contact.svg";
 import CreateContactForm from "../components/Contact_page/CreateContactForm";
@@ -16,6 +17,8 @@ export default function CreateContact({ setComponentToShow }) {
         />
       </header>
       <main className="rounded-t-3xl lg:rounded-t-[4rem] bg-cream h-custom shadow-top">
+        <ToastContainer />
+
         <CreateContactForm setComponentToShow={setComponentToShow} />
       </main>
       <footer>
