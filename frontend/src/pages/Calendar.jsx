@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
-import frFR from "date-fns/locale/fr";
+import fr from "date-fns/locale/fr";
 import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
@@ -11,12 +11,15 @@ import DisplayEventInfo from "../components/Calendar/DisplayEventInfo";
 import AddEvent from "../components/Calendar/AddEvent";
 
 // Initialisez localizer avec date-fns
+const locales = {
+  fr,
+};
 const localizer = dateFnsLocalizer({
   format,
   parse,
   startOfWeek,
   getDay,
-  locales: frFR,
+  locales,
 });
 
 export default function MyCalendar() {
@@ -140,6 +143,7 @@ export default function MyCalendar() {
         <div className="h-[90%] relative z-0">
           <Calendar
             localizer={localizer}
+            culture="fr"
             events={events}
             startAccessor="start"
             endAccessor="end"

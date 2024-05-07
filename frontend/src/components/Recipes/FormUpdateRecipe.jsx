@@ -94,7 +94,6 @@ export default function FormUpdateRecipe({
   // Au submit du form, on envoie dataUserUpdate avec la route PATCH
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.info("submit recipe", dataRecipe);
     const fetchUpdateRecipe = async () => {
       try {
         const response = await fetch(
@@ -124,8 +123,10 @@ export default function FormUpdateRecipe({
         if (desktopOrMobile === "mobile") {
           navigate("/recipes/detail");
         } else if (desktopOrMobile === "desktop") {
-          setComponentToShow("details recipe");
           setRecipeUpdated((prev) => !prev);
+          setTimeout(() => {
+            setComponentToShow("details recipe");
+          }, 500);
         }
       } catch (error) {
         console.info("Erreur pour modifier la recette >>", error);

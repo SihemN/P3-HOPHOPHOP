@@ -8,6 +8,7 @@ import icon from "../../assets/icons-functionnalities/recipe.svg";
 import FooterBack from "./FooterBack";
 import FormUpdateRecipe from "./FormUpdateRecipe";
 import ButtonAccessRefused from "../Not-Connected/ButtonAccessRefused";
+import notify from "../Notify/Notify";
 
 export default function ModifyRecipe({ setRecipeUpdated, setComponentToShow }) {
   const recipe = JSON.parse(localStorage.getItem("recipeSelected"));
@@ -25,7 +26,6 @@ export default function ModifyRecipe({ setRecipeUpdated, setComponentToShow }) {
         <h1 className="bg-red-default mx-auto text-cream text-xl rounded-[12px] h-fit w-fit px-4 my-5">
           Modifier la recette
         </h1>
-
         {recipe && (
           <>
             <div className="md:hidden">
