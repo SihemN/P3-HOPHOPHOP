@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 import HeaderFunctionnalities from "../components/HeaderFunctionnalities";
 import contact from "../assets/icons-functionnalities/contact.svg";
@@ -166,13 +167,12 @@ export default function Contact() {
             <UpdateContact selectedContactId={selectedContact} />
           )}
         </div>
+        <ToastContainer />
       </main>
-      <footer className="fixed z-3000">
-        <AddContact
-          onAddCategory={handleCategoriesChange}
-          handleAddContactClick={handleAddContactClick}
-        />
-      </footer>
+      <AddContact
+        onAddCategory={handleCategoriesChange}
+        handleAddContactClick={handleAddContactClick}
+      />
     </div>
   );
 }

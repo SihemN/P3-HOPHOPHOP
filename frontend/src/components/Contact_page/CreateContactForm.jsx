@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import RedStarForRequiredInput from "../to-reuse/RedStarForRequiredInput";
+import notify from "../Notify/Notify";
 
 export default function CreateContactForm({
   setComponentToShow,
@@ -23,6 +24,45 @@ export default function CreateContactForm({
   // stocke une liste filtrée de catégories et met à jour si le filtre est appliqué
   const [filteredCategories, setFilteredCategories] = useState([]);
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
+
+  const handleErrors = (name, value) => {
+    const newErrors = { ...errors };
+
+    switch (name) {
+      case "name":
+        newErrors.name = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]*$/.test(value)
+          ? ""
+          : "Le nom ne doit contenir que des lettres.";
+        break;
+      case "phone":
+        newErrors.phone = /^\d{10}$/.test(value)
+          ? ""
+          : "Le numéro de téléphone doit contenir 10 chiffres.";
+        break;
+      case "email":
+        newErrors.email = /^[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(
+          value
+        )
+          ? ""
+          : "Adresse e-mail non valide.";
+        break;
+      case "address":
+        newErrors.address =
+          value.trim() !== "" ? "" : "L'adresse ne peut pas être vide.";
+        break;
+      default:
+        break;
+    }
+
+    setErrors(newErrors);
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -69,6 +109,7 @@ export default function CreateContactForm({
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDataForm({ ...dataForm, [name]: value });
+    handleErrors(name, value);
   };
 
   const handleSubmit = async (e) => {
@@ -94,9 +135,16 @@ export default function CreateContactForm({
         }
       );
       if (!response.ok) {
-        throw new Error("Erreur lors de la création du contact");
+        const errorResponse = await response.json();
+        notify(
+          "errorCreation",
+          errorResponse.message || "Vérifiez vos données"
+        );
       }
-      navigate("/contacts");
+      notify("success", "Contact créé");
+      setTimeout(() => {
+        navigate("/contacts");
+      }, 2000);
       setDataForm({
         name: "",
         phone: "",
@@ -122,10 +170,15 @@ export default function CreateContactForm({
             type="text"
             name="name"
             placeholder="John Doe"
-            className="border border-blue-medium rounded-lg h-12 pl-2 w-72"
+            className={`border focus:outline-none h-12 w-72 rounded-lg pl-2 ${
+              errors.name
+                ? "border-red-default text-red-default"
+                : "border-dark-default"
+            }`}
             onChange={handleChange}
             required
           />
+          {errors.name && <p className="text-red-default">{errors.name}</p>}
         </div>
         <div>
           <label htmlFor="Phone" className="font-bold">
@@ -137,10 +190,15 @@ export default function CreateContactForm({
               type="tel"
               name="phone"
               placeholder="06 12 34 56 78"
-              className="border border-blue-medium rounded-lg h-12 pl-2 w-72"
+              className={`border focus:outline-none h-12 w-72 rounded-lg pl-2 ${
+                errors.phone
+                  ? "border-red-default text-red-default"
+                  : "border-dark-default"
+              }`}
               onChange={handleChange}
               required
             />
+            {errors.phone && <p className="text-red-default">{errors.phone}</p>}
           </div>
         </div>
         <div>
@@ -153,10 +211,15 @@ export default function CreateContactForm({
               type="text"
               name="email"
               placeholder="johndoe@email.com"
-              className="border border-blue-medium rounded-lg h-12 pl-2 w-72"
+              className={`border focus:outline-none h-12 w-72 rounded-lg pl-2 ${
+                errors.email
+                  ? "border-red-default text-red-default"
+                  : "border-dark-default"
+              }`}
               onChange={handleChange}
               required
             />
+            {errors.email && <p className="text-red-default">{errors.email}</p>}
           </div>
         </div>
         <div>
@@ -169,10 +232,17 @@ export default function CreateContactForm({
               type="text"
               name="address"
               placeholder="123 Route des Algo 01010 Map"
-              className="border border-blue-medium rounded-lg h-12 pl-2 w-72"
+              className={`border focus:outline-none h-12 w-72 rounded-lg pl-2 ${
+                errors.address
+                  ? "border-red-default text-red-default"
+                  : "border-dark-default"
+              }`}
               onChange={handleChange}
               required
             />
+            {errors.address && (
+              <p className="text-red-default">{errors.address}</p>
+            )}
           </div>
         </div>
         <label htmlFor="Category" className="relative font-bold">
