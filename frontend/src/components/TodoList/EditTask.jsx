@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import ToggleTask from "./ToggleCheckTask";
+import HeaderFunctionnalities from "../HeaderFunctionnalities";
+import todolist from "../../assets/icons-functionnalities/todolist.svg";
 
 function EditTask() {
   const [tasks, setTasks] = useState([]);
@@ -149,60 +151,69 @@ function EditTask() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full sm:w-96">
-        <h1 className="bg-orange-default rounded-3xl text-cream text-xl p-2 text-center w-full mb-4 outline-none">
-          {currentCategoryName}
-        </h1>
+    <div className="bg-orange-default font-Neue-Kabel">
+      <header>
+        <HeaderFunctionnalities
+          color="text-orange-default"
+          title="To do List"
+          icon={todolist}
+        />
+      </header>
+      <div className="min-h-screen flex justify-center bg-gray-100">
+        <div className="bg-white p-8 rounded shadow-md w-full sm:w-96">
+          <h1 className="bg-orange-default rounded-3xl text-cream text-xl p-2 text-center w-full mb-4 outline-none">
+            {currentCategoryName}
+          </h1>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            addTask();
-          }}
-          className="flex mb-4"
-        >
-          <input
-            type="text"
-            placeholder="Ajouter un élément à la liste"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            required
-            className="rounded-3xl border-2 border-orange-light shadow-sm p-2 w-full mr-2 outline-none"
-          />
-        </form>
-        <ul>
-          {tasks.map(
-            (
-              { ta_id, ta_name, done } // On utilise la propriété "done" à la place de "ta_done"
-            ) => (
-              <li
-                key={ta_id}
-                className="flex items-center justify-between mb-2"
-              >
-                <div className="flex items-center">
-                  <ToggleTask
-                    taskId={ta_id}
-                    taskDone={done} // On passe la propriété "done" en tant que prop "taskDone"
-                    onToggle={() => toggleTask(ta_id)}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              addTask();
+            }}
+            className="flex mb-4"
+          >
+            <input
+              type="text"
+              placeholder="Ajouter un élément à la liste"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              required
+              className="rounded-3xl border-2 border-orange-light shadow-sm p-2 w-full mr-2 outline-none"
+            />
+          </form>
+          <ul>
+            {tasks.map(
+              (
+                { ta_id, ta_name, done } // On utilise la propriété "done" à la place de "ta_done"
+              ) => (
+                <li
+                  key={ta_id}
+                  className="flex items-center justify-between mb-2"
+                >
+                  <div className="flex items-center">
+                    <ToggleTask
+                      taskId={ta_id}
+                      taskDone={done} // On passe la propriété "done" en tant que prop "taskDone"
+                      onToggle={() => toggleTask(ta_id)}
+                    />
+                    <label
+                      htmlFor={`checkbox-${ta_id}`}
+                      className={`${
+                        done ? "line-through text-orange-lighter" : ""
+                      }`}
+                    >
+                      <div className="flex flex-wrap w-52">{ta_name}</div>
+                    </label>
+                  </div>
+                  <FaTrashAlt
+                    onClick={() => removeTask(ta_id)}
+                    className="text-red-lighter text-sm cursor-pointer"
                   />
-                  <label
-                    htmlFor={`checkbox-${ta_id}`}
-                    className={`${
-                      done ? "line-through text-orange-lighter" : ""
-                    }`}
-                  >
-                    <div className="flex flex-wrap w-52">{ta_name}</div>
-                  </label>
-                </div>
-                <FaTrashAlt
-                  onClick={() => removeTask(ta_id)}
-                  className="text-red-lighter text-sm cursor-pointer"
-                />
-              </li>
-            )
-          )}
-        </ul>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
       </div>
     </div>
   );
